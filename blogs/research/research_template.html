@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Article - Richard Jiang</title>
+    <meta name="description" content="Academic research template with clean, scholarly style.">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #ffffff;
+            --color-accent: #457b9d;
+            --font-primary: 'Noto Serif SC', serif;
+            --font-secondary: 'Inter', sans-serif;
+            --color-gray-light: #f8f9fa;
+            --color-gray-medium: #6c757d;
+            --color-gray-dark: #343a40;
+        }
+        body {
+            font-family: var(--font-secondary);
+            background: repeating-linear-gradient(135deg, #f8f9fa, #f8f9fa 40px, #e9ecef 40px, #e9ecef 80px);
+            color: var(--color-black);
+        }
+        .research-header {
+            background: linear-gradient(120deg, #fff 60%, #457b9d 100%);
+            border-bottom: 2px solid var(--color-black);
+            position: relative;
+        }
+        .research-title {
+            font-size: 2.5rem;
+            font-family: var(--font-primary);
+            font-weight: 700;
+        }
+        .research-metadata {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        .metadata-item {
+            text-align: center;
+        }
+        .metadata-label {
+            font-size: 0.8rem;
+            color: var(--color-gray-medium);
+            text-transform: uppercase;
+        }
+        .metadata-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .research-sidebar {
+            background: var(--color-white);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .research-section h2 {
+            font-family: var(--font-primary);
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--color-accent);
+            margin-bottom: 1rem;
+        }
+        .abstract {
+            font-style: italic;
+            background: #e9ecef;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 2rem;
+        }
+        .references {
+            font-size: 0.95rem;
+            color: var(--color-gray-dark);
+        }
+        .research-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .research-tag {
+            background: var(--color-accent);
+            color: var(--color-white);
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+        @media (max-width: 900px) {
+            .research-content {
+                flex-direction: column;
+            }
+            .research-sidebar {
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-black/10">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="font-primary text-xl font-semibold">
+                    <a href="index.html">Richard Jiang</a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="../../index.html" class="nav-link">Home</a>
+                    <a href="../../blogs.html" class="nav-link">Blogs</a>
+                    <a href="../../reflection.html" class="nav-link">Reflection</a>
+                    <a href="../../film.html" class="nav-link">Film</a>
+                    <a href="../../music.html" class="nav-link">Music</a>
+                    <a href="../../travel.html" class="nav-link">Travel</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <header class="research-header pt-24 pb-8 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="research-title">Research Title</h1>
+            <p class="text-lg text-gray-600 mb-4">by Author(s)</p>
+            <div class="research-metadata">
+                <div class="metadata-item">
+                    <div class="metadata-label">Publication Date</div>
+                    <div class="metadata-value">October 4, 2025</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Field</div>
+                    <div class="metadata-value">Computer Science</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Keywords</div>
+                    <div class="metadata-value">AI, NLP</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Collaborators</div>
+                    <div class="metadata-value">Jane Doe</div>
+                </div>
+            </div>
+            <div class="research-tags justify-center">
+                <span class="research-tag">AI</span>
+                <span class="research-tag">Research</span>
+            </div>
+        </div>
+    </header>
+    <main class="max-w-6xl mx-auto px-6 py-12 flex gap-8 research-content">
+        <div class="flex-1">
+            <section class="abstract">
+                <strong>Abstract:</strong> Brief summary of the research, goals, and findings.
+            </section>
+            <section class="research-section">
+                <h2>Introduction</h2>
+                <p>Introduce the research topic, motivation, and background.</p>
+            </section>
+            <section class="research-section">
+                <h2>Methodology</h2>
+                <p>Describe the methods, experiments, and data used.</p>
+            </section>
+            <section class="research-section">
+                <h2>Results</h2>
+                <p>Present the main findings and analysis.</p>
+            </section>
+            <section class="research-section">
+                <h2>Discussion</h2>
+                <p>Interpret the results, limitations, and implications.</p>
+            </section>
+            <section class="research-section references">
+                <h2>References</h2>
+                <ul>
+                    <li>Reference 1</li>
+                    <li>Reference 2</li>
+                </ul>
+            </section>
+        </div>
+        <aside class="research-sidebar w-full md:w-80">
+            <h3 class="font-primary text-lg font-semibold mb-4">Quick Links</h3>
+            <ul class="list-disc ml-4 mb-6">
+                <li><a href="#" class="text-accent underline">Download PDF</a></li>
+                <li><a href="#" class="text-accent underline">Related Work</a></li>
+            </ul>
+            <h3 class="font-primary text-lg font-semibold mb-4">Contact</h3>
+            <p>Email: <a href="mailto:author@email.com" class="text-accent underline">author@email.com</a></p>
+        </aside>
+    </main>
+    <footer class="py-12 px-6 border-t border-black/10">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="font-primary text-2xl mb-4">Richard Jiang</div>
+            <p class="text-sm opacity-70 mb-6">© 2024 Richard Jiang. All rights reserved.</p>
+            <div class="text-xs opacity-50">
+                Designed for academic clarity and modern web aesthetics.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

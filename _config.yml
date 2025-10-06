@@ -1,0 +1,27 @@
+# Jekyll configuration for clean URLs
+permalink: pretty
+
+# Plugins
+plugins:
+  - jekyll-redirect-from
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Site settings
+title: Richard Jiang
+description: Personal blog of Richard Jiang, high school student and ML Researcher with intrinsic desires for poignant artistic expression and exploration.
+url: "https://richardjiang.me"
+baseurl: ""
+
+# Exclude files from processing
+exclude:
+  - README.md
+  - .gitignore
+  - Gemfile
+  - Gemfile.lock
+
+# Include dotfiles
+include:
+  - .htaccess

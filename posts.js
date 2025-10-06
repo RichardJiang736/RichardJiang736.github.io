@@ -15,7 +15,7 @@
       readTime: '8 min read',
       category: 'film', // used for filtering
       categoryLabel: 'Film Review', // shown on the chip
-      href: 'blogs/movies/lincoln_review.html',
+      href: 'blogs/movies/lincoln_review',
       rating: 5, // out of 5 stars
     },
     {
@@ -29,8 +29,8 @@
       date: '2025-10-04',
       readTime: '8 min read',
       category: 'music',
-      categoryLabel: 'Music',
-      href: '',
+      categoryLabel: 'Alternative',
+      href: 'blogs/music/ok_computer_review',
       rating: 5, // out of 5 stars
     },
   ];

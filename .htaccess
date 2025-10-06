@@ -1,0 +1,28 @@
+# Remove .html extension from URLs
+RewriteEngine On
+
+# External redirects (change URLs in address bar)
+# Redirect .html to clean URLs (301 permanent redirect)
+RewriteCond %{THE_REQUEST} /([^.]+)\.html[\s?] [NC]
+RewriteRule ^ /%1? [R=301,L]
+
+# Internal rewrites (serve .html files for clean URLs)
+# Handle root index
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^$ /index.html [L]
+
+# Handle other pages
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^.]+)/?$ /$1.html [L]
+
+# Handle subdirectories
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^.]+)/([^.]+)/?$ /$1/$2.html [L]
+
+# Handle nested subdirectories (for blog posts)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^.]+)/([^.]+)/([^.]+)/?$ /$1/$2/$3.html [L]

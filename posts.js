@@ -8,7 +8,7 @@
       title: 'Lincoln',
       subtitle: 'A Film Review and Reflection',
       excerpt:
-        'A reflective review of Steven Spielberg\'s Lincoln, exploring its historical nuance, character depth, and cinematic craftsmanship.',
+        "A masterpiece, like so many of Spielberg's films are. A true endeavour dedicated to the great president",
       image: 'resources/movies/lincoln.jpg',
       alt: 'Lincoln film still',
       date: '2025-10-04',
@@ -16,20 +16,22 @@
       category: 'film', // used for filtering
       categoryLabel: 'Film Review', // shown on the chip
       href: 'blogs/movies/lincoln_review.html',
+      rating: 5, // out of 5 stars
     },
     {
       id: 'ok-computer-music-review',
       title: 'OK Computer',
       subtitle: 'A Retrospective Review',
       excerpt:
-        'Revisiting Radiohead\'s OK Computer — a study in texture, tension, and the eerie clarity of late-90s alienation.',
+        'An eternal and profound delve into technological age. Unveiling a blend in computer mechanics and artistic wisdom',
       image: 'resources/music/ok_computer.jpeg',
       alt: 'OK Computer album cover',
       date: '2025-10-04',
       readTime: '8 min read',
       category: 'music',
       categoryLabel: 'Music',
-      href: 'blogs/music/ok_computer_review.html',
+      href: '',
+      rating: 5, // out of 5 stars
     },
   ];
 
@@ -66,6 +68,37 @@
         ? 'category-research'
         : 'category-projects';
 
+    // Generate star rating display
+    const generateStarRating = (rating) => {
+      if (!rating) return '';
+      const fullStars = Math.floor(rating);
+      const hasHalfStar = rating % 1 !== 0;
+      const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+      
+      let starsHtml = '';
+      // Add filled stars
+      for (let i = 0; i < fullStars; i++) {
+        starsHtml += '<span class="star filled"></span>';
+      }
+      // Add half star if needed
+      if (hasHalfStar) {
+        starsHtml += '<span class="star half"></span>';
+      }
+      // Add empty stars
+      for (let i = 0; i < emptyStars; i++) {
+        starsHtml += '<span class="star"></span>';
+      }
+      
+      return `
+        <div class="flex items-center mb-4">
+          <div class="rating-stars mr-3">
+            ${starsHtml}
+          </div>
+          <span class="text-sm text-gray-600">${rating}/5</span>
+        </div>
+      `;
+    };
+
     if (cardType === 'blog') {
       article.innerHTML = `
         <div class="aspect-video overflow-hidden">
@@ -95,6 +128,7 @@
             <span class="ml-auto text-sm text-gray-500">${new Date(post.date).getFullYear()}</span>
           </div>
           <h3 class="font-primary text-xl font-semibold mb-3">${post.title}</h3>
+          ${generateStarRating(post.rating)}
           <p class="text-gray-600 mb-4 line-clamp-3">${post.excerpt}</p>
           <div class="text-sm font-medium"><a href="${post.href}">Read Review →</a></div>
         </div>
@@ -110,6 +144,7 @@
             <span class="ml-auto text-sm text-gray-500">Review</span>
           </div>
           <h3 class="font-primary text-xl font-semibold mb-3">${post.title}</h3>
+          ${generateStarRating(post.rating)}
           <p class="text-gray-600 mb-4 line-clamp-3">${post.excerpt}</p>
           <div class="text-sm font-medium"><a href="${post.href}">Read Review →</a></div>
         </div>

@@ -6,6 +6,15 @@
     <title>Music - Richard Jiang</title>
     <meta name="description" content="Music analysis and reviews by Richard Jiang, exploring the mathematical beauty and emotional depth of musical expression across genres.">
     
+    <!-- Favicon -->
+    <link rel="icon" href="resources/favicon_io/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="resources/favicon_io/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="resources/favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="resources/favicon_io/apple-touch-icon.png">
+    <link rel="icon" href="resources/favicon_io/android-chrome-192x192.png" sizes="192x192" type="image/png">
+    <link rel="icon" href="resources/favicon_io/android-chrome-512x512.png" sizes="512x512" type="image/png">
+    <link rel="manifest" href="resources/favicon_io/site.webmanifest">
+    
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
@@ -22,57 +31,47 @@
             --font-primary: 'Noto Serif SC', serif;
             --font-secondary: 'Inter', sans-serif;
         }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
         body {
             font-family: var(--font-secondary);
             background: var(--color-white);
             color: var(--color-black);
             line-height: 1.6;
         }
-        
         .font-primary {
             font-family: var(--font-primary);
         }
-        
         .bg-ink-texture {
             background-image: url('resources/texture-paper.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
         }
-        
         .music-card {
             position: relative;
             overflow: hidden;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
         .music-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
-        
         .music-card img {
             transition: transform 0.3s ease;
         }
-        
         .music-card:hover img {
             transform: scale(1.05);
         }
-        
         .waveform {
             height: 60px;
             background: linear-gradient(90deg, #000 0%, #333 50%, #000 100%);
             position: relative;
             overflow: hidden;
         }
-        
         .waveform::before {
             content: '';
             position: absolute;
@@ -83,12 +82,10 @@
             background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
             animation: wave 3s infinite;
         }
-        
         @keyframes wave {
             0% { left: -100%; }
             100% { left: 100%; }
         }
-        
         .genre-tag {
             background: rgba(0,0,0,0.1);
             padding: 0.25rem 0.75rem;
@@ -98,12 +95,10 @@
             display: inline-block;
             margin: 0.125rem;
         }
-        
         .nav-link {
             position: relative;
             transition: all 0.3s ease;
         }
-        
         .nav-link::after {
             content: '';
             position: absolute;
@@ -114,29 +109,24 @@
             background: var(--color-black);
             transition: width 0.3s ease;
         }
-        
         .nav-link:hover::after,
         .nav-link.active::after {
             width: 100%;
         }
-        
         .scroll-reveal {
             opacity: 0;
             transform: translateY(30px);
             transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
         .scroll-reveal.revealed {
             opacity: 1;
             transform: translateY(0);
         }
-        
         .hero-music {
             background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
             position: relative;
             overflow: hidden;
         }
-        
         .hero-music::before {
             content: '';
             position: absolute;
@@ -147,12 +137,10 @@
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,50 Q30,30 50,50 T90,50" stroke="%23000" stroke-width="0.5" fill="none" opacity="0.1"/><path d="M10,60 Q30,40 50,60 T90,60" stroke="%23000" stroke-width="0.5" fill="none" opacity="0.1"/><path d="M10,70 Q30,50 50,70 T90,70" stroke="%23000" stroke-width="0.5" fill="none" opacity="0.1"/></svg>');
             animation: musicFloat 15s infinite linear;
         }
-        
         @keyframes musicFloat {
             0% { transform: translateX(0); }
             100% { transform: translateX(-100px); }
         }
-        
         .audio-player {
             background: rgba(0,0,0,0.05);
             border: 1px solid rgba(0,0,0,0.1);
@@ -160,7 +148,6 @@
             padding: 1rem;
             margin: 1rem 0;
         }
-        
         .play-button {
             width: 40px;
             height: 40px;
@@ -174,12 +161,10 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
         .play-button:hover {
             background: #333;
             transform: scale(1.1);
         }
-        
         .progress-bar {
             height: 4px;
             background: rgba(0,0,0,0.1);
@@ -188,12 +173,28 @@
             margin: 0 1rem;
             flex: 1;
         }
-        
         .progress-fill {
             height: 100%;
             background: var(--color-black);
             width: 30%;
             transition: width 0.3s ease;
+        }
+        .rating-stars {
+            display: flex;
+            gap: 2px;
+        }
+        .star {
+            width: 16px;
+            height: 16px;
+            background: #ddd;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            transition: background 0.3s ease;
+        }
+        .star.filled {
+            background: var(--color-black);
+        }
+        .star.half {
+            background: linear-gradient(90deg, var(--color-black) 50%, #ddd 50%);
         }
     </style>
 </head>
@@ -230,7 +231,7 @@
             <h1 class="font-primary text-5xl md:text-7xl font-bold mb-6">Music</h1>
             <div class="w-24 h-1 bg-black mx-auto mb-8"></div>
             <p class="text-xl md:text-2xl max-w-3xl mx-auto">
-                Exploring the mathematical beauty and emotional depth of musical expression across genres, from classical composition to jazz improvisation.
+                "No Music. No Life. Know Music. Know Life"
             </p>
         </div>
     </section>
@@ -254,24 +255,21 @@
                         <span class="genre-tag">Alternative</span>
                         <span class="ml-auto text-sm text-gray-500">Analysis</span>
                     </div>
-                    
                     <h3 class="font-primary text-3xl font-bold mb-4">OK Computer</h3>
-                    
                     <p class="text-lg mb-6 leading-relaxed">
-                        Jazz improvisation represents one of the most sophisticated forms of real-time creative expression, where musicians navigate complex harmonic structures while maintaining emotional authenticity. This analysis explores the underlying mathematical patterns that make spontaneous musical creation possible.
+                        Radiohead's third studio album stands as a prophetic masterpiece that anticipated our digital age with startling accuracy. This comprehensive analysis explores how the band crafted a sonic landscape that captures the alienation and technological anxiety of modern life through innovative production techniques and haunting melodies.
                     </p>
-                    
                     <div class="space-y-4 mb-8">
                         <div>
-                            <h4 class="font-semibold mb-2">Key Concepts:</h4>
-                            <p class="text-gray-600">Modal interchange, rhythmic displacement, harmonic substitution, call and response patterns</p>
+                            <h4 class="font-semibold mb-2">Key Themes:</h4>
+                            <p class="text-gray-600">Technology and alienation, political disillusionment, corporate dystopia, human connection in digital age</p>
                         </div>
                         <div>
-                            <h4 class="font-semibold mb-2">Mathematical Elements:</h4>
-                            <p class="text-gray-600">Fibonacci sequences in phrasing, golden ratio in form, probability in note selection</p>
+                            <h4 class="font-semibold mb-2">Musical Innovation:</h4>
+                            <p class="text-gray-600">Unconventional song structures, electronic manipulation, complex time signatures, atmospheric production</p>
                         </div>
                     </div>
-                    <a href="blogs/music/ok_computer_review.html" class="inline-block bg-black text-white px-6 py-3 font-medium hover:bg-gray-800 transition-all mt-6" style="margin-top: 0px">
+                    <a class="inline-block bg-black text-white px-6 py-3 font-medium hover:bg-gray-800 transition-all mt-6" style="margin-top: 0px">
                         Read Full Analysis
                     </a>
                 </div>
@@ -301,8 +299,18 @@
                             <span class="ml-auto text-sm text-gray-500">Review</span>
                         </div>
                         <h3 class="font-primary text-xl font-semibold mb-3">Distant Light</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="rating-stars mr-3">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star"></span>
+                            </div>
+                            <span class="text-sm text-gray-600">4/5</span>
+                        </div>
                         <p class="text-gray-600 mb-4 line-clamp-3">
-                            Exploring how electronic musicians use algorithmic processes and generative systems to create complex musical structures and evolving soundscapes.
+                            A luminous exploration of atmospheric rock that blends ethereal vocals with intricate guitar work. The album creates expansive soundscapes that evoke both intimacy and cosmic wonder.
                         </p>
                         <div class="text-sm font-medium">Read Review →</div>
                     </div>
@@ -321,8 +329,18 @@
                             <span class="ml-auto text-sm text-gray-500">Review</span>
                         </div>
                         <h3 class="font-primary text-xl font-semibold mb-3">In Rainbow</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="rating-stars mr-3">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star half"></span>
+                            </div>
+                            <span class="text-sm text-gray-600">4.5/5</span>
+                        </div>
                         <p class="text-gray-600 mb-4 line-clamp-3">
-                            Deconstructing how classical composers construct emotional narratives through musical form, harmony, and rhythm, creating timeless expressions of human experience.
+                            Radiohead's seventh album represents a perfect synthesis of emotional vulnerability and technical mastery. A stunning return to form that balances experimental ambition with accessible melodies and profound lyricism.
                         </p>
                         <div class="text-sm font-medium">Read Review →</div>
                     </div>
@@ -342,8 +360,18 @@
                             <span class="ml-auto text-sm text-gray-500">Review</span>
                         </div>
                         <h3 class="font-primary text-xl font-semibold mb-3">The Velvet Underground</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="rating-stars mr-3">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                            </div>
+                            <span class="text-sm text-gray-600">5/5</span>
+                        </div>
                         <p class="text-gray-600 mb-4 line-clamp-3">
-                            Investigating how different cultures develop unique rhythmic patterns and how these traditions influence contemporary global music production.
+                            The groundbreaking debut that revolutionized rock music with its raw sound, avant-garde sensibilities, and unflinching exploration of urban life's darker corners. A seminal work that continues to influence generations of artists.
                         </p>
                         <div class="text-sm font-medium">Read Review →</div>
                     </div>
@@ -427,7 +455,7 @@
     <footer class="py-12 px-6 border-t border-black/10">
         <div class="max-w-4xl mx-auto text-center">
             <div class="font-primary text-2xl mb-4">Richard Jiang</div>
-            <p class="text-sm opacity-70 mb-6">© 2024 Richard Jiang. All rights reserved.</p>
+            <p class="text-sm opacity-70 mb-6">© 2025 Richard Jiang. All rights reserved.</p>
             <div class="text-xs opacity-50">
                 Designed with traditional Chinese ink painting aesthetics and modern web technologies.
             </div>

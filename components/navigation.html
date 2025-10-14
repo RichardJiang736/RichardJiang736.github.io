@@ -1,5 +1,4 @@
-<!-- Navigation Component -->
-<nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-black/10">
+<nav class="bg-white border-b border-black/10">
     <div class="max-w-6xl mx-auto px-6 py-4">
         <div class="flex items-center justify-between">
             <div class="font-primary text-xl font-semibold">
@@ -25,7 +24,6 @@
 </nav>
 
 <script>
-// Set active nav link based on current page
 (function() {
     const currentPath = window.location.pathname;
     const navLinks = document.querySelectorAll('.nav-link[data-page]');

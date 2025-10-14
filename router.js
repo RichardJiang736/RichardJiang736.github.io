@@ -1,6 +1,3 @@
-// Single Page Application Router
-// Prevents navigation bar from reloading on page navigation
-
 class SPARouter {
     constructor() {
         this.routes = {
@@ -20,16 +17,10 @@ class SPARouter {
     }
     
     async init() {
-        // Load navigation and footer components
         await this.loadComponents();
-        
-        // Load initial page content
         await this.loadPage(window.location.pathname);
-        
-        // Setup event listeners
         this.setupEventListeners();
         
-        // Handle browser back/forward buttons
         window.addEventListener('popstate', (e) => {
             this.loadPage(e.state?.path || window.location.pathname, false);
         });
@@ -37,7 +28,6 @@ class SPARouter {
     
     async loadComponents() {
         try {
-            // Load navigation
             if (!this.navigationLoaded) {
                 const navResponse = await fetch('/components/navigation.html');
                 const navHTML = await navResponse.text();
@@ -48,7 +38,6 @@ class SPARouter {
                 }
             }
             
-            // Load footer
             if (!this.footerLoaded) {
                 const footerResponse = await fetch('/components/footer.html');
                 const footerHTML = await footerResponse.text();
@@ -64,7 +53,6 @@ class SPARouter {
     }
     
     setupEventListeners() {
-        // Intercept navigation clicks
         document.addEventListener('click', (e) => {
             const link = e.target.closest('a[data-link]');
             if (link) {
@@ -76,16 +64,9 @@ class SPARouter {
     }
     
     async navigate(path) {
-        // Update active nav link
         this.updateActiveNavLink(path);
-        
-        // Load page content
         await this.loadPage(path, true);
-        
-        // Update browser history
         window.history.pushState({ path }, '', path);
-        
-        // Scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     
@@ -93,7 +74,6 @@ class SPARouter {
         const route = this.routes[path] || this.routes['/'];
         
         try {
-            // Add transition effect
             if (this.contentContainer) {
                 this.contentContainer.classList.remove('active');
             }
@@ -101,7 +81,6 @@ class SPARouter {
             const response = await fetch(`/${route}`);
             const html = await response.text();
             
-            // Extract main content from the fetched page
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
             const mainContent = doc.querySelector('main') || doc.querySelector('.content-overlay') || doc.body;
@@ -109,21 +88,17 @@ class SPARouter {
             if (this.contentContainer && mainContent) {
                 this.contentContainer.innerHTML = mainContent.innerHTML;
                 
-                // Trigger transition
                 setTimeout(() => {
                     this.contentContainer.classList.add('active');
                 }, 50);
                 
-                // Re-initialize page-specific scripts
                 this.initializePageScripts(path);
                 
-                // Update page title
                 const pageTitle = doc.querySelector('title')?.textContent;
                 if (pageTitle) {
                     document.title = pageTitle;
                 }
                 
-                // Update meta description
                 const metaDesc = doc.querySelector('meta[name="description"]')?.getAttribute('content');
                 if (metaDesc) {
                     let metaTag = document.querySelector('meta[name="description"]');
@@ -136,8 +111,6 @@ class SPARouter {
                 }
             }
         } catch (error) {
-            console.error('Error loading page:', error);
-            // Fallback to traditional navigation
             window.location.href = path;
         }
     }
@@ -152,20 +125,16 @@ class SPARouter {
     }
     
     initializePageScripts(path) {
-        // Re-initialize scroll reveal
         if (window.ScrollReveal) {
             new ScrollReveal();
         }
         
-        // Dispatch custom event for page-specific initialization
         const event = new CustomEvent('pageLoaded', { detail: { path } });
         document.dispatchEvent(event);
     }
 }
 
-// Initialize router when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    // Only initialize SPA router if components are available
     if (document.getElementById('navigation-container')) {
         window.spaRouter = new SPARouter();
     }

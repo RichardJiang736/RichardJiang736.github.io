@@ -1,29 +1,24 @@
-// Shared blog post data and simple renderer
-// Add new posts here to have them show on Film, Music, and All Posts pages
-
 (function () {
   const BLOG_POSTS = [
     {
       id: 'lincoln-film-review',
       title: 'Lincoln',
       subtitle: 'A Film Review and Reflection',
-      excerpt:
-        "A masterpiece, like so many of Spielberg's films are. A true endeavour dedicated to the great president",
+      excerpt: "A masterpiece, like so many of Spielberg's films are. A true endeavour dedicated to the great president",
       image: 'resources/movies/lincoln.jpg',
       alt: 'Lincoln film still',
       date: '2025-10-04',
       readTime: '8 min read',
-      category: 'film', // used for filtering
-      categoryLabel: 'Film Review', // shown on the chip
+      category: 'film',
+      categoryLabel: 'Film Review',
       href: 'blogs/movies/lincoln_review',
-      rating: 5, // out of 5 stars
+      rating: 5,
     },
     {
       id: 'ok-computer-music-review',
       title: 'OK Computer',
       subtitle: 'A Retrospective Review',
-      excerpt:
-        'An eternal and profound delve into technological age. Unveiling a blend in computer mechanics and artistic wisdom',
+      excerpt: 'An eternal and profound delve into technological age. Unveiling a blend in computer mechanics and artistic wisdom',
       image: 'resources/music/ok_computer.jpeg',
       alt: 'OK Computer album cover',
       date: '2025-10-04',
@@ -31,7 +26,7 @@
       category: 'music',
       categoryLabel: 'Music Review',
       href: 'blogs/music/ok_computer_review',
-      rating: 5, // out of 5 stars
+      rating: 5,
     },
   ];
 
@@ -68,7 +63,6 @@
         ? 'category-research'
         : 'category-projects';
 
-    // Generate star rating display
     const generateStarRating = (rating) => {
       if (!rating) return '';
       const fullStars = Math.floor(rating);
@@ -76,15 +70,12 @@
       const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
       
       let starsHtml = '';
-      // Add filled stars
       for (let i = 0; i < fullStars; i++) {
         starsHtml += '<span class="star filled"></span>';
       }
-      // Add half star if needed
       if (hasHalfStar) {
         starsHtml += '<span class="star half"></span>';
       }
-      // Add empty stars
       for (let i = 0; i < emptyStars; i++) {
         starsHtml += '<span class="star"></span>';
       }
@@ -106,7 +97,7 @@
         </div>
         <div class="p-6">
           <div class="flex items-center mb-3">
-            <span class="${categoryClass} px-3 py-1 text-xs font-medium bg-gray-100">${post.categoryLabel}</span>
+            <span class="${categoryClass} genre-tag">${post.categoryLabel}</span>
             <span class="ml-auto text-sm text-gray-500">${formatDate(post.date)}</span>
           </div>
           <h3 class="font-primary text-xl font-semibold mb-3">${post.title}</h3>
@@ -151,7 +142,6 @@
       `;
     }
 
-    // Make the whole card clickable
     article.addEventListener('click', (e) => {
       const isLink = e.target.closest('a');
       if (!isLink && post.href) {
@@ -173,7 +163,6 @@
     posts.forEach((p) => container.appendChild(createCard(p, cardType)));
   }
 
-  // Expose globals
   window.BLOG_POSTS = BLOG_POSTS;
   window.renderBlogCards = renderBlogCards;
 })();

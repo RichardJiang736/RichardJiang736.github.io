@@ -6,7 +6,6 @@
     <title>Richard Jiang</title>
     <meta name="description" content="Personal blog of Richard Jiang, high school student and ML Researcher with intrinsic desires for poignant artistic expression and exploration.">
     
-    <!-- Favicon -->
     <link rel="icon" href="resources/favicon_io/favicon.ico" type="image/x-icon">
     <link rel="icon" href="resources/favicon_io/favicon-16x16.png" sizes="16x16" type="image/png">
     <link rel="icon" href="resources/favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
@@ -15,7 +14,6 @@
     <link rel="icon" href="resources/favicon_io/android-chrome-512x512.png" sizes="512x512" type="image/png">
     <link rel="manifest" href="resources/favicon_io/site.webmanifest">
     
-    <!-- Performance: Preload critical resources -->
     <link rel="preload" href="styles/common.css" as="style">
     <link rel="preload" href="components.js" as="script">
     <link rel="preload" href="main.js" as="script">
@@ -24,21 +22,14 @@
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
-    <!-- Common Styles -->
     <link rel="stylesheet" href="styles/common.css">
-    
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Animation Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
     
     <style>
-        /* Home Page Specific Styles */
         .hero-ink {
             background-image: url('resources/hero-ink.jpg');
             background-size: cover;
@@ -94,7 +85,6 @@
             }
         }
         
-        /* Page-specific scroll reveal timing (inherits from common.css) */
         @media (prefers-reduced-motion: reduce) {
             * {
                 animation-duration: 0.01ms !important;
@@ -105,13 +95,10 @@
     </style>
 </head>
 <body class="bg-ink-texture">
-    <!-- Ripple Effect Canvas -->
     <canvas id="ripple-canvas"></canvas>
     
-     <!-- Navigation Container (loaded dynamically) -->
     <div id="navigation-container"></div>
     
-    <!-- Hero Section -->
     <section id="home" class="content-overlay min-h-screen flex items-center justify-center relative pt-20">
         <div class="hero-ink absolute inset-0 opacity-20"></div>
         <div class="relative z-10 text-center max-w-4xl mx-auto px-6">
@@ -160,7 +147,6 @@
         </div>
     </section>
     
-    <!-- About Section -->
     <section class="content-overlay py-20 px-6">
         <div class="max-w-4xl mx-auto">
             <div class="scroll-reveal text-center mb-16">
@@ -189,7 +175,6 @@
         </div>
     </section>
     
-    <!-- Featured Work Section -->
     <section class="content-overlay py-20 px-6 bg-black text-white">
         <div class="max-w-6xl mx-auto">
             <div class="scroll-reveal text-center mb-16">
@@ -225,21 +210,9 @@
         </div>
     </section>
     
-    <!-- Footer Container (loaded dynamically) -->
     <div id="footer-container"></div>
     
-    <!-- Shared Scripts -->
     <script src="components.js"></script>
     <script src="main.js"></script>
-    
-    <!-- Debug Script - Check if everything loads -->
-    <script>
-        console.log('=== DEBUG INFO ===');
-        console.log('Typed.js loaded?', typeof Typed !== 'undefined');
-        console.log('anime.js loaded?', typeof anime !== 'undefined');
-        console.log('#typewriter-text exists?', !!document.getElementById('typewriter-text'));
-        console.log('.scroll-reveal elements:', document.querySelectorAll('.scroll-reveal').length);
-        console.log('==================');
-    </script>
 </body>
 </html>

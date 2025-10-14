@@ -6,7 +6,6 @@
     <title>Music - Richard Jiang</title>
     <meta name="description" content="Music analysis and reviews by Richard Jiang, exploring the mathematical beauty and emotional depth of musical expression across genres.">
     
-    <!-- Favicon -->
     <link rel="icon" href="resources/favicon_io/favicon.ico" type="image/x-icon">
     <link rel="icon" href="resources/favicon_io/favicon-16x16.png" sizes="16x16" type="image/png">
     <link rel="icon" href="resources/favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
@@ -15,20 +14,12 @@
     <link rel="icon" href="resources/favicon_io/android-chrome-512x512.png" sizes="512x512" type="image/png">
     <link rel="manifest" href="resources/favicon_io/site.webmanifest">
     
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Common Styles -->
     <link rel="stylesheet" href="styles/common.css">
-    
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Animation Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     
     <style>
-        /* Music Page Specific Styles */
         .music-card {
             position: relative;
             overflow: hidden;
@@ -128,6 +119,19 @@
             0% { transform: translateX(0); }
             100% { transform: translateX(-100px); }
         }
+        
+        .featured-image-wrapper {
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .featured-image-wrapper img {
+            transition: transform 0.3s ease;
+        }
+        
+        .featured-image-wrapper:hover img {
+            transform: scale(1.08);
+        }
     </style>
 </head>
 <body class="bg-ink-texture">
@@ -157,10 +161,10 @@
             </div>
             
             <div class="scroll-reveal grid lg:grid-cols-2 gap-12 items-center">
-                <div>
+                <div class="featured-image-wrapper overflow-hidden rounded-lg shadow-lg">
                     <img src="resources/music/ok_computer.jpeg" 
                          alt="OK Computer" 
-                         class="w-full object-cover shadow-lg">
+                         class="w-full object-cover">
                 </div>
                 <div>
                     <div class="flex items-center mb-4">

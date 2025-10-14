@@ -1,5 +1,3 @@
-/* Common Styles for Richard Jiang's Personal Blog */
-
 :root {
     --color-black: #000000;
     --color-white: #ffffff;
@@ -13,21 +11,16 @@
     box-sizing: border-box;
 }
 
-/* Hardware Acceleration & Performance Optimizations */
 body {
     font-family: var(--font-secondary);
     background: var(--color-white);
     color: var(--color-black);
     line-height: 1.6;
-    /* Enable GPU acceleration */
     transform: translateZ(0);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Optimize text rendering */
     text-rendering: optimizeSpeed;
 }
-
-/* GPU acceleration for animated elements */
 .font-primary,
 .nav-link,
 .scroll-reveal,
@@ -52,17 +45,28 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    /* Optimize background rendering */
     transform: translateZ(0);
-    /* Ensure it stays in the background */
     position: relative;
     z-index: 0;
 }
 
-/* Navigation Styles - Optimized */
+/* Sticky Navigation */
+#navigation-container {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+}
+
 nav {
-    position: relative;
-    z-index: 50;
+    background-color: #ffffff;
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+    width: 100%;
+}
+
+nav.scrolled {
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .nav-link {
@@ -74,20 +78,21 @@ nav {
     content: '';
     position: absolute;
     bottom: -4px;
-    left: 0;
+    left: 50%;
     width: 0;
     height: 2px;
     background: var(--color-black);
-    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: translateZ(0);
+    transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateX(-50%) translateZ(0);
 }
 
 .nav-link:hover::after,
 .nav-link.active::after {
     width: 100%;
+    left: 50%;
 }
 
-/* Scroll Reveal Animation - 120Hz Optimized */
 .scroll-reveal {
     opacity: 0;
     transform: translate3d(0, 30px, 0);
@@ -100,7 +105,6 @@ nav {
     transform: translate3d(0, 0, 0);
 }
 
-/* Ink Ripple Effect - GPU Accelerated */
 .ink-ripple {
     position: relative;
     overflow: hidden;
@@ -129,8 +133,6 @@ nav {
     opacity: 1;
 }
 
-
-/* Social Icons - Optimized */
 .social-icon {
     transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     transform: translateZ(0);
@@ -140,10 +142,9 @@ nav {
     transform: translate3d(0, -2px, 0);
 }
 
-/* Generic Tags */
 .genre-tag,
 .location-tag {
-    background: rgba(0,0,0,0.1);
+    background: rgba(0,0,0,0.1) !important;
     padding: 0.25rem 0.75rem;
     font-size: 0.75rem;
     font-weight: 500;
@@ -151,14 +152,9 @@ nav {
     display: inline-block;
     margin: 0.125rem;
     transform: translateZ(0);
+    color: #000000;
 }
 
-.location-tag {
-    background: rgba(0,0,0,0.8);
-    color: white;
-}
-
-/* Rating Stars - Optimized */
 .rating-stars {
     display: flex;
     gap: 2px;
@@ -182,7 +178,6 @@ nav {
     background: linear-gradient(90deg, var(--color-black) 50%, #ddd 50%);
 }
 
-/* Card Styles - 120Hz Optimized */
 .film-card,
 .music-card,
 .travel-card,
@@ -191,7 +186,6 @@ nav {
     overflow: hidden;
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
                 box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    /* Use contain for better performance */
     contain: layout style paint;
 }
 
@@ -209,7 +203,6 @@ nav {
 .blog-card img {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transform: translateZ(0);
-    /* Optimize image rendering */
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
 }
@@ -221,7 +214,6 @@ nav {
     transform: scale3d(1.05, 1.05, 1);
 }
 
-/* Ripple Canvas - Optimized */
 #ripple-canvas {
     position: fixed;
     top: 0;
@@ -231,7 +223,6 @@ nav {
     pointer-events: none;
     z-index: 1;
     transform: translateZ(0);
-    /* Use canvas compositing for better performance */
     image-rendering: -webkit-optimize-contrast;
 }
 
@@ -240,7 +231,6 @@ nav {
     z-index: 10;
 }
 
-/* Ensure all main content sections have proper stacking */
 section {
     position: relative;
     z-index: 10;
@@ -251,7 +241,6 @@ main {
     z-index: 10;
 }
 
-/* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -268,7 +257,6 @@ main {
     }
 }
 
-/* Page Transition - Optimized */
 .page-transition {
     opacity: 0;
     transform: translate3d(0, 20px, 0);
@@ -281,7 +269,6 @@ main {
     transform: translate3d(0, 0, 0);
 }
 
-/* High Refresh Rate Optimizations */
 @media (min-resolution: 120dpi) {
     .nav-link,
     .scroll-reveal,
@@ -290,20 +277,16 @@ main {
     .music-card,
     .travel-card,
     .blog-card {
-        /* Faster transitions for high refresh displays */
         transition-duration: 0.15s;
     }
 }
 
-/* Performance Hints for Browser */
 img,
 video {
-    /* Optimize image decoding */
     content-visibility: auto;
     contain-intrinsic-size: 500px 500px;
 }
 
-/* Smooth scrolling with performance */
 html {
     scroll-behavior: smooth;
 }
@@ -314,7 +297,6 @@ html {
     }
 }
 
-/* Loading optimization */
 .lazy-load {
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -324,3 +306,4 @@ html {
     opacity: 1;
 }
 
+/* Removed redundant navigation positioning rules */

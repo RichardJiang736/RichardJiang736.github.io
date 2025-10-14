@@ -29,7 +29,7 @@
       date: '2025-10-04',
       readTime: '8 min read',
       category: 'music',
-      categoryLabel: 'Alternative',
+      categoryLabel: 'Music Review',
       href: 'blogs/music/ok_computer_review',
       rating: 5, // out of 5 stars
     },
@@ -125,7 +125,7 @@
         <div class="p-6">
           <div class="flex items-center mb-3">
             <span class="genre-tag">${post.categoryLabel}</span>
-            <span class="ml-auto text-sm text-gray-500">${new Date(post.date).getFullYear()}</span>
+            <span class="ml-auto text-sm text-gray-500">2012</span>
           </div>
           <h3 class="font-primary text-xl font-semibold mb-3">${post.title}</h3>
           ${generateStarRating(post.rating)}
@@ -141,7 +141,7 @@
         <div class="p-6">
           <div class="flex items-center mb-3">
             <span class="genre-tag">${post.categoryLabel}</span>
-            <span class="ml-auto text-sm text-gray-500">Review</span>
+            <span class="ml-auto text-sm text-gray-500">1997</span>
           </div>
           <h3 class="font-primary text-xl font-semibold mb-3">${post.title}</h3>
           ${generateStarRating(post.rating)}

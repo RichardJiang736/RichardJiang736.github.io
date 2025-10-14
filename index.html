@@ -15,8 +15,20 @@
     <link rel="icon" href="resources/favicon_io/android-chrome-512x512.png" sizes="512x512" type="image/png">
     <link rel="manifest" href="resources/favicon_io/site.webmanifest">
     
+    <!-- Performance: Preload critical resources -->
+    <link rel="preload" href="styles/common.css" as="style">
+    <link rel="preload" href="components.js" as="script">
+    <link rel="preload" href="main.js" as="script">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Common Styles -->
+    <link rel="stylesheet" href="styles/common.css">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -26,53 +38,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
     
     <style>
-        :root {
-            --color-black: #000000;
-            --color-white: #ffffff;
-            --font-primary: 'Noto Serif SC', serif;
-            --font-secondary: 'Inter', sans-serif;
-            --transition-fast: 200ms;
-            --transition-medium: 500ms;
-            --transition-slow: 1200ms;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: var(--font-secondary);
-            background: var(--color-white);
-            color: var(--color-black);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-        
-        .font-primary {
-            font-family: var(--font-primary);
-        }
-        
-        .bg-ink-texture {
-            background-image: url('resources/texture-paper.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-        
+        /* Home Page Specific Styles */
         .hero-ink {
             background-image: url('resources/hero-ink.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
         }
-        
-        .ink-ripple {
-            position: relative;
-            overflow: hidden;
-        }
-        
         .ink-ripple::before {
             content: '';
             position: absolute;
@@ -86,12 +58,10 @@
             transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             pointer-events: none;
         }
-        
         .ink-ripple:hover::before {
             width: 300px;
             height: 300px;
         }
-        
         .typewriter-cursor {
             display: inline-block;
             width: 2px;
@@ -99,12 +69,10 @@
             background: var(--color-black);
             animation: blink 1s infinite;
         }
-        
         @keyframes blink {
             0%, 50% { opacity: 1; }
             51%, 100% { opacity: 0; }
         }
-        
         .ink-drop {
             position: absolute;
             width: 8px;
@@ -115,7 +83,6 @@
             opacity: 0;
             animation: drop 1s ease-out;
         }
-        
         @keyframes drop {
             0% {
                 opacity: 1;
@@ -127,61 +94,7 @@
             }
         }
         
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all var(--transition-slow) cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .scroll-reveal.revealed {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .nav-link {
-            position: relative;
-            transition: all var(--transition-fast);
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--color-black);
-            transition: width var(--transition-medium);
-        }
-        
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 100%;
-        }
-        
-        .social-icon {
-            transition: all var(--transition-medium);
-        }
-        
-        .social-icon:hover {
-            transform: translateY(-2px);
-        }
-        
-        #ripple-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-        
-        .content-overlay {
-            position: relative;
-            z-index: 2;
-        }
-        
+        /* Page-specific scroll reveal timing (inherits from common.css) */
         @media (prefers-reduced-motion: reduce) {
             * {
                 animation-duration: 0.01ms !important;
@@ -195,31 +108,8 @@
     <!-- Ripple Effect Canvas -->
     <canvas id="ripple-canvas"></canvas>
     
-     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-black/10">
-        <div class="max-w-6xl mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <div class="font-primary text-xl font-semibold">
-                    <a href="/">Richard Jiang</a>
-                </div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="/" class="nav-link active">Home</a>
-                    <a href="/blogs" class="nav-link">Blogs</a>
-                    <a href="/reflection" class="nav-link">Reflection</a>
-                    <a href="/film" class="nav-link">Film</a>
-                    <a href="/music" class="nav-link">Music</a>
-                    <a href="/travel" class="nav-link">Travel</a>
-                </div>
-                <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="p-2">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
+     <!-- Navigation Container (loaded dynamically) -->
+    <div id="navigation-container"></div>
     
     <!-- Hero Section -->
     <section id="home" class="content-overlay min-h-screen flex items-center justify-center relative pt-20">
@@ -335,17 +225,21 @@
         </div>
     </section>
     
-    <!-- Footer -->
-    <footer class="content-overlay py-12 px-6 border-t border-black/10">
-        <div class="max-w-4xl mx-auto text-center">
-            <div class="font-primary text-2xl mb-4">Richard Jiang</div>
-            <p class="text-sm opacity-70 mb-6">© 2025 Richard Jiang. All rights reserved.</p>
-            <div class="text-xs opacity-50">
-                Designed with traditional Chinese ink painting aesthetics and modern web technologies.
-            </div>
-        </div>
-    </footer>
+    <!-- Footer Container (loaded dynamically) -->
+    <div id="footer-container"></div>
     
+    <!-- Shared Scripts -->
+    <script src="components.js"></script>
     <script src="main.js"></script>
+    
+    <!-- Debug Script - Check if everything loads -->
+    <script>
+        console.log('=== DEBUG INFO ===');
+        console.log('Typed.js loaded?', typeof Typed !== 'undefined');
+        console.log('anime.js loaded?', typeof anime !== 'undefined');
+        console.log('#typewriter-text exists?', !!document.getElementById('typewriter-text'));
+        console.log('.scroll-reveal elements:', document.querySelectorAll('.scroll-reveal').length);
+        console.log('==================');
+    </script>
 </body>
 </html>

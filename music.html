@@ -18,6 +18,9 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
+    <!-- Common Styles -->
+    <link rel="stylesheet" href="styles/common.css">
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -25,32 +28,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     
     <style>
-        :root {
-            --color-black: #000000;
-            --color-white: #ffffff;
-            --font-primary: 'Noto Serif SC', serif;
-            --font-secondary: 'Inter', sans-serif;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: var(--font-secondary);
-            background: var(--color-white);
-            color: var(--color-black);
-            line-height: 1.6;
-        }
-        .font-primary {
-            font-family: var(--font-primary);
-        }
-        .bg-ink-texture {
-            background-image: url('resources/texture-paper.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
+        /* Music Page Specific Styles */
         .music-card {
             position: relative;
             overflow: hidden;
@@ -86,61 +64,6 @@
             0% { left: -100%; }
             100% { left: 100%; }
         }
-        .genre-tag {
-            background: rgba(0,0,0,0.1);
-            padding: 0.25rem 0.75rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-            border-radius: 9999px;
-            display: inline-block;
-            margin: 0.125rem;
-        }
-        .nav-link {
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--color-black);
-            transition: width 0.3s ease;
-        }
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 100%;
-        }
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .scroll-reveal.revealed {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .hero-music {
-            background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        .hero-music::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,50 Q30,30 50,50 T90,50" stroke="%23000" stroke-width="0.5" fill="none" opacity="0.1"/><path d="M10,60 Q30,40 50,60 T90,60" stroke="%23000" stroke-width="0.5" fill="none" opacity="0.1"/><path d="M10,70 Q30,50 50,70 T90,70" stroke="%23000" stroke-width="0.5" fill="none" opacity="0.1"/></svg>');
-            animation: musicFloat 15s infinite linear;
-        }
-        @keyframes musicFloat {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100px); }
-        }
         .audio-player {
             background: rgba(0,0,0,0.05);
             border: 1px solid rgba(0,0,0,0.1);
@@ -152,8 +75,8 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: var(--color-black);
-            color: var(--color-white);
+            background: #000000;
+            color: #ffffff;
             border: none;
             display: flex;
             align-items: center;
@@ -175,7 +98,7 @@
         }
         .progress-fill {
             height: 100%;
-            background: var(--color-black);
+            background: #000000;
             width: 30%;
             transition: width 0.3s ease;
         }
@@ -183,47 +106,36 @@
             display: flex;
             gap: 2px;
         }
-        .star {
-            width: 16px;
-            height: 16px;
-            background: #ddd;
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-            transition: background 0.3s ease;
+        
+        .hero-music {
+            background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
+            position: relative;
+            overflow: hidden;
         }
-        .star.filled {
-            background: var(--color-black);
+        
+        .hero-music::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,50 Q30,30 50,50 T90,50" stroke="%23000" stroke-width="0.5" fill="none" opacity="0.1"/><path d="M10,60 Q30,40 50,60 T90,60" stroke="%23000" stroke-width="0.5" fill="none" opacity="0.1"/><path d="M10,70 Q30,50 50,70 T90,70" stroke="%23000" stroke-width="0.5" fill="none" opacity="0.1"/></svg>');
+            animation: musicFloat 15s infinite linear;
         }
-        .star.half {
-            background: linear-gradient(90deg, var(--color-black) 50%, #ddd 50%);
+        
+        @keyframes musicFloat {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100px); }
         }
     </style>
 </head>
 <body class="bg-ink-texture">
-    <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-black/10">
-        <div class="max-w-6xl mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <div class="font-primary text-xl font-semibold">
-                    <a href="/">Richard Jiang</a>
-                </div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="/" class="nav-link">Home</a>
-                    <a href="/blogs" class="nav-link">Blogs</a>
-                    <a href="/reflection" class="nav-link">Reflection</a>
-                    <a href="/film" class="nav-link">Film</a>
-                    <a href="/music" class="nav-link active">Music</a>
-                    <a href="/travel" class="nav-link">Travel</a>
-                </div>
-                <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="p-2">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <!-- Ripple Effect Canvas -->
+    <canvas id="ripple-canvas"></canvas>
+    
+    <!-- Navigation Container (loaded dynamically) -->
+    <div id="navigation-container"></div>
     
     <!-- Hero Section -->
     <section class="hero-music pt-32 pb-16 px-6">
@@ -253,7 +165,7 @@
                 <div>
                     <div class="flex items-center mb-4">
                         <span class="genre-tag">Alternative</span>
-                        <span class="ml-auto text-sm text-gray-500">Analysis</span>
+                        <span class="ml-auto text-sm text-gray-500">1997</span>
                     </div>
                     <h3 class="font-primary text-3xl font-bold mb-4">OK Computer</h3>
                     <p class="text-lg mb-6 leading-relaxed">
@@ -296,7 +208,7 @@
                     <div class="p-6">
                         <div class="flex items-center mb-3">
                             <span class="genre-tag">British Rock</span>
-                            <span class="ml-auto text-sm text-gray-500">Review</span>
+                            <span class="ml-auto text-sm text-gray-500">1971</span>
                         </div>
                         <h3 class="font-primary text-xl font-semibold mb-3">Distant Light</h3>
                         <div class="flex items-center mb-4">
@@ -326,7 +238,7 @@
                     <div class="p-6">
                         <div class="flex items-center mb-3">
                             <span class="genre-tag">Alternative</span>
-                            <span class="ml-auto text-sm text-gray-500">Review</span>
+                            <span class="ml-auto text-sm text-gray-500">2007</span>
                         </div>
                         <h3 class="font-primary text-xl font-semibold mb-3">In Rainbow</h3>
                         <div class="flex items-center mb-4">
@@ -357,7 +269,7 @@
                         <div class="flex items-center mb-3">
                             <span class="genre-tag">Alternative</span>
                             <span class="genre-tag">Experimental</span>
-                            <span class="ml-auto text-sm text-gray-500">Review</span>
+                            <span class="ml-auto text-sm text-gray-500">1967</span>
                         </div>
                         <h3 class="font-primary text-xl font-semibold mb-3">The Velvet Underground</h3>
                         <div class="flex items-center mb-4">
@@ -451,17 +363,11 @@
         </div>
     </section>
     
-    <!-- Footer -->
-    <footer class="py-12 px-6 border-t border-black/10">
-        <div class="max-w-4xl mx-auto text-center">
-            <div class="font-primary text-2xl mb-4">Richard Jiang</div>
-            <p class="text-sm opacity-70 mb-6">© 2025 Richard Jiang. All rights reserved.</p>
-            <div class="text-xs opacity-50">
-                Designed with traditional Chinese ink painting aesthetics and modern web technologies.
-            </div>
-        </div>
-    </footer>
+    <!-- Footer Container (loaded dynamically) -->
+    <div id="footer-container"></div>
     
+    <!-- Shared Scripts -->
+    <script src="components.js"></script>
     <script src="posts.js"></script>
     <script>
         // Music card interactions

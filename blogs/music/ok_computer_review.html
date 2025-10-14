@@ -3,18 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lincoln - Richard Jiang</title>
-    <meta name="description" content="Elegant blog template with music-documentation style                 <div class="font-primary text-xl font-semibold">
-                    <a href="/">Richard Jiang</a>
-                </div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="/" class="nav-link">Home</a>
-                    <a href="/blogs" class="nav-link">Blogs</a>
-                    <a href="/reflection" class="nav-link">Reflection</a>
-                    <a href="/film" class="nav-link">Film</a>
-                    <a href="/music" class="nav-link">Music</a>
-                    <a href="/travel" class="nav-link">Travel</a>
-                </div> Chartogne-Taillet">
+    <title>OK Computer - Richard Jiang</title>
+    <meta name="description" content="Elegant blog template with music-documentation style inspired by Chartogne-Taillet">
     
     <!-- Favicon -->
     <link rel="icon" href="../../resources/favicon_io/favicon.ico" type="image/x-icon">
@@ -28,6 +18,9 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
+    <!-- Common CSS -->
+    <link rel="stylesheet" href="../../styles/common.css">
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -36,33 +29,9 @@
     
     <style>
         :root {
-            --color-black: #000000;
-            --color-white: #ffffff;
-            --font-primary: 'Noto Serif SC', serif;
-            --font-secondary: 'Inter', sans-serif;
             --color-gray-light: #f8f9fa;
             --color-gray-medium: #6c757d;
             --color-gray-dark: #343a40;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: var(--font-secondary);
-            background: var(--color-white);
-            color: var(--color-black);
-            line-height: 1.7;
-        }
-        .font-primary {
-            font-family: var(--font-primary);
-        }
-        .bg-ink-texture {
-            background-image: url('resources/texture-paper.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
         }
         /* music Documentation Style */
         .music-header {
@@ -234,33 +203,6 @@
         .music-gallery img:hover {
             transform: scale(1.05);
         }
-        .nav-link {
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--color-black);
-            transition: width 0.3s ease;
-        }
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 100%;
-        }
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .scroll-reveal.revealed {
-            opacity: 1;
-            transform: translateY(0);
-        }
         @media (max-width: 768px) {
             .music-content {
                 grid-template-columns: 1fr;
@@ -281,30 +223,7 @@
 </head>
 <body class="bg-ink-texture">
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-black/10">
-        <div class="max-w-6xl mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <div class="font-primary text-xl font-semibold">
-                    <a href="index.html">Richard Jiang</a>
-                </div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="../../index.html" class="nav-link">Home</a>
-                    <a href="../../blogs.html" class="nav-link">Blogs</a>
-                    <a href="../../reflection.html" class="nav-link">Reflection</a>
-                    <a href="../../film.html" class="nav-link">Film</a>
-                    <a href="../../music.html" class="nav-link">Music</a>
-                    <a href="../../travel.html" class="nav-link">Travel</a>
-                </div>
-                <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="p-2">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <div id="navigation-container"></div>
     
     <!-- Music Documentation Style Blog Header -->
     <header class="music-header pt-24 pb-16 px-6">
@@ -488,15 +407,10 @@
     </main>
     
     <!-- Footer -->
-    <footer class="py-12 px-6 border-t border-black/10">
-        <div class="max-w-4xl mx-auto text-center">
-            <div class="font-primary text-2xl mb-4">Richard Jiang</div>
-            <p class="text-sm opacity-70 mb-6">© 2025 Richard Jiang. All rights reserved.</p>
-            <div class="text-xs opacity-50">
-                Designed with traditional Chinese ink painting aesthetics and modern web technologies.
-            </div>
-        </div>
-    </footer>
+    <div id="footer-container"></div>
+    
+    <!-- Components Loader -->
+    <script src="../../components.js"></script>
     
     <script>
         // Scroll reveal functionality
@@ -521,6 +435,5 @@
             }
         });
     </script>
-    <script src="main.js"></script>
 </body>
 </html>

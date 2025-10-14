@@ -2,17 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-w                <div class="font-primary text-xl font-semibold">
-                    <a href="/">Richard Jiang</a>
-                </div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="/" class="nav-link">Home</a>
-                    <a href="/blogs" class="nav-link">Blogs</a>
-                    <a href="/reflection" class="nav-link">Reflection</a>
-                    <a href="/film" class="nav-link">Film</a>
-                    <a href="/music" class="nav-link">Music</a>
-                    <a href="/travel" class="nav-link">Travel</a>
-                </div>al-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research Article - Richard Jiang</title>
     <meta name="description" content="Academic research template with clean, scholarly style.">
     
@@ -25,23 +15,24 @@
     <link rel="icon" href="../../resources/favicon_io/android-chrome-512x512.png" sizes="512x512" type="image/png">
     <link rel="manifest" href="../../resources/favicon_io/site.webmanifest">
     
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Common CSS -->
+    <link rel="stylesheet" href="../../styles/common.css">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <style>
         :root {
-            --color-black: #000000;
-            --color-white: #ffffff;
             --color-accent: #457b9d;
-            --font-primary: 'Noto Serif SC', serif;
-            --font-secondary: 'Inter', sans-serif;
             --color-gray-light: #f8f9fa;
             --color-gray-medium: #6c757d;
             --color-gray-dark: #343a40;
         }
         body {
-            font-family: var(--font-secondary);
             background: repeating-linear-gradient(135deg, #f8f9fa, #f8f9fa 40px, #e9ecef 40px, #e9ecef 80px);
-            color: var(--color-black);
         }
         .research-header {
             background: linear-gradient(120deg, #fff 60%, #457b9d 100%);
@@ -121,30 +112,8 @@
     </style>
 </head>
 <body>
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-black/10">
-        <div class="max-w-6xl mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <div class="font-primary text-xl font-semibold">
-                    <a href="index.html">Richard Jiang</a>
-                </div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="../../index.html" class="nav-link">Home</a>
-                    <a href="../../blogs.html" class="nav-link">Blogs</a>
-                    <a href="../../reflection.html" class="nav-link">Reflection</a>
-                    <a href="../../film.html" class="nav-link">Film</a>
-                    <a href="../../music.html" class="nav-link">Music</a>
-                    <a href="../../travel.html" class="nav-link">Travel</a>
-                </div>
-                <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="p-2">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <!-- Navigation -->
+    <div id="navigation-container"></div>
     <header class="research-header pt-24 pb-8 px-6">
         <div class="max-w-4xl mx-auto text-center">
             <h1 class="research-title">Research Title</h1>
@@ -212,14 +181,11 @@
             <p>Email: <a href="mailto:author@email.com" class="text-accent underline">author@email.com</a></p>
         </aside>
     </main>
-    <footer class="py-12 px-6 border-t border-black/10">
-        <div class="max-w-4xl mx-auto text-center">
-            <div class="font-primary text-2xl mb-4">Richard Jiang</div>
-            <p class="text-sm opacity-70 mb-6">© 2025 Richard Jiang. All rights reserved.</p>
-            <div class="text-xs opacity-50">
-                Designed for academic clarity and modern web aesthetics.
-            </div>
-        </div>
-    </footer>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    
+    <!-- Components Loader -->
+    <script src="../../components.js"></script>
 </body>
 </html>

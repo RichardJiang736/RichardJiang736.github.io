@@ -6,7 +6,6 @@
     <title>Lincoln Review - Richard Jiang</title>
     <meta name="description" content="Elegant blog template with film-documentation style inspired by Chartogne-Taillet">
     
-    <!-- Favicon -->
     <link rel="icon" href="../../resources/favicon_io/favicon.ico" type="image/x-icon">
     <link rel="icon" href="../../resources/favicon_io/favicon-16x16.png" sizes="16x16" type="image/png">
     <link rel="icon" href="../../resources/favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
@@ -15,16 +14,9 @@
     <link rel="icon" href="../../resources/favicon_io/android-chrome-512x512.png" sizes="512x512" type="image/png">
     <link rel="manifest" href="../../resources/favicon_io/site.webmanifest">
     
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Common CSS -->
     <link rel="stylesheet" href="../../styles/common.css">
-    
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Animation Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     
     <style>
@@ -227,18 +219,16 @@
     </style>
 </head>
 <body class="bg-ink-texture">
-    <!-- Navigation -->
+
     <div id="navigation-container"></div>
     
-    <!-- Film Documentation Style Blog Header -->
-    <header class="film-header pt-24 pb-16 px-6">
+    <header class="film-header pt-16 pb-16 px-6">
         <div class="film-header-content max-w-6xl mx-auto">
             <div class="text-center mb-8">
                 <h1 class="film-title font-primary">Lincoln</h1>
                 <p class="film-subtitle">A Film Review and Reflection</p>
             </div>
             
-            <!-- Film-style Metadata -->
             <div class="film-metadata">
                 <div class="metadata-item">
                     <div class="metadata-label">Publication Date</div>
@@ -266,7 +256,6 @@
                 </div>
             </div>
             
-            <!-- Tags -->
             <div class="film-tags text-center">
                 <span class="film-tag">History</span>
                 <span class="film-tag">Drama</span>
@@ -274,17 +263,13 @@
         </div>
     </header>
     
-    <!-- Main Content -->
     <main class="max-w-6xl mx-auto px-6 py-12">
-        <!-- Featured Image -->
         <div class="scroll-reveal mb-12">
             <img src="imgs/lincoln.jpg" 
                  alt="Citizen Kane Deep Focus">
         </div>
         
-        <!-- Content Layout -->
         <div class="film-content">
-            <!-- Main Article Content -->
             <div class="film-main">
                 <div class="scroll-reveal film-section">
                     <h2>Introduction</h2>
@@ -387,7 +372,6 @@
                 </div>
             </div>
             
-            <!-- Sidebar with Technical Details -->
             <aside class="film-sidebar">
                 <div class="scroll-reveal">
                     <h3 class="font-primary text-xl font-semibold mb-4">Technical Specifications</h3>
@@ -424,14 +408,10 @@
         </div>
     </main>
     
-    <!-- Footer -->
     <div id="footer-container"></div>
-    
-    <!-- Components Loader -->
     <script src="../../components.js"></script>
     
     <script>
-        // Scroll reveal functionality
         document.addEventListener('DOMContentLoaded', () => {
             const scrollElements = document.querySelectorAll('.scroll-reveal');
             

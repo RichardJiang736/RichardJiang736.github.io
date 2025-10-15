@@ -11,7 +11,23 @@
       readTime: '8 min read',
       category: 'film',
       categoryLabel: 'Film Review',
+      genres: ['History', 'Drama'],
       href: 'blogs/movies/lincoln_review',
+      rating: 5,
+    },
+    {
+      id: '2001-film-review',
+      title: '2001: A Space Odyssey',
+      subtitle: 'A Reminiscent Review',
+      excerpt: "The aboriginal Sci-Fi Revolution. A Review of Kubrick's monumental <em>2001: A Space Odyssey</em>",
+      image: 'resources/movies/2001.jpg',
+      alt: '2001 film still',
+      date: '2025-10-15',
+      readTime: '8 min read',
+      category: 'film',
+      categoryLabel: 'Film Review',
+      genres: ['Sci-Fi', 'Horror'],
+      href: 'blogs/movies/2001_review',
       rating: 5,
     },
     {
@@ -21,10 +37,11 @@
       excerpt: 'An eternal and profound delve into technological age. Unveiling a blend in computer mechanics and artistic wisdom',
       image: 'resources/music/ok_computer.jpeg',
       alt: 'OK Computer album cover',
-      date: '2025-10-04',
+      date: '2025-10-15',
       readTime: '8 min read',
       category: 'music',
       categoryLabel: 'Music Review',
+      genres: ['Alternative'],
       href: 'blogs/music/ok_computer_review',
       rating: 5,
     },
@@ -90,6 +107,11 @@
       `;
     };
 
+    const generateGenreTags = (genres) => {
+      if (!genres || !Array.isArray(genres) || genres.length === 0) return '';
+      return genres.map(genre => `<span class="genre-tag">${genre}</span>`).join('');
+    };
+
     if (cardType === 'blog') {
       article.innerHTML = `
         <div class="aspect-video overflow-hidden">
@@ -115,7 +137,7 @@
         </div>
         <div class="p-6">
           <div class="flex items-center mb-3">
-            <span class="genre-tag">${post.categoryLabel}</span>
+            ${generateGenreTags(post.genres)}
             <span class="ml-auto text-sm text-gray-500">2012</span>
           </div>
           <h3 class="font-primary text-xl font-semibold mb-3">${post.title}</h3>
@@ -131,7 +153,7 @@
         </div>
         <div class="p-6">
           <div class="flex items-center mb-3">
-            <span class="genre-tag">${post.categoryLabel}</span>
+            ${generateGenreTags(post.genres)}
             <span class="ml-auto text-sm text-gray-500">1997</span>
           </div>
           <h3 class="font-primary text-xl font-semibold mb-3">${post.title}</h3>
@@ -160,7 +182,18 @@
     if (!container) return;
     container.innerHTML = '';
     const cardType = options.cardType || 'blog';
-    posts.forEach((p) => container.appendChild(createCard(p, cardType)));
+    
+    // Sort by date (latest to earliest) if cardType is 'blog'
+    let sortedPosts = posts;
+    if (cardType === 'blog') {
+      sortedPosts = [...posts].sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return dateB - dateA; // Latest first
+      });
+    }
+    
+    sortedPosts.forEach((p) => container.appendChild(createCard(p, cardType)));
   }
 
   window.BLOG_POSTS = BLOG_POSTS;

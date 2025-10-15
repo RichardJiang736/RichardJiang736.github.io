@@ -15,16 +15,9 @@
     <link rel="icon" href="../../resources/favicon_io/android-chrome-512x512.png" sizes="512x512" type="image/png">
     <link rel="manifest" href="../../resources/favicon_io/site.webmanifest">
     
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Common CSS -->
     <link rel="stylesheet" href="../../styles/common.css">
-    
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Animation Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     
     <style>
@@ -33,14 +26,17 @@
             --color-gray-medium: #6c757d;
             --color-gray-dark: #343a40;
         }
-        /* music Documentation Style */
-        .music-header {
+        
+        /* Album Header */
+        .album-header {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             border-bottom: 2px solid var(--color-black);
             position: relative;
             overflow: hidden;
+            padding: 4rem 2rem;
         }
-        .music-header::before {
+        
+        .album-header::before {
             content: '';
             position: absolute;
             top: 0;
@@ -53,356 +49,472 @@
             opacity: 0.1;
             z-index: 1;
         }
-        .music-header-content {
+        
+        .album-cover-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 4rem;
+            align-items: center;
             position: relative;
             z-index: 2;
         }
-        .music-title {
-            font-size: 3.5rem;
+        
+        .album-cover {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .album-cover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .album-info {
+            color: var(--color-black);
+        }
+        
+        .album-title {
+            font-size: 4rem;
             font-weight: 700;
-            line-height: 1.1;
+            line-height: 1;
             margin-bottom: 1rem;
+            color: var(--color-black);
             letter-spacing: -0.02em;
         }
-        .music-subtitle {
-            font-size: 1.25rem;
-            color: var(--color-gray-medium);
+        
+        .album-artist {
+            font-size: 1.8rem;
             font-weight: 300;
-            margin-bottom: 2rem;
+            color: var(--color-gray-medium);
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
         }
-        .music-metadata {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        
+        .album-meta {
+            display: flex;
             gap: 2rem;
-            padding: 2rem 0;
-            border-top: 1px solid rgba(0,0,0,0.1);
-            border-bottom: 1px solid rgba(0,0,0,0.1);
             margin: 2rem 0;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
-        .metadata-item {
-            text-align: center;
+        
+        .meta-item {
+            display: flex;
+            flex-direction: column;
         }
-        .metadata-label {
-            font-size: 0.75rem;
+        
+        .meta-label {
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
             color: var(--color-gray-medium);
             margin-bottom: 0.5rem;
-            font-weight: 500;
         }
-        .metadata-value {
+        
+        .meta-value {
             font-size: 1.1rem;
             font-weight: 600;
             color: var(--color-black);
         }
-        .music-content {
+        
+        .genre-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        
+        .genre-tag {
+            padding: 0.5rem 1rem;
+            background: var(--color-black);
+            color: var(--color-white);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .genre-tag:hover {
+            background: var(--color-gray-dark);
+        }
+        
+        /* Main Content */
+        .review-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0rem 2rem;
+        }
+        
+        .track-listing {
+            background: var(--color-gray-light);
+            border-left: 4px solid var(--color-black);
+            padding: 2rem;
+            margin: 3rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .track-listing h3 {
+            font-family: var(--font-primary);
+            font-size: 1.5rem;
+            color: var(--color-black);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+        
+        .track-item {
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 4rem;
+            grid-template-columns: 40px 1fr auto;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+        }
+        
+        .track-item:hover {
+            background: rgba(0, 0, 0, 0.03);
+            padding-left: 1rem;
+        }
+        
+        .track-number {
+            font-weight: 700;
+            color: var(--color-black);
+            font-size: 1.1rem;
+        }
+        
+        .track-name {
+            font-weight: 500;
+            color: var(--color-black);
+        }
+        
+        .track-duration {
+            color: var(--color-gray-medium);
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .review-section {
             margin: 3rem 0;
         }
-        .music-main {
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-        .music-sidebar {
-            background: var(--color-gray-light);
-            padding: 2rem;
-            border-radius: 8px;
-            height: fit-content;
-            position: sticky;
-            top: 2rem;
-        }
-        .music-section {
-            margin-bottom: 3rem;
-        }
-        .music-section h2 {
+        
+        .review-section h2 {
             font-family: var(--font-primary);
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 600;
+            color: var(--color-black);
             margin-bottom: 1.5rem;
+            position: relative;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--color-black);
         }
-        .music-section h3 {
+        
+        .review-section h3 {
             font-family: var(--font-primary);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 600;
+            color: var(--color-black);
             margin: 2rem 0 1rem 0;
         }
-        .music-section p {
+        
+        .review-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--color-black);
             margin-bottom: 1.5rem;
         }
-        .music-blockquote {
+        
+        .standout-track {
+            background: rgba(0, 0, 0, 0.02);
             border-left: 4px solid var(--color-black);
-            padding-left: 2rem;
-            margin: 2rem 0;
-            font-style: italic;
-            font-size: 1.2rem;
-            color: var(--color-gray-dark);
-            background: rgba(0,0,0,0.02);
             padding: 2rem;
+            margin: 2rem 0;
             border-radius: 0 8px 8px 0;
         }
-        .music-details {
-            margin-bottom: 2rem;
-        }
-        .music-details h4 {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--color-gray-medium);
-            margin-bottom: 0.75rem;
+        
+        .standout-track h4 {
+            font-size: 1.3rem;
+            color: var(--color-black);
+            margin-bottom: 1rem;
             font-weight: 600;
         }
-        .music-details p {
-            font-size: 0.95rem;
-            line-height: 1.6;
+        
+        .standout-track p {
+            color: var(--color-gray-dark);
+            font-style: italic;
+        }
+        
+        .lyrics-quote {
+            background: rgba(0, 0, 0, 0.02);
+            border-left: 4px solid var(--color-black);
+            padding: 2rem 2.5rem;
+            margin: 2.5rem 0;
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--color-gray-dark);
+            line-height: 1.8;
+            position: relative;
+        }
+        
+        .lyrics-quote::before {
+            content: '"';
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            font-size: 4rem;
+            color: var(--color-black);
+            opacity: 0.1;
+            font-family: Georgia, serif;
+        }
+        
+        .rating-box {
+            background: var(--color-gray-light);
+            color: var(--color-black);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin: 3rem 0;
+            border: 2px solid var(--color-black);
+        }
+        
+        .rating-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--color-gray-medium);
             margin-bottom: 1rem;
-        }
-        .music-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
-        .music-tag {
-            background: var(--color-black);
-            color: var(--color-white);
-            padding: 0.25rem 0.75rem;
-            font-size: 0.75rem;
-            border-radius: 9999px;
             font-weight: 500;
         }
-        .music-divider {
+        
+        .rating-stars {
+            font-size: 2.5rem;
+            color: var(--color-black);
+            margin-bottom: 1rem;
+        }
+        
+        .rating-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-black);
+        }
+        
+        .waveform-divider {
             height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+            background: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.3) 50%, transparent 100%);
             margin: 3rem 0;
         }
-        .music-image {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin: 2rem 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        .music-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin: 2rem 0;
-        }        
-        .music-gallery img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 4px;
-            transition: transform 0.3s ease;
-        }
-        .music-gallery img:hover {
-            transform: scale(1.05);
-        }
-        @media (max-width: 768px) {
-            .music-content {
+        
+        @media (max-width: 968px) {
+            .album-cover-wrapper {
                 grid-template-columns: 1fr;
+                text-align: center;
                 gap: 2rem;
             }
-            .music-title {
+            
+            .album-cover {
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            
+            .album-title {
                 font-size: 2.5rem;
             }
-            .music-metadata {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
+            
+            .album-meta {
+                justify-content: center;
             }
-            .music-sidebar {
-                position: static;
+            
+            .genre-tags {
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body class="bg-ink-texture">
-    <!-- Navigation -->
+
     <div id="navigation-container"></div>
     
-    <!-- Music Documentation Style Blog Header -->
-    <header class="music-header pt-24 pb-16 px-6">
-        <div class="music-header-content max-w-6xl mx-auto">
-            <div class="text-center mb-8">
-                <h1 class="music-title font-primary">OK Computer</h1>
-                <p class="music-subtitle">A Retrospective Review of an Echo of Opaque Yet Crystaline Sound</p>
-            </div>
+    <header class="album-header">
+        <div class="album-cover-wrapper">
+            <img src="imgs/ok_computer.jpeg" 
+                 alt="OK Computer Album Cover" 
+                 class="album-cover scroll-reveal">
             
-            <!-- Music-style Metadata -->
-            <div class="music-metadata">
-                <div class="metadata-item">
-                    <div class="metadata-label">Publication Date</div>
-                    <div class="metadata-value">October 4, 2025</div>
+            <div class="album-info scroll-reveal">
+                <h1 class="album-title font-primary">OK Computer</h1>
+                <p class="album-artist">Radiohead</p>
+                
+                <div class="album-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Released</span>
+                        <span class="meta-value">1997</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Label</span>
+                        <span class="meta-value">Parlophone</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Length</span>
+                        <span class="meta-value">53:21</span>
+                    </div>
                 </div>
-                <!-- <div class="metadata-item">
-                    <div class="metadata-label">Reading Time</div>
-                    <div class="metadata-value">8 minutes</div>
-                </div> -->
-                <div class="metadata-item">
-                    <div class="metadata-label">Category</div>
-                    <div class="metadata-value">Film Analysis</div>
+                
+                <div class="genre-tags">
+                    <span class="genre-tag">Alternative Rock</span>
+                    <span class="genre-tag">Art Rock</span>
+                    <span class="genre-tag">Experimental</span>
                 </div>
-                <div class="metadata-item">
-                    <div class="metadata-label">Artist</div>
-                    <div class="metadata-value">Radiohead</div>
-                </div>
-                <div class="metadata-item">
-                    <div class="metadata-label">Year</div>
-                    <div class="metadata-value">1997</div>
-                </div>
-                <div class="metadata-item">
-                    <div class="metadata-label">Rating</div>
-                    <div class="metadata-value">★★★★★</div>
-                </div>
-            </div>
-            
-            <!-- Tags -->
-            <div class="music-tags text-center">
-                <span class="music-tag">History</span>
-                <span class="music-tag">Drama</span>
             </div>
         </div>
     </header>
     
-    <!-- Main Content -->
-    <main class="max-w-6xl mx-auto px-6 py-12">
-        <!-- Featured Image -->
-        <div class="scroll-reveal mb-12">
-            <img src="imgs/lincoln.jpg" 
-                 alt="Citizen Kane Deep Focus">
+    <main class="review-container">
+        <div class="scroll-reveal review-section">
+            <h2>A Sonic Prophecy</h2>
+            <p>
+                In 1997, Radiohead released what would become not just an album, but a cultural touchstone—a prescient warning about technology, alienation, and the human condition wrapped in layers of distorted guitars, haunting vocals, and experimental soundscapes. <em>OK Computer</em> stands as a monument to what rock music could achieve when ambition meets execution.
+            </p>
+            <p>
+                This isn't just music to listen to; it's music to inhabit. From the opening riff of "Airbag" to the final, fading notes of "The Tourist," Radiohead constructs a complete world—dystopian, melancholic, yet strangely beautiful.
+            </p>
         </div>
-        
-        <!-- Content Layout -->
-        <div class="music-content">
-            <!-- Main Article Content -->
-            <div class="music-main">
-                <div class="scroll-reveal music-section">
-                    <h2>Introduction</h2>
-                    <p>
-                        Orson Welles' <em>Citizen Kane</em> (1941) represents a watershed moment in cinema history, fundamentally altering how filmmakers approach visual storytelling and narrative structure. Through innovative cinematography and a fragmented timeline, Welles constructs a meditation on memory, power, and the elusive nature of truth that continues to influence filmmakers today.
-                    </p>
-                    <p>
-                        This analysis explores how Welles uses visual storytelling techniques to construct a narrative around the fragmented nature of human memory and the search for meaning in a life lived. By examining the film's technical innovations and thematic concerns, we can understand how <em>Citizen Kane</em> revolutionized the language of cinema.
-                    </p>
-                </div>
-                
-                <div class="music-divider"></div>
-                
-                <div class="scroll-reveal music-section">
-                    <h2>Technical Innovation</h2>
-                    
-                    <h3>Deep Focus Cinematography</h3>
-                    <p>
-                        Gregg Toland's groundbreaking cinematography in <em>Citizen Kane</em> introduced deep focus photography to mainstream cinema, allowing both foreground and background elements to remain in sharp focus simultaneously. This technique created new possibilities for visual storytelling, enabling Welles to compose shots with multiple planes of action and meaning.
-                    </p>
-                    
-                    <div class="music-gallery">
-                        <img src="https://kimi-web-img.moonshot.cn/img/www.originalfilmart.com/e436089eeee751299f1d81a9cfd5ac3f5164f26e.jpg" alt="Deep Focus Example 1">
-                        <img src="https://kimi-web-img.moonshot.cn/img/www.originalfilmart.com/67b418e07580d5d8375339218e2ecca1604dd141.jpg" alt="Deep Focus Example 2">
-                    </div>
-                    
-                    <h3>Lighting and Shadow</h3>
-                    <p>
-                        The film's use of chiaroscuro lighting creates psychological depth and moral ambiguity, particularly in scenes depicting Kane's decline. The interplay of light and shadow serves as a visual metaphor for the character's internal state and the film's broader themes of truth and deception.
-                    </p>
-                    
-                    <div class="music-blockquote">
-                        "Rosebud..." The dying word that launches a thousand interpretations, whispered in darkness and never fully illuminated, much like the character himself.
-                    </div>
-                </div>
-                
-                <div class="music-divider"></div>
-                
-                <div class="scroll-reveal music-section">
-                    <h2>Thematic Analysis</h2>
-                    
-                    <h3>Memory and Identity</h3>
-                    <p>
-                        <em>Citizen Kane</em> presents memory as fragmented and unreliable, using multiple perspectives to construct a portrait of a man who remains fundamentally unknowable. Each narrator brings their own biases and limitations, suggesting that complete understanding of any human being is impossible.
-                    </p>
-                    
-                    <h3>The Corruption of Power</h3>
-                    <p>
-                        The film traces Kane's transformation from idealistic young journalist to isolated media mogul, examining how power corrupts and isolates. The narrative structure itself reflects this theme, with each flashback revealing another layer of Kane's character while simultaneously obscuring his true nature.
-                    </p>
-                    
-                    <h3>The Search for Meaning</h3>
-                    <p>
-                        The film's investigation into Kane's dying word becomes a meditation on the human search for meaning in a life lived. The ultimate revelation of Rosebud's significance suggests that meaning is often found in the smallest, most personal moments rather than in grand achievements or public recognition.
-                    </p>
-                </div>
-                
-                <div class="music-divider"></div>
-                
-                <div class="scroll-reveal music-section">
-                    <h2>Cultural Impact</h2>
-                    <p>
-                        <em>Citizen Kane</em>'s influence extends far beyond its technical innovations. The film's fragmented narrative structure and psychological depth paved the way for modern cinema's more complex approaches to storytelling. Directors from Martin Scorsese to Paul Thomas Anderson have cited the film as a major influence on their work.
-                    </p>
-                    <p>
-                        The film's exploration of media power and the construction of public persona remains remarkably relevant in our current era of social media and digital journalism. Kane's manipulation of news and public opinion anticipates contemporary concerns about media ownership and influence.
-                    </p>
-                </div>
-                
-                <div class="music-divider"></div>
-                
-                <div class="scroll-reveal music-section">
-                    <h2>Conclusion</h2>
-                    <p>
-                        <em>Citizen Kane</em> endures not merely as a technical achievement but as a profound meditation on the human condition. Its exploration of memory, power, and the search for meaning continues to resonate because it addresses universal aspects of human experience through the specific story of one man's life.
-                    </p>
-                    <p>
-                        Welles' masterpiece demonstrates how technical innovation in service of thematic depth can create art that transcends its historical moment. The film's influence on subsequent cinema proves that true innovation lies not in technique alone, but in the marriage of form and content to explore the fundamental questions of human existence.
-                    </p>
-                </div>
+
+        <div class="track-listing scroll-reveal">
+            <h3>Track Listing</h3>
+            <div class="track-item">
+                <span class="track-number">01.</span>
+                <span class="track-name">Airbag</span>
+                <span class="track-duration">4:44</span>
             </div>
-            
-            <!-- Sidebar with Technical Details -->
-            <aside class="music-sidebar">
-                <div class="scroll-reveal">
-                    <h3 class="font-primary text-xl font-semibold mb-4">Technical Specifications</h3>
-                    
-                    <div class="music-details">
-                        <h4>Director</h4>
-                        <p>Orson Welles</p>
-                    </div>
-                    
-                    <div class="music-details">
-                        <h4>Cinematographer</h4>
-                        <p>Gregg Toland</p>
-                    </div>
-                    
-                    <div class="music-details">
-                        <h4>Screenplay</h4>
-                        <p>Herman J. Mankiewicz<br>Orson Welles</p>
-                    </div>
-                    
-                    <div class="music-details">
-                        <h4>Runtime</h4>
-                        <p>119 minutes</p>
-                    </div>
-                    
-                    <div class="music-details">
-                        <h4>Aspect Ratio</h4>
-                        <p>1.37:1</p>
-                    </div>
-                    
-                    <div class="music-details">
-                        <h4>Key Techniques</h4>
-                        <p>Deep focus cinematography<br>Low-angle shots<br>Extreme depth of field<br>Innovative lighting design</p>
-                    </div>
-                    
-                    <div class="music-details">
-                        <h4>Notable Awards</h4>
-                        <p>Academy Award for Best Original Screenplay<br>Nominated for 9 Academy Awards</p>
-                    </div>
-                </div>
-            </aside>
+            <div class="track-item">
+                <span class="track-number">02.</span>
+                <span class="track-name">Paranoid Android</span>
+                <span class="track-duration">6:23</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">03.</span>
+                <span class="track-name">Subterranean Homesick Alien</span>
+                <span class="track-duration">4:27</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">04.</span>
+                <span class="track-name">Exit Music (For a Film)</span>
+                <span class="track-duration">4:24</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">05.</span>
+                <span class="track-name">Let Down</span>
+                <span class="track-duration">4:59</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">06.</span>
+                <span class="track-name">Karma Police</span>
+                <span class="track-duration">4:21</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">07.</span>
+                <span class="track-name">Fitter Happier</span>
+                <span class="track-duration">1:57</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">08.</span>
+                <span class="track-name">Electioneering</span>
+                <span class="track-duration">3:50</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">09.</span>
+                <span class="track-name">Climbing Up the Walls</span>
+                <span class="track-duration">4:45</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">10.</span>
+                <span class="track-name">No Surprises</span>
+                <span class="track-duration">3:48</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">11.</span>
+                <span class="track-name">Lucky</span>
+                <span class="track-duration">4:19</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">12.</span>
+                <span class="track-name">The Tourist</span>
+                <span class="track-duration">5:24</span>
+            </div>
+        </div>
+
+        <div class="waveform-divider scroll-reveal"></div>
+
+        <div class="scroll-reveal review-section">
+            <h2>The Sound of Alienation</h2>
+            <p>
+                What makes <em>OK Computer</em> extraordinary isn't just its sonic innovation—though there's plenty of that—but how perfectly the sound serves the content. Every glitchy electronic beat, every reverb-drenched guitar, every layered vocal harmonizes with Thom Yorke's lyrical exploration of modern anxiety.
+            </p>
+            <p>
+                The album opens with "Airbag," a rebirth anthem powered by processed drums and Phil Selway's intricate, jazz-influenced percussion. It's joyous and claustrophobic simultaneously—a microcosm of the entire record. Then comes "Paranoid Android," the album's centerpiece and perhaps Radiohead's greatest achievement: a six-minute, multi-movement epic that shifts from acoustic introspection to distorted fury and back again.
+            </p>
+        </div>
+
+        <div class="standout-track scroll-reveal">
+            <h4>🎵 Standout Track: "Paranoid Android"</h4>
+            <p>
+                "Paranoid Android" deserves special mention as one of rock's great epics. Like Queen's "Bohemian Rhapsody" or The Beatles' "A Day in the Life," it defies conventional song structure while remaining utterly compelling. The guitar work by Jonny Greenwood in the middle section—that cascading, harmonized riff—is both technically brilliant and emotionally devastating.
+            </p>
+        </div>
+
+        <div class="lyrics-quote scroll-reveal">
+            Ambition makes you look pretty ugly<br>
+            Kicking and squealing Gucci little piggy
+        </div>
+
+        <div class="scroll-reveal review-section">
+            <h3>Production and Atmosphere</h3>
+            <p>
+                Produced by Nigel Godrich alongside the band, <em>OK Computer</em> sounds unlike anything before or since. The production is simultaneously expansive and intimate—cavernous reverbs create space while close-mic'd details pull you in. Listen to "Let Down" through headphones and you'll hear a dozen layers of interlocking guitar parts, each one essential, creating a shimmering tapestry of sound.
+            </p>
+            <p>
+                "Fitter Happier," the album's interlude, uses a Macintosh SimpleText voice to recite a list of modern aspirations over unsettling piano. It's uncomfortable, nearly unbearable, and absolutely necessary—a palate cleanser that forces you to confront the album's themes head-on.
+            </p>
+        </div>
+
+        <div class="waveform-divider scroll-reveal"></div>
+
+        <div class="scroll-reveal review-section">
+            <h2>Themes and Legacy</h2>
+            <p>
+                <em>OK Computer</em> is fundamentally about disconnection—from others, from oneself, from meaning. Yet it achieves this through creating deep connection with its listeners. Songs like "No Surprises," with its glockenspiel and nursery-rhyme melody masking lyrics about quiet desperation, or "Climbing Up the Walls," with its orchestral string freakout, speak to universal feelings of anxiety and alienation.
+            </p>
+            <p>
+                The album's prescience is perhaps its most remarkable quality. Released before smartphones, before social media, before our current technological saturation, it nonetheless captured the emotional landscape we now inhabit. The "fitter, happier, more productive" mantra of self-optimization, the paranoia of constant surveillance, the crushing weight of information overload—Radiohead saw it all coming.
+            </p>
+        </div>
+
+        <div class="standout-track scroll-reveal">
+            <h4>🎵 Closing Thoughts: "The Tourist"</h4>
+            <p>
+                The album ends with "The Tourist," a song about slowing down in a world that demands constant acceleration. The final drum beat—three deliberate hits—serves as both punctuation and instruction: Stop. Pay attention. Be present. It's the perfect ending to an album about our inability to do just that.
+            </p>
+        </div>
+
+        <div class="rating-box scroll-reveal">
+            <div class="rating-label">Overall Rating</div>
+            <div class="rating-stars">★★★★★</div>
+            <div class="rating-text">Masterpiece</div>
+        </div>
+
+        <div class="scroll-reveal review-section">
+            <h2>Verdict</h2>
+            <p>
+                <em>OK Computer</em> isn't just one of the best albums of the 1990s—it's one of the essential artistic statements of the modern era. It redefined what rock music could be, what albums could accomplish, and how we think about the relationship between technology and humanity. Nearly three decades later, it hasn't aged; we've simply caught up to it.
+            </p>
+            <p>
+                For anyone who hasn't experienced this album, do yourself a favor: find a quiet space, put on good headphones, and listen from start to finish. Let it wash over you. It's not always comfortable, but the best art rarely is.
+            </p>
         </div>
     </main>
     

@@ -12,6 +12,7 @@
       category: 'film',
       categoryLabel: 'Film Review',
       genres: ['History', 'Drama'],
+      year: 2012,
       href: 'blogs/movies/lincoln_review',
       rating: 5,
     },
@@ -23,10 +24,11 @@
       image: 'resources/movies/2001.jpg',
       alt: '2001 film still',
       date: '2025-10-15',
-      readTime: '8 min read',
+      readTime: '4 min read',
       category: 'film',
       categoryLabel: 'Film Review',
       genres: ['Sci-Fi', 'Horror'],
+      year: 1968,
       href: 'blogs/movies/2001_review',
       rating: 5,
     },
@@ -138,7 +140,7 @@
         <div class="p-6">
           <div class="flex items-center mb-3">
             ${generateGenreTags(post.genres)}
-            <span class="ml-auto text-sm text-gray-500">2012</span>
+            <span class="ml-auto text-sm text-gray-500">${post.year}</span>
           </div>
           <h3 class="font-primary text-xl font-semibold mb-3">${post.title}</h3>
           ${generateStarRating(post.rating)}

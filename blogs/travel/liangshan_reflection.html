@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liangshan Yi Reflection - Richard Jiang</title>
+    <meta name="description" content="Elegant blog template with travel-documentation style inspired by Chartogne-Taillet">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="../../resources/favicon_io/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../../resources/favicon_io/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="../../resources/favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="../../resources/favicon_io/apple-touch-icon.png">
+    <link rel="icon" href="../../resources/favicon_io/android-chrome-192x192.png" sizes="192x192" type="image/png">
+    <link rel="icon" href="../../resources/favicon_io/android-chrome-512x512.png" sizes="512x512" type="image/png">
+    <link rel="manifest" href="../../resources/favicon_io/site.webmanifest">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Common CSS -->
+    <link rel="stylesheet" href="../../styles/common.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <style>
+        :root {
+            --color-gray-light: #f8f9fa;
+            --color-gray-medium: #6c757d;
+            --color-gray-dark: #343a40;
+        }
+        /* Travel Documentation Style */
+        .travel-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 2px solid var(--color-black);
+            position: relative;
+            overflow: hidden;
+        }
+        .travel-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('resources/hero-ink.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: 1;
+        }
+        .travel-header-content {
+            position: relative;
+            z-index: 2;
+        }
+        .travel-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .travel-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-gray-medium);
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+        .travel-metadata {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            margin: 2rem 0;
+        }
+        .metadata-item {
+            text-align: center;
+        }
+        .metadata-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-gray-medium);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        .metadata-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-black);
+        }
+        .travel-content {
+            /* Previously a 2-col grid (content + sidebar). Sidebar removed, so use single centered column */
+            display: block;
+            margin: 3rem 0;
+        }
+        .travel-main {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 48rem; /* ~768px readable line length */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .travel-sidebar {
+            background: var(--color-gray-light);
+            padding: 2rem;
+            border-radius: 8px;
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+        .travel-section {
+            margin-bottom: 3rem;
+        }
+        .travel-section h2 {
+            font-family: var(--font-primary);
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--color-black);
+        }
+        .travel-section h3 {
+            font-family: var(--font-primary);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem 0;
+        }
+        .travel-section p {
+            margin-bottom: 1.5rem;
+        }
+        .travel-blockquote {
+            border-left: 4px solid var(--color-black);
+            padding-left: 2rem;
+            margin: 2rem 0;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--color-gray-dark);
+            background: rgba(0,0,0,0.02);
+            padding: 2rem;
+            border-radius: 0 8px 8px 0;
+        }
+        .travel-details {
+            margin-bottom: 2rem;
+        }
+        .travel-details h4 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-gray-medium);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        .travel-details p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .travel-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .travel-tag {
+            background: var(--color-black);
+            color: var(--color-white);
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+        .travel-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+            margin: 3rem 0;
+        }
+        .travel-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .travel-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .travel-gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            transition: transform 0.3s ease;
+        }
+        .travel-gallery img:hover {
+            transform: scale(1.05);
+        }
+        /* Featured image width matches main content width */
+        .travel-featured {
+            max-width: 48rem; /* Same as .travel-main */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .travel-featured img {
+            width: 100%;
+            height: auto; /* preserve aspect ratio */
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .travel-content {
+                /* Keep simple single column on mobile */
+                display: block;
+            }
+            .travel-title {
+                font-size: 2.5rem;
+            }
+            .travel-metadata {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            .travel-sidebar {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body class="bg-ink-texture">
+    <canvas id="ripple-canvas"></canvas>
+    
+    <div id="navigation-container"></div>
+    
+    <!-- Travel Documentation Style Blog Header -->
+    <header class="travel-header pt-24 pb-16 px-6">
+        <div class="travel-header-content max-w-6xl mx-auto">
+            <div class="text-center mb-8">
+                <h1 class="travel-title font-primary">Liangshan Yi Autonomous Prefecture</h1>
+                <p class="travel-subtitle">A Retrospective Reflection</p>
+            </div>
+            
+            <!-- Travel-style Metadata -->
+            <div class="travel-metadata">
+                <div class="metadata-item">
+                    <div class="metadata-label">Publication Date</div>
+                    <div class="metadata-value">October 4, 2025</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Travel Date</div>
+                    <div class="metadata-value">Aug 6-13, 2025</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Location</div>
+                    <div class="metadata-value">Sichuan, China</div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-6 py-12">
+        <!-- Featured Image -->
+        <div class="scroll-reveal mb-12 travel-featured">
+            <img src="imgs/me_in_yi_mountains.jpg" 
+                 alt="Citizen Kane Deep Focus">
+        </div>
+        
+        <!-- Content Layout -->
+        <div class="travel-content">
+            <!-- Main Article Content -->
+            <div class="travel-main">
+                <div class="scroll-reveal travel-section">
+                    <h2>Introduction</h2>
+                    <p>
+                        Orson Welles' <em>Citizen Kane</em> (1941) represents a watershed moment in cinema history, fundamentally altering how travelmakers approach visual storytelling and narrative structure. Through innovative cinematography and a fragmented timeline, Welles constructs a meditation on memory, power, and the elusive nature of truth that continues to influence travelmakers today.
+                    </p>
+                    <p>
+                        This analysis explores how Welles uses visual storytelling techniques to construct a narrative around the fragmented nature of human memory and the search for meaning in a life lived. By examining the travel's technical innovations and thematic concerns, we can understand how <em>Citizen Kane</em> revolutionized the language of cinema.
+                    </p>
+                </div>
+                
+                <div class="travel-divider"></div>
+                <div class="scroll-reveal travel-section">
+                    <h2>Technical Innovation</h2>
+                    <h3>Deep Focus Cinematography</h3>
+                    <p>
+                        Gregg Toland's groundbreaking cinematography in <em>Citizen Kane</em> introduced deep focus photography to mainstream cinema, allowing both foreground and background elements to remain in sharp focus simultaneously. This technique created new possibilities for visual storytelling, enabling Welles to compose shots with multiple planes of action and meaning.
+                    </p>
+                    <div class="travel-gallery">
+                        <img src="https://kimi-web-img.moonshot.cn/img/www.originaltravelart.com/e436089eeee751299f1d81a9cfd5ac3f5164f26e.jpg" alt="Deep Focus Example 1">
+                        <img src="https://kimi-web-img.moonshot.cn/img/www.originaltravelart.com/67b418e07580d5d8375339218e2ecca1604dd141.jpg" alt="Deep Focus Example 2">
+                    </div>
+                    <h3>Lighting and Shadow</h3>
+                    <p>
+                        The travel's use of chiaroscuro lighting creates psychological depth and moral ambiguity, particularly in scenes depicting Kane's decline. The interplay of light and shadow serves as a visual metaphor for the character's internal state and the travel's broader themes of truth and deception.
+                    </p>
+                    <div class="travel-blockquote">
+                        "Rosebud..." The dying word that launches a thousand interpretations, whispered in darkness and never fully illuminated, much like the character himself.
+                    </div>
+                </div>
+                
+                <div class="travel-divider"></div>
+                <div class="scroll-reveal travel-section">
+                    <h2>Thematic Analysis</h2>
+                    <h3>Memory and Identity</h3>
+                    <p>
+                        <em>Citizen Kane</em> presents memory as fragmented and unreliable, using multiple perspectives to construct a portrait of a man who remains fundamentally unknowable. Each narrator brings their own biases and limitations, suggesting that complete understanding of any human being is impossible.
+                    </p>
+                    <h3>The Corruption of Power</h3>
+                    <p>
+                        The travel traces Kane's transformation from idealistic young journalist to isolated media mogul, examining how power corrupts and isolates. The narrative structure itself reflects this theme, with each flashback revealing another layer of Kane's character while simultaneously obscuring his true nature.
+                    </p>
+                    <h3>The Search for Meaning</h3>
+                    <p>
+                        The travel's investigation into Kane's dying word becomes a meditation on the human search for meaning in a life lived. The ultimate revelation of Rosebud's significance suggests that meaning is often found in the smallest, most personal moments rather than in grand achievements or public recognition.
+                    </p>
+                </div>
+                
+                <div class="travel-divider"></div>
+                <div class="scroll-reveal travel-section">
+                    <h2>Cultural Impact</h2>
+                    <p>
+                        <em>Citizen Kane</em>'s influence extends far beyond its technical innovations. The travel's fragmented narrative structure and psychological depth paved the way for modern cinema's more complex approaches to storytelling. Directors from Martin Scorsese to Paul Thomas Anderson have cited the travel as a major influence on their work.
+                    </p>
+                    <p>
+                        The travel's exploration of media power and the construction of public persona remains remarkably relevant in our current era of social media and digital journalism. Kane's manipulation of news and public opinion anticipates contemporary concerns about media ownership and influence.
+                    </p>
+                </div>
+                
+                <div class="travel-divider"></div>
+                <div class="scroll-reveal travel-section">
+                    <h2>Conclusion</h2>
+                    <p>
+                        <em>Citizen Kane</em> endures not merely as a technical achievement but as a profound meditation on the human condition. Its exploration of memory, power, and the search for meaning continues to resonate because it addresses universal aspects of human experience through the specific story of one man's life.
+                    </p>
+                    <p>
+                        Welles' masterpiece demonstrates how technical innovation in service of thematic depth can create art that transcends its historical moment. The travel's influence on subsequent cinema proves that true innovation lies not in technique alone, but in the marriage of form and content to explore the fundamental questions of human existence.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    
+    <!-- Components Loader -->
+    <script src="../../components.js"></script>
+    
+    <script>
+        // Scroll reveal functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const scrollElements = document.querySelectorAll('.scroll-reveal');
+            
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('revealed');
+                        }
+                    });
+                }, {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                });
+                
+                scrollElements.forEach(el => observer.observe(el));
+            } else {
+                scrollElements.forEach(el => el.classList.add('revealed'));
+            }
+        });
+    </script>
+    
+    <div id="footer-container"></div>
+    
+    <script src="/components.js"></script>
+    <script src="/router.js"></script>
+    <script src="/main.js"></script>
+</body>
+</html>
+```

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Article - Richard Jiang</title>
+    <meta name="description" content="Academic research template with clean, scholarly style.">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="../../resources/favicon_io/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../../resources/favicon_io/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="../../resources/favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="../../resources/favicon_io/apple-touch-icon.png">
+    <link rel="icon" href="../../resources/favicon_io/android-chrome-192x192.png" sizes="192x192" type="image/png">
+    <link rel="icon" href="../../resources/favicon_io/android-chrome-512x512.png" sizes="512x512" type="image/png">
+    <link rel="manifest" href="../../resources/favicon_io/site.webmanifest">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Common CSS -->
+    <link rel="stylesheet" href="../../styles/common.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        :root {
+            --color-accent: #457b9d;
+            --color-gray-light: #f8f9fa;
+            --color-gray-medium: #6c757d;
+            --color-gray-dark: #343a40;
+        }
+        body {
+            background: repeating-linear-gradient(135deg, #f8f9fa, #f8f9fa 40px, #e9ecef 40px, #e9ecef 80px);
+        }
+        .research-header {
+            background: linear-gradient(120deg, #fff 60%, #457b9d 100%);
+            border-bottom: 2px solid var(--color-black);
+            position: relative;
+        }
+        .research-title {
+            font-size: 2.5rem;
+            font-family: var(--font-primary);
+            font-weight: 700;
+        }
+        .research-metadata {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        .metadata-item {
+            text-align: center;
+        }
+        .metadata-label {
+            font-size: 0.8rem;
+            color: var(--color-gray-medium);
+            text-transform: uppercase;
+        }
+        .metadata-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .research-sidebar {
+            background: var(--color-white);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .research-section h2 {
+            font-family: var(--font-primary);
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--color-accent);
+            margin-bottom: 1rem;
+        }
+        .abstract {
+            font-style: italic;
+            background: #e9ecef;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 2rem;
+        }
+        .references {
+            font-size: 0.95rem;
+            color: var(--color-gray-dark);
+        }
+        .research-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .research-tag {
+            background: var(--color-accent);
+            color: var(--color-white);
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+        @media (max-width: 900px) {
+            .research-content {
+                flex-direction: column;
+            }
+            .research-sidebar {
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="ripple-canvas"></canvas>
+    
+    <div id="navigation-container"></div>
+    <header class="research-header pt-24 pb-8 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="research-title">Research Title</h1>
+            <p class="text-lg text-gray-600 mb-4">by Author(s)</p>
+            <div class="research-metadata">
+                <div class="metadata-item">
+                    <div class="metadata-label">Publication Date</div>
+                    <div class="metadata-value">October 4, 2025</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Field</div>
+                    <div class="metadata-value">Computer Science</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Keywords</div>
+                    <div class="metadata-value">AI, NLP</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Collaborators</div>
+                    <div class="metadata-value">Jane Doe</div>
+                </div>
+            </div>
+            <div class="research-tags justify-center">
+                <span class="research-tag">AI</span>
+                <span class="research-tag">Research</span>
+            </div>
+        </div>
+    </header>
+    <main class="max-w-6xl mx-auto px-6 py-12 flex gap-8 research-content">
+        <div class="flex-1">
+            <section class="abstract">
+                <strong>Abstract:</strong> Brief summary of the research, goals, and findings.
+            </section>
+            <section class="research-section">
+                <h2>Introduction</h2>
+                <p>Introduce the research topic, motivation, and background.</p>
+            </section>
+            <section class="research-section">
+                <h2>Methodology</h2>
+                <p>Describe the methods, experiments, and data used.</p>
+            </section>
+            <section class="research-section">
+                <h2>Results</h2>
+                <p>Present the main findings and analysis.</p>
+            </section>
+            <section class="research-section">
+                <h2>Discussion</h2>
+                <p>Interpret the results, limitations, and implications.</p>
+            </section>
+            <section class="research-section references">
+                <h2>References</h2>
+                <ul>
+                    <li>Reference 1</li>
+                    <li>Reference 2</li>
+                </ul>
+            </section>
+        </div>
+        <aside class="research-sidebar w-full md:w-80">
+            <h3 class="font-primary text-lg font-semibold mb-4">Quick Links</h3>
+            <ul class="list-disc ml-4 mb-6">
+                <li><a href="#" class="text-accent underline">Download PDF</a></li>
+                <li><a href="#" class="text-accent underline">Related Work</a></li>
+            </ul>
+            <h3 class="font-primary text-lg font-semibold mb-4">Contact</h3>
+            <p>Email: <a href="mailto:author@email.com" class="text-accent underline">author@email.com</a></p>
+        </aside>
+        </main>
+    
+    <div id="footer-container"></div>
+    
+    <script src="/components.js"></script>
+    <script src="/router.js"></script>
+    <script src="/main.js"></script>
+</body>
+</html>
+```

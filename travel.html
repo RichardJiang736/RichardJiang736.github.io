@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel - Richard Jiang</title>
+    <meta name="description" content="Travel experiences and cultural observations by Richard Jiang, exploring the intersection of place, memory, and artistic inspiration.">
+    
+    <link rel="icon" href="resources/favicon_io/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="resources/favicon_io/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="resources/favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="resources/favicon_io/apple-touch-icon.png">
+    <link rel="icon" href="resources/favicon_io/android-chrome-192x192.png" sizes="192x192" type="image/png">
+    <link rel="icon" href="resources/favicon_io/android-chrome-512x512.png" sizes="512x512" type="image/png">
+    <link rel="manifest" href="resources/favicon_io/site.webmanifest">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles/common.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <style>
+        @property --r {
+            syntax: '<percentage>';
+            inherits: true;
+            initial-value: 0%;
+        }
+        .ink-image-container {
+            position: relative;
+            overflow: hidden;
+            --ix: 50%;
+            --iy: 50%;
+            --r: 0%;
+        }
+        .ink-image-container::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('resources/travel/beijing_2025_bw.jpg');
+            background-size: cover;
+            background-position: center;
+            -webkit-mask-image: radial-gradient(
+                circle at var(--ix) var(--iy),
+                rgba(0,0,0,1) calc(var(--r) - 12%),
+                rgba(0,0,0,0.85) var(--r),
+                rgba(0,0,0,0) calc(var(--r) + 14%)
+            );
+            mask-image: radial-gradient(
+                circle at var(--ix) var(--iy),
+                rgba(0,0,0,1) calc(var(--r) - 12%),
+                rgba(0,0,0,0.85) var(--r),
+                rgba(0,0,0,0) calc(var(--r) + 14%)
+            );
+            transition: --r 420ms cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: mask-image, -webkit-mask-image, filter;
+            filter: url(#ink-wobble);
+            pointer-events: none;
+        }
+        .ink-image-container:hover::after { --r: 140%; }
+        .location-tag {
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-travel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('resources/travel-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        .timeline {
+            position: relative;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 2rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--color-black);
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 4rem;
+            margin-bottom: 3rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 1.5rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            background: var(--color-black);
+            border-radius: 50%;
+        }
+        .map-container {
+            height: 400px;
+            background: rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        .map-marker {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--color-black);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .map-marker:hover {
+            transform: translate(-50%, -50%) scale(1.5);
+            box-shadow: 0 0 0 4px rgba(0,0,0,0.2);
+        }
+        .map-marker::after {
+            content: attr(data-location);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--color-black);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .map-marker:hover::after {
+            opacity: 1;
+        }
+        
+        .featured-image-wrapper {
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .featured-image-wrapper img {
+            transition: transform 0.3s ease;
+        }
+        
+        .featured-image-wrapper:hover img {
+            transform: scale(1.08);
+        }
+    </style>
+</head>
+<body class="bg-ink-texture">
+    <svg width="0" height="0" style="position:absolute">
+        <filter id="ink-wobble">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="noise">
+                <animate attributeName="baseFrequency" values="0.9;1.1;0.9" dur="2.5s" repeatCount="indefinite" />
+        </filter>
+    </svg>
+    
+    <canvas id="ripple-canvas"></canvas>
+    
+    <div id="navigation-container"></div>
+    
+    <main>
+    <section class="hero-travel pt-16 pb-16 px-6">
+        <div class="hero-content max-w-6xl mx-auto text-center">
+            <h1 class="font-primary text-5xl md:text-7xl font-bold mb-6">Travel</h1>
+            <div class="w-24 h-1 bg-black mx-auto mb-8"></div>
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto">
+                Exploring the world through the lens of art, culture, and human connection. Each journey reveals new perspectives on the intersection of place and memory.
+            </p>
+        </div>
+    </section>
+    
+    <section class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="scroll-reveal mb-12">
+                <h2 class="font-primary text-3xl md:text-4xl font-bold mb-4">Featured Journey</h2>
+                <div class="w-16 h-1 bg-black mb-8"></div>
+            </div>
+            <div class="scroll-reveal grid lg:grid-cols-2 gap-12 items-center">
+                <div class="featured-image-wrapper overflow-hidden rounded-lg shadow-lg">
+                    <img src="resources/travel/liangshan.jpg" 
+                         alt="Liangshan Yi Autonomous Prefecture" 
+                         class="w-full object-cover">
+                </div>
+                <div>
+                    <div class="flex items-center mb-4">
+                        <span class="location-tag">China</span>
+                        <span class="location-tag">Mountains</span>
+                        <span class="ml-auto text-sm text-gray-500">Aug 2025</span>
+                    </div>
+                    <h3 class="font-primary text-3xl font-bold mb-4">Liangshan Yi Autonomous Prefecture</h3>
+                    <p class="text-lg mb-6 leading-relaxed">
+                        A lovely journey into the Liangshan Yi Autonomous Prefecture – and a truly precious one. Astounded by the diverse culture of Yi people – from their cultural practices down to something as fundamental as their language. An endeavour of preservation of Yi language and culture
+                    </p>
+                    <div class="space-y-4 mb-8">
+                        <div>
+                            <h4 class="font-semibold mb-2">Insights:</h4>
+                            <p class="text-gray-600">Yi language and cultural study. Into the unique Yi people's folk songs and community.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">Artistic Observations:</h4>
+                            <p class="text-gray-600">Mist and atmosphere. The relationship between physical and artistic perspective</p>
+                        </div>
+                    </div>
+                    <a href="blogs/travel/liangshan_reflection.html" class="inline-block bg-black text-white px-6 py-3 font-medium hover:bg-gray-800 transition-all">
+                        Read Full Journey
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Cultural Observations -->
+    <section class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="scroll-reveal mb-12">
+                <h2 class="font-primary text-3xl md:text-4xl font-bold mb-4">Journeys</h2>
+                <div class="w-16 h-1 bg-black mb-8"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <article class="travel-card bg-white shadow-lg cursor-pointer">
+                    <div class="aspect-video overflow-hidden ink-image-container">
+                        <img src="resources/travel/beijing_2025_coloured.jpg" 
+                             alt="Traditional Architecture" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="location-tag">Architecture</span>
+                            <span class="location-tag">Culture</span>
+                        </div>
+                        <h3 class="font-primary text-xl font-semibold mb-3">Beijing 2025</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3">
+                            My journey into China's capital city. 
+                        <div class="text-sm font-medium">Read More →</div>
+                    </div>
+                </article>
+                
+            </div>
+            
+            <div class="text-center mt-12">
+                <button id="load-more" class="px-8 py-3 border-2 border-black font-medium hover:bg-black hover:text-white transition-all">
+                    Load More Posts
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="scroll-reveal mb-12">
+                <h2 class="font-primary text-3xl md:text-4xl font-bold mb-4">Travel Timeline</h2>
+                <div class="w-16 h-1 bg-black mb-8"></div>
+            </div>
+            
+            <div class="scroll-reveal">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h3 class="font-primary text-xl font-semibold mb-2">Autumn 2025 - Sacred Mountains</h3>
+                        <p class="text-gray-600 mb-3">China</p>
+                        <p class="text-gray-700">
+                            Exploring ancient pilgrimage routes in China's sacred mountains, studying the relationship between landscape and spirituality in traditional culture.
+                        </p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3 class="font-primary text-xl font-semibold mb-2">Summer 2025 - Urban Rhythms</h3>
+                        <p class="text-gray-600 mb-3">Tokyo, Japan</p>
+                        <p class="text-gray-700">
+                            Immersing in Tokyo's unique blend of tradition and innovation, observing how modern urban environments influence artistic expression and cultural identity.
+                        </p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3 class="font-primary text-xl font-semibold mb-2">Spring 2025 - Digital Nomad</h3>
+                        <p class="text-gray-600 mb-3">Various Locations</p>
+                        <p class="text-gray-700">
+                            Experimenting with location-independent work while maintaining research projects, exploring how different environments affect creativity and productivity.
+                        </p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3 class="font-primary text-xl font-semibold mb-2">Winter 2023 - Cultural Exchange</h3>
+                        <p class="text-gray-600 mb-3">Seoul, South Korea</p>
+                        <p class="text-gray-700">
+                            Participating in cultural exchange programs, studying the intersection of traditional Korean aesthetics and contemporary digital art forms.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Travel Map -->
+    <section class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="scroll-reveal mb-12">
+                <h2 class="font-primary text-3xl md:text-4xl font-bold mb-4">Travel Map</h2>
+                <div class="w-16 h-1 bg-black mb-8"></div>
+                <p class="text-lg max-w-3xl">
+                    A visual representation of my travels, showing the connections between different cultures and the artistic insights gained from each location.
+                </p>
+            </div>
+            
+            <div class="scroll-reveal">
+                <div class="map-container">
+                    <div class="map-marker" style="top: 30%; left: 70%;" data-location="Beijing, China"></div>
+                    <div class="map-marker" style="top: 35%; left: 72%;" data-location="Shanghai, China"></div>
+                    <div class="map-marker" style="top: 40%; left: 75%;" data-location="Tokyo, Japan"></div>
+                    <div class="map-marker" style="top: 38%; left: 73%;" data-location="Seoul, South Korea"></div>
+                    <div class="map-marker" style="top: 45%; left: 20%;" data-location="San Francisco, USA"></div>
+                    <div class="map-marker" style="top: 50%; left: 25%;" data-location="Los Angeles, USA"></div>
+                    <div class="map-marker" style="top: 60%; left: 50%;" data-location="London, UK"></div>
+                    <div class="map-marker" style="top: 55%; left: 52%;" data-location="Paris, France"></div>
+                    
+                    <svg class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 1;">
+                        <path d="M 70% 30% Q 72% 35% 75% 40%" stroke="rgba(0,0,0,0.2)" stroke-width="2" fill="none" stroke-dasharray="5,5">
+                            <animate attributeName="stroke-dashoffset" values="0;-10" dur="1s" repeatCount="indefinite"/>
+                        </path>
+                        <path d="M 75% 40% Q 73% 38% 70% 35%" stroke="rgba(0,0,0,0.2)" stroke-width="2" fill="none" stroke-dasharray="5,5">
+                            <animate attributeName="stroke-dashoffset" values="0;-10" dur="1s" repeatCount="indefinite"/>
+                        </path>
+                        <path d="M 20% 45% Q 22% 48% 25% 50%" stroke="rgba(0,0,0,0.2)" stroke-width="2" fill="none" stroke-dasharray="5,5">
+                            <animate attributeName="stroke-dashoffset" values="0;-10" dur="1s" repeatCount="indefinite"/>
+                        </path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="scroll-reveal mb-12 text-center">
+                <h2 class="font-primary text-3xl md:text-4xl font-bold mb-4">Travel Philosophy</h2>
+                <div class="w-16 h-1 bg-black mx-auto mb-8"></div>
+            </div>
+            
+            <div class="scroll-reveal prose prose-lg max-w-none">
+                <p class="text-xl leading-relaxed mb-8">
+                    Travel, for me, is not about collecting destinations but about understanding the subtle ways that place shapes human experience. Each journey reveals how geography, culture, and history converge to create unique perspectives on life and art.
+                </p>
+                <p class="text-lg leading-relaxed mb-8">
+                    I believe in traveling slowly, allowing time for deep observation and reflection. Rather than rushing between tourist attractions, I prefer to spend time in local neighborhoods, observing daily life and understanding how communities organize themselves around shared values and traditions.
+                </p>
+                <p class="text-lg leading-relaxed mb-8">
+                    The most valuable insights often come from unexpected encounters—a conversation with a local artist, the way light falls through traditional architecture, or the rhythm of life in a foreign city. These moments reveal the universal human experiences that connect us across cultural boundaries.
+                </p>
+                <blockquote class="text-xl italic text-center border-l-4 border-black pl-6 my-12">
+                    "Travel is not really about leaving our homes, but leaving our habits."
+                </blockquote>
+                <p class="text-lg leading-relaxed">
+                    Through this blog, I hope to share not just the places I've visited, but the ways that travel has shaped my understanding of art, technology, and human connection. Each journey reinforces my belief that creativity thrives at the intersections between different ways of seeing and being in the world.
+                </p>
+            </div>
+        </div>
+    </section>
+    </main>
+    
+    <div id="footer-container"></div>
+    
+    <script src="components.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const travelCards = document.querySelectorAll('.travel-card');
+            
+            travelCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const title = card.querySelector('h3').textContent;
+                    console.log('Travel article clicked:', title);
+                });
+            });
+            
+            const pageSize = 6;
+            const loadMoreBtn = document.getElementById('load-more');
+            const allCards = Array.from(document.querySelectorAll('.travel-card'));
+            let shown = 0;
+
+            function applyInitialLimit() {
+                shown = 0;
+                allCards.forEach((card, idx) => {
+                    if (idx < pageSize) {
+                        card.style.display = '';
+                        shown++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                if (loadMoreBtn) {
+                    loadMoreBtn.style.display = allCards.length > shown ? '' : 'none';
+                }
+            }
+
+            function revealNext() {
+                const nextUpper = Math.min(shown + pageSize, allCards.length);
+                for (let i = shown; i < nextUpper; i++) {
+                    allCards[i].style.display = '';
+                }
+                shown = nextUpper;
+                if (loadMoreBtn && shown >= allCards.length) {
+                    loadMoreBtn.style.display = 'none';
+                }
+            }
+
+            applyInitialLimit();
+            
+            // Load more functionality (placeholder)
+            if (loadMoreBtn) {
+                loadMoreBtn.addEventListener('click', () => {
+                    loadMoreBtn.textContent = 'Loading...';
+                    loadMoreBtn.disabled = true;
+                    setTimeout(() => {
+                        loadMoreBtn.textContent = 'Load More Posts';
+                        loadMoreBtn.disabled = false;
+                        // Reveal next set
+                        revealNext();
+                    }, 1500);
+                });
+            }
+            
+            // Scroll reveal functionality
+            const scrollElements = document.querySelectorAll('.scroll-reveal');
+            
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('revealed');
+                        }
+                    });
+                }, {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                });
+                
+                scrollElements.forEach(el => observer.observe(el));
+            } else {
+                scrollElements.forEach(el => el.classList.add('revealed'));
+            }
+            
+            // Map marker interactions
+            const mapMarkers = document.querySelectorAll('.map-marker');
+            mapMarkers.forEach(marker => {
+                marker.addEventListener('click', () => {
+                    const location = marker.dataset.location;
+                    console.log('Map marker clicked:', location);
+                    // In a real implementation, this could show location details
+                });
+            });
+
+            // Ink-style hover: track cursor within Observation 1 to center reveal
+            const inkContainers = document.querySelectorAll('.ink-image-container');
+            inkContainers.forEach(container => {
+                container.addEventListener('mousemove', (e) => {
+                    const rect = container.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+                    container.style.setProperty('--ix', `${x}%`);
+                    container.style.setProperty('--iy', `${y}%`);
+                });
+                container.addEventListener('mouseleave', () => {
+                    // Reset to center for a clean next entry
+                    container.style.setProperty('--ix', `50%`);
+                    container.style.setProperty('--iy', `50%`);
+                });
+            });
+        });
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>

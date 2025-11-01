@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPA Performance Test - Richard Jiang</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; }
+        h2 { color: #666; margin-top: 0; }
+        .status { 
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .success { background: #4CAF50; color: white; }
+        .pending { background: #FFC107; color: #333; }
+        .error { background: #F44336; color: white; }
+        pre {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .metric:last-child { border-bottom: none; }
+        button {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #333; }
+    </style>
+</head>
+<body>
+    <h1>🚀 SPA Performance Test</h1>
+    
+    <div class="test-section">
+        <h2>Service Worker Status</h2>
+        <div id="sw-status">Checking...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Cache Status</h2>
+        <div id="cache-status">Checking...</div>
+        <button onclick="checkCache()">Refresh Cache Status</button>
+        <button onclick="clearCache()">Clear Cache</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Router Status</h2>
+        <div id="router-status">Checking...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Component Loader Status</h2>
+        <div id="component-status">Checking...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Performance Metrics</h2>
+        <div id="performance-metrics"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test Checklist</h2>
+        <ol>
+            <li>✅ Service Worker should be registered and active</li>
+            <li>✅ Critical assets should be cached</li>
+            <li>✅ Router should be initialized</li>
+            <li>✅ Components should load once and be cached</li>
+            <li>✅ Navigate to different pages - no navigation reload</li>
+            <li>✅ Smooth fade/slide transitions between pages</li>
+            <li>✅ Go offline and navigate - should still work</li>
+        </ol>
+    </div>
+
+    <script>
+        // Check Service Worker
+        async function checkServiceWorker() {
+            const statusDiv = document.getElementById('sw-status');
+            
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    if (registration) {
+                        const state = registration.active ? 'active' : 
+                                    registration.installing ? 'installing' : 
+                                    registration.waiting ? 'waiting' : 'unknown';
+                        statusDiv.innerHTML = `
+                            <div class="metric">
+                                <span>Service Worker:</span>
+                                <span class="status success">Registered</span>
+                            </div>
+                            <div class="metric">
+                                <span>State:</span>
+                                <strong>${state}</strong>
+                            </div>
+                            <div class="metric">
+                                <span>Scope:</span>
+                                <code>${registration.scope}</code>
+                            </div>
+                        `;
+                    } else {
+                        statusDiv.innerHTML = '<span class="status pending">Not registered yet - refresh the page</span>';
+                    }
+                } catch (error) {
+                    statusDiv.innerHTML = `<span class="status error">Error: ${error.message}</span>`;
+                }
+            } else {
+                statusDiv.innerHTML = '<span class="status error">Service Worker not supported</span>';
+            }
+        }
+        
+        // Check Cache
+        async function checkCache() {
+            const statusDiv = document.getElementById('cache-status');
+            
+            if ('caches' in window) {
+                try {
+                    const cacheNames = await caches.keys();
+                    const cacheInfo = [];
+                    
+                    for (const cacheName of cacheNames) {
+                        const cache = await caches.open(cacheName);
+                        const keys = await cache.keys();
+                        cacheInfo.push({
+                            name: cacheName,
+                            count: keys.length,
+                            items: keys.map(req => req.url)
+                        });
+                    }
+                    
+                    if (cacheInfo.length > 0) {
+                        let html = '';
+                        cacheInfo.forEach(info => {
+                            html += `
+                                <div class="metric">
+                                    <span><strong>${info.name}</strong></span>
+                                    <span class="status success">${info.count} items</span>
+                                </div>
+                            `;
+                        });
+                        statusDiv.innerHTML = html;
+                    } else {
+                        statusDiv.innerHTML = '<span class="status pending">No caches yet - navigate some pages</span>';
+                    }
+                } catch (error) {
+                    statusDiv.innerHTML = `<span class="status error">Error: ${error.message}</span>`;
+                }
+            } else {
+                statusDiv.innerHTML = '<span class="status error">Cache API not supported</span>';
+            }
+        }
+        
+        // Clear Cache
+        async function clearCache() {
+            if ('caches' in window) {
+                const cacheNames = await caches.keys();
+                await Promise.all(cacheNames.map(name => caches.delete(name)));
+                await checkCache();
+                alert('Cache cleared! Refresh the page to rebuild cache.');
+            }
+        }
+        
+        // Check Router
+        function checkRouter() {
+            const statusDiv = document.getElementById('router-status');
+            
+            if (window.spaRouter) {
+                statusDiv.innerHTML = `
+                    <div class="metric">
+                        <span>Router:</span>
+                        <span class="status success">Initialized</span>
+                    </div>
+                    <div class="metric">
+                        <span>Page Cache:</span>
+                        <strong>${window.spaRouter.pageCache ? window.spaRouter.pageCache.size : 0} pages cached</strong>
+                    </div>
+                `;
+            } else {
+                statusDiv.innerHTML = '<span class="status pending">Router not initialized - visit home page</span>';
+            }
+        }
+        
+        // Check Component Loader
+        function checkComponentLoader() {
+            const statusDiv = document.getElementById('component-status');
+            
+            if (window.componentLoader) {
+                const isInit = window.componentLoader.isInitialized();
+                statusDiv.innerHTML = `
+                    <div class="metric">
+                        <span>Component Loader:</span>
+                        <span class="status ${isInit ? 'success' : 'pending'}">${isInit ? 'Initialized' : 'Pending'}</span>
+                    </div>
+                `;
+            } else {
+                statusDiv.innerHTML = '<span class="status error">Component loader not found</span>';
+            }
+        }
+        
+        // Performance Metrics
+        function checkPerformance() {
+            const metricsDiv = document.getElementById('performance-metrics');
+            
+            if (window.performance && window.performance.timing) {
+                const timing = window.performance.timing;
+                const loadTime = timing.loadEventEnd - timing.navigationStart;
+                const domReady = timing.domContentLoadedEventEnd - timing.navigationStart;
+                
+                metricsDiv.innerHTML = `
+                    <div class="metric">
+                        <span>Page Load Time:</span>
+                        <strong>${loadTime}ms</strong>
+                    </div>
+                    <div class="metric">
+                        <span>DOM Ready:</span>
+                        <strong>${domReady}ms</strong>
+                    </div>
+                `;
+            } else {
+                metricsDiv.innerHTML = '<span class="status pending">Performance API not available</span>';
+            }
+        }
+        
+        // Run all checks
+        function runAllChecks() {
+            checkServiceWorker();
+            checkCache();
+            checkRouter();
+            checkComponentLoader();
+            checkPerformance();
+        }
+        
+        // Initial check
+        runAllChecks();
+        
+        // Recheck every 2 seconds
+        setInterval(runAllChecks, 2000);
+    </script>
+</body>
+</html>

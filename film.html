@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Film - Richard Jiang</title>
+    <meta name="description" content="Film reviews and analysis by Richard Jiang, exploring cinema through the lens of artistic expression and technical innovation.">
+    
+    <link rel="icon" href="resources/favicon_io/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="resources/favicon_io/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="resources/favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="resources/favicon_io/apple-touch-icon.png">
+    <link rel="icon" href="resources/favicon_io/android-chrome-192x192.png" sizes="192x192" type="image/png">
+    <link rel="icon" href="resources/favicon_io/android-chrome-512x512.png" sizes="512x512" type="image/png">
+    <link rel="manifest" href="resources/favicon_io/site.webmanifest">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/common.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <style>
+        .film-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(0,0,0,0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: 1;
+        }
+        
+        .film-card:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .hero-film {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-film::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%23000" opacity="0.1"/><circle cx="80" cy="40" r="1" fill="%23000" opacity="0.1"/><circle cx="40" cy="80" r="1.5" fill="%23000" opacity="0.1"/></svg>');
+            animation: float 20s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-10px) translateX(10px); }
+            50% { transform: translateY(-5px) translateX(-5px); }
+            75% { transform: translateY(-15px) translateX(5px); }
+            100% { transform: translateY(0) translateX(0); }
+        }
+        .featured-image-wrapper {
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+        .featured-image-wrapper img {
+            transition: transform 0.3s ease;
+        }
+        .featured-image-wrapper:hover img {
+            transform: scale(1.08);
+        }
+    </style>
+</head>
+<body class="bg-ink-texture">
+    <canvas id="ripple-canvas"></canvas>
+    
+    <div id="navigation-container"></div>
+    
+    <main>
+    <section class="hero-film pt-16 pb-16 px-6">
+        <div class="max-w-6xl mx-auto text-center relative z-10">
+            <h1 class="font-primary text-5xl md:text-7xl font-bold mb-6">Film</h1>
+            <div class="w-24 h-1 bg-black mx-auto mb-8"></div>
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto">
+                Exploring cinema as both art form and cultural artifact, analyzing the intersection of visual storytelling, technical innovation, and human emotion.
+            </p>
+        </div>
+    </section>
+    
+    <!-- Featured Review -->
+    <section class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="scroll-reveal mb-12">
+                <h2 class="font-primary text-3xl md:text-4xl font-bold mb-4">Featured Review</h2>
+                <div class="w-16 h-1 bg-black mb-8"></div>
+            </div>
+            
+            <div class="scroll-reveal grid lg:grid-cols-2 gap-12 items-center">
+                <div class="featured-image-wrapper overflow-hidden rounded-lg shadow-lg">
+                    <img src="resources/movies/lincoln.jpg" 
+                         alt="Lincoln" 
+                         class="w-full object-cover">
+                </div>
+                <div>
+                    <div class="flex items-center mb-4">
+                        <span class="genre-tag">History</span>
+                        <span class="genre-tag">Drama</span>
+                        <span class="ml-auto text-sm text-gray-500">2012</span>
+                    </div>
+                    <h3 class="font-primary text-3xl font-bold mb-4">Lincoln</h3>
+                    <div class="flex items-center mb-6">
+                        <div class="rating-stars mr-4">
+                            <span class="star filled"></span>
+                            <span class="star filled"></span>
+                            <span class="star filled"></span>
+                            <span class="star filled"></span>
+                            <span class="star filled"></span>
+                        </div>
+                        <span class="text-sm text-gray-600">5/5 Stars</span>
+                    </div>
+                    <p class="text-lg mb-6 leading-relaxed">
+                        Steven Spielberg’s <em>Lincoln</em> is a drill into moral gravity that's often compromised by political complexity. Through restrained cinematography and a tightly compressed timeline, the film distills a nation’s turning point into a meditation on perseverance, conscience, and the quiet architecture of real leadership.
+                    </p>
+                    <div class="space-y-4 mb-8">
+                        <div>
+                            <h4 class="font-semibold mb-2">Key Themes:</h4>
+                            <p class="text-gray-600">Endurance, Integrity, Legacy</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">Technical Innovation:</h4>
+                            <p class="text-gray-600">Deep focus cinematography, Masterful screenplay, Exquisite acting, Innovative production design</p>
+                        </div>
+                    </div>
+                    <a href="blogs/movies/lincoln_review" class="inline-block bg-black text-white px-6 py-3 font-medium hover:bg-gray-800 transition-all">
+                        Read Full Review
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Recent Reviews -->
+    <section class="py-16 px-6 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+            <div class="scroll-reveal mb-12">
+                <h2 class="font-primary text-3xl md:text-4xl font-bold mb-4">Recent Reviews</h2>
+                <div class="w-16 h-1 bg-black mb-8"></div>
+            </div>
+            
+            <div id="film-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Film Card 1 -->
+                <article class="film-card bg-white shadow-lg cursor-pointer">
+                    <div class="aspect-video overflow-hidden">
+                        <img src="resources/movies/jaws.jpg" 
+                             alt="Jaws" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="genre-tag">Adventure</span>
+                            <span class="genre-tag">Thriller</span>
+                            <span class="ml-auto text-sm text-gray-500">1975</span>
+                        </div>
+                        <h3 class="font-primary text-xl font-semibold mb-3">Jaws</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="rating-stars mr-3">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star half"></span>
+                            </div>
+                            <span class="text-sm text-gray-600">4.5/5</span>
+                        </div>
+                        <p class="text-gray-600 mb-4 line-clamp-3">
+                            First summer blockbuster. Examining of the film that sent Spielberg and Williams into stratosphere.
+                        </p>
+                        <a class="text-sm font-medium">Read Review →</a>
+                    </div>
+                </article>
+                
+                <!-- Film Card 3 -->
+                <article class="film-card bg-white shadow-lg cursor-pointer">
+                    <div class="aspect-video overflow-hidden">
+                        <img src="resources/movies/schindler.jpg"
+                             alt="Schinder's List" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="genre-tag">History</span>
+                            <span class="genre-tag">Drama</span>
+                            <span class="genre-tag">Black and white</span>
+                            <span class="ml-auto text-sm text-gray-500">1993</span>
+                        </div>
+                        <h3 class="font-primary text-xl font-semibold mb-3">Schinder's List</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="rating-stars mr-3">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                            </div>
+                            <span class="text-sm text-gray-600">5/5</span>
+                        </div>
+                        <p class="text-gray-600 mb-4 line-clamp-3">
+                            Spielberg's crown jewel. An epic, historical drama chronicling the heroic Oskar Schinder.
+                        </p>
+                        <div class="text-sm font-medium">Read Review →</div>
+                    </div>
+                </article>
+                
+                <!-- Film Card 4 -->
+                <article class="film-card bg-white shadow-lg cursor-pointer">
+                    <div class="aspect-video overflow-hidden">
+                        <img src="resources/movies/1900.jpg" 
+                             alt="The Legend of 1900" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="genre-tag">Music</span>
+                            <span class="genre-tag">Indie</span>
+                            <span class="genre-tag">Drama</span>
+                            <span class="ml-auto text-sm text-gray-500">1998</span>
+                        </div>
+                        <h3 class="font-primary text-xl font-semibold mb-3">The Legend of 1900</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="rating-stars mr-3">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star half"></span>
+                            </div>
+                            <span class="text-sm text-gray-600">4.5/5</span>
+                        </div>
+                        <p class="text-gray-600 mb-4 line-clamp-3">
+                            Beautifully written, elegantly shot, acted, and scored. Led by the poignant performance of Tim Roth.
+                        </p>
+                        <div class="text-sm font-medium">Read Review →</div>
+                    </div>
+                </article>
+                
+                <!-- Film Card 5 -->
+                <article class="film-card bg-white shadow-lg cursor-pointer">
+                    <div class="aspect-video overflow-hidden">
+                        <img src="resources/movies/jurassic_park.jpg" 
+                             alt="Jurassic Park" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="genre-tag">Sci-Fi</span>
+                            <span class="genre-tag">Adventure</span>
+                            <span class="ml-auto text-sm text-gray-500">1993</span>
+                        </div>
+                        <h3 class="font-primary text-xl font-semibold mb-3">Jurassic Park</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="rating-stars mr-3">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star half"></span>
+                            </div>
+                            <span class="text-sm text-gray-600">4.5/5</span>
+                        </div>
+                        <p class="text-gray-600 mb-4 line-clamp-3">
+                            Another Spielberg’s blockbuster. The dream of childhood brought to life on big screen
+                        </p>
+                        <div class="text-sm font-medium">Read Review →</div>
+                    </div>
+                </article>
+                
+                <!-- Film Card 6 -->
+                <article class="film-card bg-white shadow-lg cursor-pointer">
+                    <div class="aspect-video overflow-hidden">
+                        <img src="resources/movies/wind.jpg" 
+                             alt="Gone With the Wind" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="genre-tag">History</span>
+                            <span class="genre-tag">Romance</span>
+                            <span class="genre-tag">Drama</span>
+                            <span class="ml-auto text-sm text-gray-500">1940</span>
+                        </div>
+                        <h3 class="font-primary text-xl font-semibold mb-3">Gone With the Wind</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="rating-stars mr-3">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star half"></span>
+                            </div>
+                            <span class="text-sm text-gray-600">4.5/5</span>
+                        </div>
+                        <p class="text-gray-600 mb-4 line-clamp-3">
+                            "A superb example of Hollywood's art and a time capsule of weathering sentimentality for a Civilization"
+                        </p>
+                        <div class="text-sm font-medium">Read Review →</div>
+                    </div>
+                </article>
+
+                <!-- Film Card 7 -->
+                <article class="film-card bg-white shadow-lg cursor-pointer">
+                    <div class="aspect-video overflow-hidden">
+                        <img src="resources/movies/2049.jpg" 
+                             alt="The Blade Runner Series" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="genre-tag">Sci-Fi</span>
+                            <span class="genre-tag">Horror</span>
+                            <span class="genre-tag">Action</span>
+                            <span class="ml-auto text-sm text-gray-500">1981+2016</span>
+                        </div>
+                        <h3 class="font-primary text-xl font-semibold mb-3">The <em>Blade Runner</em> Series</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="rating-stars mr-3">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star half"></span>
+                            </div>
+                            <span class="text-sm text-gray-600">4.5/5</span>
+                        </div>
+                        <p class="text-gray-600 mb-4 line-clamp-3">
+                            "Visually stunning, narratively satisfying and philosophically profound." Blade Runner series is a must-watch for all
+                        </p>
+                        <div class="text-sm font-medium">Read Review →</div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-12">
+                <button id="load-more" class="px-8 py-3 border-2 border-black font-medium hover:bg-black hover:text-white transition-all">
+                    Load More Posts
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Analysis Section -->
+    <section class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="scroll-reveal mb-12">
+                <h2 class="font-primary text-3xl md:text-4xl font-bold mb-4">Film Analysis</h2>
+                <div class="w-16 h-1 bg-black mb-8"></div>
+                <p class="text-lg max-w-3xl">
+                    Beyond individual reviews, I explore the broader themes and techniques that define cinematic art, examining how filmmakers use visual language to convey complex ideas and emotions.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="scroll-reveal">
+                    <h3 class="font-primary text-2xl font-semibold mb-6">Visual Storytelling Techniques</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-semibold mb-2">Deep Focus Cinematography</h4>
+                            <p class="text-gray-600">
+                                Exploring how filmmakers like Gregg Toland and Orson Welles used deep focus to create complex visual compositions that allow viewers to choose their own points of attention within the frame.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">Lighting and Shadow</h4>
+                            <p class="text-gray-600">
+                                Analyzing the use of chiaroscuro lighting in film noir and how it creates psychological depth and moral ambiguity in visual storytelling.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">Camera Movement</h4>
+                            <p class="text-gray-600">
+                                Examining how camera movement—from static compositions to complex tracking shots—can guide audience emotional response and narrative understanding.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="scroll-reveal">
+                    <h3 class="font-primary text-2xl font-semibold mb-6">Thematic Analysis</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-semibold mb-2">The American Dream</h4>
+                            <p class="text-gray-600">
+                                How cinema reflects and critiques the American Dream, from the optimism of classical Hollywood to the disillusionment of New Hollywood and beyond.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">Identity and Memory</h4>
+                            <p class="text-gray-600">
+                                Exploring films that investigate the nature of personal identity and the role of memory in constructing our sense of self and reality.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">Moral Complexity</h4>
+                            <p class="text-gray-600">
+                                Analyzing how modern cinema moves beyond simple good vs. evil narratives to explore the gray areas of human morality and ethical decision-making.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </main>
+    
+    <!-- Footer Container (loaded dynamically) -->
+    <div id="footer-container"></div>
+    
+    <!-- Shared Scripts -->
+    <script src="components.js"></script>
+    <script src="posts.js"></script>
+    <script>
+        // Film card interactions
+        document.addEventListener('DOMContentLoaded', () => {
+            // Render dynamic Film posts from shared data at the top of the grid
+            const filmGrid = document.getElementById('film-grid');
+            if (window.BLOG_POSTS && window.renderBlogCards && filmGrid) {
+                const dynamic = document.createElement('div');
+                dynamic.className = 'contents';
+                const filmPosts = window.BLOG_POSTS.filter(p => p.category === 'film');
+                window.renderBlogCards(dynamic, filmPosts, { cardType: 'film' });
+                const staticCards = Array.from(filmGrid.children);
+                filmGrid.innerHTML = '';
+                filmGrid.append(...dynamic.children);
+                filmGrid.append(...staticCards);
+                // Cards already rendered with film-card style
+            }
+            const filmCards = document.querySelectorAll('.film-card, #film-grid .blog-card');
+            
+            filmCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const title = card.querySelector('h3').textContent;
+                    console.log('Film review clicked:', title);
+                    // In a real implementation, this would navigate to the full review
+                });
+            });
+
+            // Pagination: show only first 6 initially, reveal more on click
+            const pageSize = 6;
+            const loadMoreBtn = document.getElementById('load-more');
+            const allCards = Array.from(document.querySelectorAll('#film-grid .film-card, #film-grid .blog-card'));
+            let shown = 0;
+
+            function applyInitialLimit() {
+                shown = 0;
+                allCards.forEach((card, idx) => {
+                    if (idx < pageSize) {
+                        card.style.display = '';
+                        shown++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                if (loadMoreBtn) {
+                    loadMoreBtn.style.display = allCards.length > shown ? '' : 'none';
+                }
+            }
+
+            function revealNext() {
+                const nextUpper = Math.min(shown + pageSize, allCards.length);
+                for (let i = shown; i < nextUpper; i++) {
+                    allCards[i].style.display = '';
+                }
+                shown = nextUpper;
+                if (loadMoreBtn && shown >= allCards.length) {
+                    loadMoreBtn.style.display = 'none';
+                }
+            }
+
+            applyInitialLimit();
+
+            if (loadMoreBtn) {
+                loadMoreBtn.addEventListener('click', () => {
+                    loadMoreBtn.textContent = 'Loading...';
+                    loadMoreBtn.disabled = true;
+                    setTimeout(() => {
+                        loadMoreBtn.textContent = 'Load More Posts';
+                        loadMoreBtn.disabled = false;
+                        revealNext();
+                    }, 500);
+                });
+            }
+            
+            // Scroll reveal functionality
+            const scrollElements = document.querySelectorAll('.scroll-reveal');
+            
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('revealed');
+                        }
+                    });
+                }, {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                });
+                
+                scrollElements.forEach(el => observer.observe(el));
+            } else {
+                scrollElements.forEach(el => el.classList.add('revealed'));
+            }
+        });
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>

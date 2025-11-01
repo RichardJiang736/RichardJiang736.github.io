@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogs - Richard Jiang</title>
+    <meta name="description" content="Explore Richard Jiang's collection of film reviews, music analysis, ML research projects, and technical explorations.">
+    
+    <link rel="icon" href="resources/favicon_io/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="resources/favicon_io/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="resources/favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="resources/favicon_io/apple-touch-icon.png">
+    <link rel="icon" href="resources/favicon_io/android-chrome-192x192.png" sizes="192x192" type="image/png">
+    <link rel="icon" href="resources/favicon_io/android-chrome-512x512.png" sizes="512x512" type="image/png">
+    <link rel="manifest" href="resources/favicon_io/site.webmanifest">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/common.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <style>
+        .blog-card { 
+            opacity: 0; 
+            transform: translateY(16px); 
+            will-change: transform, opacity;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .blog-card.is-visible { opacity: 1; transform: translateY(0); }
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .blog-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(0,0,0,0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .blog-card:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+        
+        /* Override Tailwind for genre tags */
+        .genre-tag {
+            background: rgba(0,0,0,0.1) !important;
+            color: #000000 !important;
+        }
+        
+        .filter-btn {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .filter-btn.active {
+            background: var(--color-black);
+            color: var(--color-white);
+        }
+        .filter-btn:hover {
+            background: var(--color-black);
+            color: var(--color-white);
+        }
+        .search-container {
+            position: relative;
+        }
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-top: none;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        .search-results.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .category-film { border-left: 4px solid #000000; }
+        .category-music { border-left: 4px solid #333333; }
+        .category-research { border-left: 4px solid #666666; }
+        .category-projects { border-left: 4px solid #999999; }
+    </style>
+</head>
+<body class="bg-ink-texture">
+    <canvas id="ripple-canvas"></canvas>
+    
+    <div id="navigation-container"></div>
+    
+    <main>
+    <section class="pt-16 pb-16 px-6">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="font-primary text-5xl md:text-7xl font-bold mb-6">Blogs</h1>
+            <div class="w-24 h-1 bg-black mx-auto mb-8"></div>
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto">
+                "Thought is the enemy of flow"
+            </p>
+        </div>
+    </section>
+    
+    <section class="pb-12 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="search-container max-w-md mx-auto mb-8">
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        placeholder="Search blogs..." 
+                        class="w-full px-4 py-3 border-2 border-black/20 focus:border-black outline-none bg-white/80"
+                    >
+                    <svg class="absolute right-3 top-3 w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <div id="search-results" class="search-results"></div>
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button class="filter-btn active px-6 py-3 border-2 border-black font-medium" data-category="all">
+                    All Posts
+                </button>
+                <button class="filter-btn px-6 py-3 border-2 border-black font-medium" data-category="film">
+                    Film Reviews
+                </button>
+                <button class="filter-btn px-6 py-3 border-2 border-black font-medium" data-category="music">
+                    Music
+                </button>
+                <button class="filter-btn px-6 py-3 border-2 border-black font-medium" data-category="research">
+                    Research
+                </button>
+                <button class="filter-btn px-6 py-3 border-2 border-black font-medium" data-category="projects">
+                    Projects
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <section class="pb-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div id="blog-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <article class="blog-card bg-white border border-black/10 cursor-pointer" data-category="projects">
+                    <div class="aspect-video overflow-hidden">
+                        <img src="resources/projects/freyaAI.jpg" 
+                             alt="FreyaAI"
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="category-projects genre-tag">Projects</span>
+                            <span class="ml-auto text-sm text-gray-500">Dec 15, 2025</span>
+                        </div>
+                        <h3 class="font-primary text-xl font-semibold mb-3">FreyaAI</h3>
+                        <p class="text-gray-600 mb-4 line-clamp-3">Describe your mood in words or upload a photo. Features NLP with Darwin's emotion taxonomy</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-500">8 min read</span>
+                            <span class="text-sm font-medium">Read More →</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            
+            <!-- Load More Button -->
+            <div class="text-center mt-12">
+                <button src="blogs/projects/freyaAI_technical.html" id="load-more" class="px-8 py-3 border-2 border-black font-medium hover:bg-black hover:text-white transition-all">
+                    Load More Posts
+                </button>
+            </div>
+        </div>
+    </section>
+    </main>
+    
+    <!-- Footer Container (loaded dynamically) -->
+    <div id="footer-container"></div>
+    
+    <!-- Shared Scripts -->
+    <script src="components.js"></script>
+    <script src="posts.js"></script>
+    <script>
+        // Blog filtering functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const blogGrid = document.getElementById('blog-grid');
+            
+            // 1) Render shared Film + Music posts at the top of All Posts
+            if (window.BLOG_POSTS && window.renderBlogCards) {
+                // Gather existing static cards first
+                const staticCards = Array.from(blogGrid.children);
+                // Create a temporary container to hold dynamic posts
+                const dynamicContainer = document.createElement('div');
+                dynamicContainer.id = 'blog-grid-dynamic';
+                dynamicContainer.className = 'contents';
+                // Render only film + music from shared data
+                const featured = window.BLOG_POSTS.filter(p => ['film','music'].includes(p.category));
+                window.renderBlogCards(dynamicContainer, featured);
+                // Rebuild grid: dynamic first, then static
+                blogGrid.innerHTML = '';
+                blogGrid.append(...dynamicContainer.children);
+                blogGrid.append(...staticCards);
+            }
+            
+            const blogCards = () => document.querySelectorAll('#blog-grid .blog-card');
+            const searchInput = document.getElementById('search-input');
+            const searchResults = document.getElementById('search-results');
+            
+            // Helper: animate cards into view with a small stagger
+            function animateIn(cards) {
+                const arr = Array.from(cards);
+                arr.forEach((card, idx) => {
+                    // reset hidden state
+                    card.style.display = '';
+                    // ensure will start hidden by CSS, then reveal with stagger
+                    requestAnimationFrame(() => {
+                        setTimeout(() => card.classList.add('is-visible'), idx * 60);
+                    });
+                });
+            }
+
+            // Filter functionality
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const category = btn.dataset.category;
+                    
+                    // Update active button
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // Filter cards using class-based animation (no inline style thrash)
+                    const toShow = [];
+                    blogCards().forEach(card => {
+                        const match = category === 'all' || card.dataset.category === category;
+                        if (match) {
+                            toShow.push(card);
+                        } else {
+                            // hide with transition, then none
+                            card.classList.remove('is-visible');
+                            card.addEventListener('transitionend', () => {
+                                card.style.display = 'none';
+                            }, { once: true });
+                        }
+                    });
+                    // Show matched after a tick to allow hides to start
+                    requestAnimationFrame(() => animateIn(toShow));
+                });
+            });
+            
+            // Search functionality
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                
+                if (query.length > 2) {
+                    const results = Array.from(blogCards()).filter(card => {
+                        const title = card.querySelector('h3').textContent.toLowerCase();
+                        const content = card.querySelector('p').textContent.toLowerCase();
+                        return title.includes(query) || content.includes(query);
+                    });
+                    
+                    showSearchResults(results, query);
+                } else {
+                    searchResults.classList.remove('show');
+                }
+            });
+            
+            function showSearchResults(results, query) {
+                searchResults.innerHTML = '';
+                
+                if (results.length === 0) {
+                    searchResults.innerHTML = '<div class="p-4 text-gray-500">No results found</div>';
+                } else {
+                    results.slice(0, 5).forEach(card => {
+                        const title = card.querySelector('h3').textContent;
+                        const category = card.querySelector('.px-3').textContent;
+                        
+                        const resultItem = document.createElement('div');
+                        resultItem.className = 'p-4 hover:bg-gray-50 cursor-pointer border-b border-gray-100';
+                        resultItem.innerHTML = `
+                            <div class="font-medium">${title}</div>
+                            <div class="text-sm text-gray-500">${category}</div>
+                        `;
+                        
+                        resultItem.addEventListener('click', () => {
+                            card.scrollIntoView({ behavior: 'smooth' });
+                            searchResults.classList.remove('show');
+                            searchInput.value = '';
+                        });
+                        
+                        searchResults.appendChild(resultItem);
+                    });
+                }
+                
+                searchResults.classList.add('show');
+            }
+            
+            // Click outside to close search results
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-container')) {
+                    searchResults.classList.remove('show');
+                }
+            });
+            
+            // Load more functionality (placeholder)
+            document.getElementById('load-more').addEventListener('click', () => {
+                const btn = document.getElementById('load-more');
+                btn.textContent = 'Loading...';
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    btn.textContent = 'Load More Posts';
+                    btn.disabled = false;
+                    // In a real implementation, this would load more posts from an API
+                }, 1500);
+            });
+            
+            // Initial appear animation for current cards
+            animateIn(blogCards());
+        });
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>

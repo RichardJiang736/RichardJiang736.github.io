@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lincoln Review - Richard Jiang</title>
+    <meta name="description" content="Elegant blog template with film-documentation style inspired by Chartogne-Taillet">
+    
+    <link rel="icon" href="../../resources/favicon_io/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../../resources/favicon_io/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="../../resources/favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="../../resources/favicon_io/apple-touch-icon.png">
+    <link rel="icon" href="../../resources/favicon_io/android-chrome-192x192.png" sizes="192x192" type="image/png">
+    <link rel="icon" href="../../resources/favicon_io/android-chrome-512x512.png" sizes="512x512" type="image/png">
+    <link rel="manifest" href="../../resources/favicon_io/site.webmanifest">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles/common.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <style>
+        :root {
+            --color-gray-light: #f8f9fa;
+            --color-gray-medium: #6c757d;
+            --color-gray-dark: #343a40;
+        }
+        /* film Documentation Style */
+        .film-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 2px solid var(--color-black);
+            position: relative;
+            overflow: hidden;
+        }
+        .film-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('resources/hero-ink.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: 1;
+        }
+        .film-header-content {
+            position: relative;
+            z-index: 2;
+        }
+        .film-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .film-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-gray-medium);
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+        .film-metadata {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            margin: 2rem 0;
+        }
+        .metadata-item {
+            text-align: center;
+        }
+        .metadata-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-gray-medium);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        .metadata-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-black);
+        }
+        .film-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            margin: 3rem 0;
+        }
+        .film-main {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        .film-sidebar {
+            background: var(--color-gray-light);
+            padding: 2rem;
+            border-radius: 8px;
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+        .film-section {
+            margin-bottom: 3rem;
+        }
+        .film-section h2 {
+            font-family: var(--font-primary);
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--color-black);
+        }
+        .film-section h3 {
+            font-family: var(--font-primary);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem 0;
+        }
+        .film-section p {
+            margin-bottom: 1.5rem;
+        }
+        .film-blockquote {
+            border-left: 4px solid var(--color-black);
+            padding-left: 2rem;
+            margin: 2rem 0;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--color-gray-dark);
+            background: rgba(0,0,0,0.02);
+            padding: 2rem;
+            border-radius: 0 8px 8px 0;
+        }
+        .film-details {
+            margin-bottom: 2rem;
+        }
+        .film-details h4 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-gray-medium);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        .film-details p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .film-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .film-tag {
+            background: var(--color-black);
+            color: var(--color-white);
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+        .film-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+            margin: 3rem 0;
+        }
+        .film-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .film-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .film-gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            transition: transform 0.3s ease;
+        }
+        .film-gallery img:hover {
+            transform: scale(1.05);
+        }
+        .film-gallery img.full-image {
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+        }
+        @media (max-width: 768px) {
+            .film-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .film-title {
+                font-size: 2.5rem;
+            }
+            .film-metadata {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            .film-sidebar {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body class="bg-ink-texture">
+    <canvas id="ripple-canvas"></canvas>
+
+    <div id="navigation-container"></div>
+    
+    <header class="film-header pt-16 pb-16 px-6">
+        <div class="film-header-content max-w-6xl mx-auto">
+            <div class="text-center mb-8">
+                <h1 class="film-title font-primary">Lincoln</h1>
+                <p class="film-subtitle">A Film Review and Reflection</p>
+            </div>
+            
+            <div class="film-metadata">
+                <div class="metadata-item">
+                    <div class="metadata-label">Publication Date</div>
+                    <div class="metadata-value">October 4, 2025</div>
+                </div>
+                <!-- <div class="metadata-item">
+                    <div class="metadata-label">Reading Time</div>
+                    <div class="metadata-value">8 minutes</div>
+                </div> -->
+                <div class="metadata-item">
+                    <div class="metadata-label">Category</div>
+                    <div class="metadata-value">Film Analysis</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Director</div>
+                    <div class="metadata-value">Steven Spielberg</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Year</div>
+                    <div class="metadata-value">2012</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Rating</div>
+                    <div class="metadata-value">★★★★★</div>
+                </div>
+            </div>
+            
+            <div class="film-tags text-center">
+                <span class="film-tag">History</span>
+                <span class="film-tag">Drama</span>
+            </div>
+        </div>
+    </header>
+    
+    <main class="max-w-6xl mx-auto px-6 py-12">
+        <div class="scroll-reveal mb-12">
+            <img src="imgs/lincoln.jpg" 
+                 alt="Citizen Kane Deep Focus">
+        </div>
+        
+        <div class="film-content">
+            <div class="film-main">
+                <div class="scroll-reveal film-section">
+                    <h2>Introduction</h2>
+                    <p>
+                        Throughout history, we’ve seen gods of war and conquerors—figures we admired but could never truly follow. Individuals with immense power who could have done good, yet chose otherwise. Especially in times of crisis, who would want a leader who stumbles from defeat to defeat, only to respond not with humility or growth, but with fury—casting blame on the people in a desperate attempt to preserve the illusion of control? That illusion, once intoxicating, becomes a poison: dragging him deeper into denial, until he’s consumed by the void and swallowed by the very hell he helped create. 
+                    </p>
+                    <p>
+                        Lincoln, by contrast, offers a portrait of leadership not built on invincibility, but on endurance—where moral clarity and quiet resolve eclipse the spectacle of power, and where the burden of history is shouldered, not wielded.
+                    </p>
+                </div>
+                
+                <div class="film-divider"></div>
+                <div class="scroll-reveal film-section">
+                    <h2>In the Lens of Storytellers...</h2>
+                    <p>
+                        In general, film reviewers - like me - opt to analyse the key technical features employed by the film to gain a lucid understanding of how the story unfolds and whether the techniques employed were implemented appropriately to fit the given circumstances. But in the case of Spielberg films, and this film in particular, the way the story was told is arguably more important here.
+                    </p>
+                    <p>
+                        Take it this way. Across human culture, how were stories generally passed down? A language with a sophisticated writing system, that's easy. But for most languages, stories were passed down orally. Nevertheless, whether written down or spoken, a good screenplay functions to deliver both memorably. And to document the historical event of passing the 13th Amendment to abolish slavery - led by arguably the most widely celebrated president in US history - <b>memorably</b> was an immense and difficult task, due to the complexities surrounding the event that make it hard for audiences to fully grasp not only the pressure Lincoln was under at the time, but also the need to illuminate his defining traits simultaneously. That's why for almost a century no one dared to made a film on Lincoln - at least successfully - precisely because of the immense responsibility entailed. Till Tony Kushner come along and wrote this kickass screenplay. 
+                    </p>
+                    <p>
+                        Perseverance, diligent, courage, and most imporant of all - having the right heart in mind. These are traits that most inspired me at least. And Lincoln is the epitome of all of those traits. To illustrate them, Kushner ostensiblty opt in for a relatively fast pacing storyline, condensing the event that took in the course of 30 days down to a 2 hour feature. However, Kushner establish these traits andante. His perseverance was firmly established in scene 3, where despite Mr and Mrs. Jolly (representing the people in that given moment) expressed their negative view towards passing the amendment if not for the cause of ending the Civil War but to abolish slavery, he continued to push forward and hold onto his moral beliefs.
+                    </p>
+                    <div class="film-gallery">
+                        <img src="imgs/lincoln_stature_3.png" alt="Lincoln traveling on steam boat" class="full-image">
+                    </div>
+                    <p>
+                        His diligence surfaces across the film, but one moment stands out most vividly: Lincoln spending the night in the War Cabinet with two telegraph operators, personally overseeing the message to Grant long after others had retired (more about this below). 
+                    </p>
+                    <p>
+                        And through it all runs the thread of his heart. It reveals itself subtly throughout the film. But most powerfully in the scene come set in Lincoln's Office, where Lincoln delivered his ultimatum:
+                    </p>
+                    <div class="film-blockquote">
+                        "Not only of the millions now in bondage but of unborn millions to come." 
+                    </div>
+                </div>
+                
+                <div class="film-divider"></div>
+                <div class="scroll-reveal film-section">
+                    <h2>In the Lens of Artists...</h2>
+                    <h3>Cinematography, Production and Sound</h3>
+                    <p>
+                        Spielberg opt to shoot in 35mm film, a practical and appropriate choice for the giving circumstances as this is not a film focus on visual spectacles - it's about delivering performance and telling a story. It's a perfect blend between dramaticism and realism. 
+                    </p>
+                    <p>
+                        In most scenes, Lincoln is framed in a deliberately composed <b>medium close-up</b> - an ostensibly neutral vantage that subtly amplifies his physical bearing and posture. This shot choice invites the viewer into Lincoln's embodied experience, allowing us to inhabit the weight of his deliberations while maintaining spatial awareness of the surrounding tensions. The framing is intimate yet porous, anchoring Lincoln's presence while permitting the ambient drama - furtive glances, whispered counsel, shifting alliances - to seep into the periphery.
+                    </p>
+                    <div class="film-gallery">
+                        <img src="imgs/lincoln_stature_1.png" alt="Lincoln Stature 1">
+                        <img src="imgs/lincoln_stature_2.png" alt="Lincoln Stature 2">
+                    </div>
+                    <p>
+                        Elsewhere, the film expands its visual grammar to evoke a more layered cinematic texture. <b>Wide shots</b> assert Lincoln's stature within the physical and political architecture he navigates, rendering his silhoustte as both solitary and emblematic. These compositions articulate this movement through space as a kind of choreography of leadership.
+                    </p>
+                    <div class="film-gallery">
+                        <img src="imgs/lincoln_wide_shot_1.jpg" alt="Lincoln Wide Shot 1">
+                        <img src="imgs/lincoln_wide_shot_2.jpeg" alt="Lincoln Wide Shot 2">
+                    </div>
+                    <p>
+                        In contrast, <b>close-ups</b> pierce the surface, excavating micro-expressions and tonal shifts that reveal the emotional granularity beneath his composed exterior. Together, these shot variations constrauct a portrait that is both monumental and minutely human.
+                    </p>
+                    <div class="film-gallery">
+                        <img src="imgs/lincoln_close_up_1.png" alt="Lincoln Close Up 1">
+                        <img src="imgs/lincoln_close_up_2.jpeg" alt="Lincoln Close Up 2">
+                    </div>
+                    <p>
+                        Everything - from the set to the costumes down to the sound of Lincoln's watch - was tuned to maximum historical precision. Sets were built replicas of the original in order to achieve that exact feel of the original and untempered mid-19th century atmosphere in order for actors and actresses to completely step into their roles. This must have been a riveting experience for the crew of this film. 
+                    </p>
+                    <h3>Daniel Day-Lewis</h3>
+                    <p>
+                        Daniel Day-Lewis - a living fossil of the president himself. Spielberg reportedly missed his performance the moment the actor returned to being himself, so striking and refreshing was his portrayal. His devotion - a near year of research and preparation for this single role - to capturing Lincoln's essence and voice is shown in all its glory. He embodies Lincoln perfectly: "tender and soulful, convincingly weary and stoop shouldered." He truly carries the entire film on his shoulders.
+                    </p>
+                    <h3>Our Unsung Hero: Thaddeus Stevens</h3>
+                    <p>
+                        Under the shadow, one who advocates for the abolishment of slavery equally as Lincoln - Thaddeus Stevens. Ruthless in achieving his cause. Unforgiving in confronting his opponents. None of these traits are positive when used to describe anyone under any circumstances, but not the case for Mr. Stevens here. Precisely due to his persistance and determination, he helped Lincoln to successfully achieve a cause that would otherwise be impossible if perhaps, one was to negotiate and mediate this through. He, at least in my heart and mind, the true Lincoln's right hand man, even though William Seward took the pleasure to support and counsel the president's decisions. And of course, all of these was delivered and portrayed by Tommy Lee Jones' astonishing performance.
+                    </p>
+                    <div class="film-gallery">
+                        <img src="imgs/stevens.png" alt="Thaddeus Stevens" class="full-image">
+                    </div>
+                </div>
+                
+                <div class="film-divider"></div>
+                <div class="scroll-reveal film-section">
+                    <h2>Favourite Moments in the Film</h2>
+                    <h3>Lincoln's Stories</h3>
+                    <p>
+                        Lincoln loves to tell little stories. In times of crisis, these stories, taking not only from his own personal life but also the ordinary life of his people, show his genuine care for his nation and served as critical momentum for those around him while ease his opponents into conformity. My favourite one has to be his explanation on Euclid's Axioms, where "things that are equal to the same thing are always equal to each other." That story emerged after Lincoln asked one of the telegraph operators whether he felt born for his time. The operator replied that he was an engineer, driven to discover and build things yet unimagined by others. Lincoln then asked if he was familiar with Euclid’s Axioms. The operator admitted he wasn’t, citing his education as the reason. But Lincoln, raised in a far harsher environment and denied formal schooling, had taught himself through books. He gently pointed out that he’d learned the Axioms from a book—subtly reminding the operator that the path to knowledge is always open; the real question is whether one chooses to walk it.
+                    </p>
+                    <div class="film-gallery">
+                        <img src="imgs/euclid_scene.jpg" alt="Euclid Scene" class="full-image">
+                    </div>
+                    <h3>Debate Unleashed in the House of Representatives</h3>
+                    <p>
+                        Man, the pack of scenes in the House of Representatives was to put it simply, a full on dramatic masterpiece. One after the other, from democrats to republicans, each representative articulates his thoughts in rhetoric that's - despite some that seem extremely outdated - breathes authority, humanity, and wisdom within. Most definitely, I would come back to these scenes time and time again, just to relive that beatitude when Stevens unleashed his farcical smack down on Pendleton and Wood.
+                    </p>
+                    <div class="film-gallery">
+                        <img src="imgs/wood.webp" alt="Wood">
+                        <img src="imgs/pendleton.jpg" alt="Pendleton">
+                    </div>
+                </div>
+            </div>
+            
+            <aside class="film-sidebar">
+                <div class="scroll-reveal">
+                    <h3 class="font-primary text-xl font-semibold mb-4">Technical Specifications</h3>
+                    <div class="film-details">
+                        <h4>Director</h4>
+                        <p>Steven Spielberg</p>
+                    </div>
+                    <div class="film-details">
+                        <h4>Cinematographer</h4>
+                        <p>Janusz Kamiński</p>
+                    </div>
+                    <div class="film-details">
+                        <h4>Screenplay</h4>
+                        <p>Tony Kushner</p>
+                    </div>
+                    <div class="film-details">
+                        <h4>Runtime</h4>
+                        <p>150 minutes</p>
+                    </div>
+                    <div class="film-details">
+                        <h4>Aspect Ratio</h4>
+                        <p>2.39:1</p>
+                    </div>
+                    <div class="film-details">
+                        <h4>Key Techniques</h4>
+                        <p>Deep focus cinematography<br>Masterful screenplay<br>Exquisite acting<br>Innovative production design</p>
+                    </div>
+                    <div class="film-details">
+                        <h4>Notable Awards</h4>
+                        <p>Academy Award for Best Production Design and Best Actor for <b>Daniel Day-Lewis</b><br>Nominated for 12 Academy Awards</p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+    
+    <div id="footer-container"></div>
+    <script src="../../components.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const scrollElements = document.querySelectorAll('.scroll-reveal');
+            
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('revealed');
+                        }
+                    });
+                }, {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                });
+                
+                scrollElements.forEach(el => observer.observe(el));
+            } else {
+                scrollElements.forEach(el => el.classList.add('revealed'));
+            }
+        });
+    </script>
+    
+    <div id="footer-container"></div>
+    
+    <script src="/components.js"></script>
+    <script src="/router.js"></script>
+    <script src="/main.js"></script>
+</body>
+</html>
+```

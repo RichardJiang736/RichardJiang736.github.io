@@ -1,0 +1,36 @@
+<nav class="bg-white border-b border-black/10">
+    <div class="max-w-6xl mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="font-primary text-xl font-semibold">
+                <a href="/" data-link>Richard Jiang</a>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="/" class="nav-link" data-link data-page="/">Home</a>
+                <a href="/blogs" class="nav-link" data-link data-page="/blogs">Blogs</a>
+                <a href="/reflection" class="nav-link" data-link data-page="/reflection">Reflection</a>
+                <a href="/film" class="nav-link" data-link data-page="/film">Film</a>
+                <a href="/music" class="nav-link" data-link data-page="/music">Music</a>
+                <a href="/travel" class="nav-link" data-link data-page="/travel">Travel</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-btn" class="p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+(function() {
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link[data-page]');
+    navLinks.forEach(link => {
+        if (link.dataset.page === currentPath) {
+            link.classList.add('active');
+        }
+    });
+})();
+</script>

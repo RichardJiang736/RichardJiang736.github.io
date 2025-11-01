@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OK Computer - Richard Jiang</title>
+    <meta name="description" content="Elegant blog template with music-documentation style inspired by Chartogne-Taillet">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="../../resources/favicon_io/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../../resources/favicon_io/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="../../resources/favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="../../resources/favicon_io/apple-touch-icon.png">
+    <link rel="icon" href="../../resources/favicon_io/android-chrome-192x192.png" sizes="192x192" type="image/png">
+    <link rel="icon" href="../../resources/favicon_io/android-chrome-512x512.png" sizes="512x512" type="image/png">
+    <link rel="manifest" href="../../resources/favicon_io/site.webmanifest">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles/common.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <style>
+        :root {
+            --color-gray-light: #f8f9fa;
+            --color-gray-medium: #6c757d;
+            --color-gray-dark: #343a40;
+        }
+        
+        /* Album Header */
+        .album-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 2px solid var(--color-black);
+            position: relative;
+            overflow: hidden;
+            padding: 4rem 2rem;
+        }
+        
+        .album-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('resources/hero-ink.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: 1;
+        }
+        
+        .album-cover-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .album-cover {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .album-cover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .album-info {
+            color: var(--color-black);
+        }
+        
+        .album-title {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 1rem;
+            color: var(--color-black);
+            letter-spacing: -0.02em;
+        }
+        
+        .album-artist {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: var(--color-gray-medium);
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .album-meta {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .meta-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-gray-medium);
+            margin-bottom: 0.5rem;
+        }
+        
+        .meta-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-black);
+        }
+        
+        .genre-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        
+        .genre-tag {
+            padding: 0.5rem 1rem;
+            background: var(--color-black);
+            color: var(--color-white);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .genre-tag:hover {
+            background: var(--color-gray-dark);
+        }
+        
+        /* Main Content */
+        .review-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0rem 2rem;
+        }
+        
+        .track-listing {
+            background: var(--color-gray-light);
+            border-left: 4px solid var(--color-black);
+            padding: 2rem;
+            margin: 3rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .track-listing h3 {
+            font-family: var(--font-primary);
+            font-size: 1.5rem;
+            color: var(--color-black);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+        
+        .track-item {
+            display: grid;
+            grid-template-columns: 40px 1fr auto;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+        }
+        
+        .track-item:hover {
+            background: rgba(0, 0, 0, 0.03);
+            padding-left: 1rem;
+        }
+        
+        .track-number {
+            font-weight: 700;
+            color: var(--color-black);
+            font-size: 1.1rem;
+        }
+        
+        .track-name {
+            font-weight: 500;
+            color: var(--color-black);
+        }
+        
+        .track-duration {
+            color: var(--color-gray-medium);
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .review-section {
+            margin: 3rem 0;
+        }
+        
+        .review-section h2 {
+            font-family: var(--font-primary);
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--color-black);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--color-black);
+        }
+        
+        .review-section h3 {
+            font-family: var(--font-primary);
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--color-black);
+            margin: 2rem 0 1rem 0;
+        }
+        
+        .review-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--color-black);
+            margin-bottom: 1.5rem;
+        }
+        
+        .standout-track {
+            background: rgba(0, 0, 0, 0.02);
+            border-left: 4px solid var(--color-black);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .standout-track h4 {
+            font-size: 1.3rem;
+            color: var(--color-black);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .standout-track p {
+            color: var(--color-gray-dark);
+            font-style: italic;
+        }
+        
+        .lyrics-quote {
+            background: rgba(0, 0, 0, 0.02);
+            border-left: 4px solid var(--color-black);
+            padding: 2rem 2.5rem;
+            margin: 2.5rem 0;
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--color-gray-dark);
+            line-height: 1.8;
+            position: relative;
+        }
+        
+        .lyrics-quote::before {
+            content: '"';
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            font-size: 4rem;
+            color: var(--color-black);
+            opacity: 0.1;
+            font-family: Georgia, serif;
+        }
+        
+        .rating-box {
+            background: var(--color-gray-light);
+            color: var(--color-black);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin: 3rem 0;
+            border: 2px solid var(--color-black);
+        }
+        
+        .rating-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--color-gray-medium);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        
+        .rating-stars {
+            font-size: 2.5rem;
+            color: var(--color-black);
+            margin-bottom: 1rem;
+        }
+        
+        .rating-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-black);
+        }
+        
+        .waveform-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.3) 50%, transparent 100%);
+            margin: 3rem 0;
+        }
+        
+        @media (max-width: 968px) {
+            .album-cover-wrapper {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+            
+            .album-cover {
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            
+            .album-title {
+                font-size: 2.5rem;
+            }
+            
+            .album-meta {
+                justify-content: center;
+            }
+            
+            .genre-tags {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body class="bg-ink-texture">
+    <canvas id="ripple-canvas"></canvas>
+
+    <div id="navigation-container"></div>
+    
+    <header class="album-header">
+        <div class="album-cover-wrapper">
+            <img src="imgs/ok_computer.jpeg" 
+                 alt="OK Computer Album Cover" 
+                 class="album-cover scroll-reveal">
+            
+            <div class="album-info scroll-reveal">
+                <h1 class="album-title font-primary">OK Computer</h1>
+                <p class="album-artist">Radiohead</p>
+                
+                <div class="album-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">Released</span>
+                        <span class="meta-value">1997</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Label</span>
+                        <span class="meta-value">Parlophone</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Length</span>
+                        <span class="meta-value">53:21</span>
+                    </div>
+                </div>
+                
+                <div class="genre-tags">
+                    <span class="genre-tag">Alternative Rock</span>
+                    <span class="genre-tag">Art Rock</span>
+                    <span class="genre-tag">Experimental</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="review-container">
+        <div class="scroll-reveal review-section">
+            <h2>A Sonic Prophecy</h2>
+            <p>
+                In 1997, Radiohead released what would become not just an album, but a cultural touchstone—a prescient warning about technology, alienation, and the human condition wrapped in layers of distorted guitars, haunting vocals, and experimental soundscapes. <em>OK Computer</em> stands as a monument to what rock music could achieve when ambition meets execution.
+            </p>
+            <p>
+                This isn't just music to listen to; it's music to inhabit. From the opening riff of "Airbag" to the final, fading notes of "The Tourist," Radiohead constructs a complete world—dystopian, melancholic, yet strangely beautiful.
+            </p>
+        </div>
+
+        <div class="track-listing scroll-reveal">
+            <h3>Track Listing</h3>
+            <div class="track-item">
+                <span class="track-number">01.</span>
+                <span class="track-name">Airbag</span>
+                <span class="track-duration">4:44</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">02.</span>
+                <span class="track-name">Paranoid Android</span>
+                <span class="track-duration">6:23</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">03.</span>
+                <span class="track-name">Subterranean Homesick Alien</span>
+                <span class="track-duration">4:27</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">04.</span>
+                <span class="track-name">Exit Music (For a Film)</span>
+                <span class="track-duration">4:24</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">05.</span>
+                <span class="track-name">Let Down</span>
+                <span class="track-duration">4:59</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">06.</span>
+                <span class="track-name">Karma Police</span>
+                <span class="track-duration">4:21</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">07.</span>
+                <span class="track-name">Fitter Happier</span>
+                <span class="track-duration">1:57</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">08.</span>
+                <span class="track-name">Electioneering</span>
+                <span class="track-duration">3:50</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">09.</span>
+                <span class="track-name">Climbing Up the Walls</span>
+                <span class="track-duration">4:45</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">10.</span>
+                <span class="track-name">No Surprises</span>
+                <span class="track-duration">3:48</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">11.</span>
+                <span class="track-name">Lucky</span>
+                <span class="track-duration">4:19</span>
+            </div>
+            <div class="track-item">
+                <span class="track-number">12.</span>
+                <span class="track-name">The Tourist</span>
+                <span class="track-duration">5:24</span>
+            </div>
+        </div>
+
+        <div class="waveform-divider scroll-reveal"></div>
+
+        <div class="scroll-reveal review-section">
+            <h2>The Sound of Alienation</h2>
+            <p>
+                What makes <em>OK Computer</em> extraordinary isn't just its sonic innovation—though there's plenty of that—but how perfectly the sound serves the content. Every glitchy electronic beat, every reverb-drenched guitar, every layered vocal harmonizes with Thom Yorke's lyrical exploration of modern anxiety.
+            </p>
+            <p>
+                The album opens with "Airbag," a rebirth anthem powered by processed drums and Phil Selway's intricate, jazz-influenced percussion. It's joyous and claustrophobic simultaneously—a microcosm of the entire record. Then comes "Paranoid Android," the album's centerpiece and perhaps Radiohead's greatest achievement: a six-minute, multi-movement epic that shifts from acoustic introspection to distorted fury and back again.
+            </p>
+        </div>
+
+        <div class="standout-track scroll-reveal">
+            <h4>🎵 Standout Track: "Paranoid Android"</h4>
+            <p>
+                "Paranoid Android" deserves special mention as one of rock's great epics. Like Queen's "Bohemian Rhapsody" or The Beatles' "A Day in the Life," it defies conventional song structure while remaining utterly compelling. The guitar work by Jonny Greenwood in the middle section—that cascading, harmonized riff—is both technically brilliant and emotionally devastating.
+            </p>
+        </div>
+
+        <div class="lyrics-quote scroll-reveal">
+            Ambition makes you look pretty ugly<br>
+            Kicking and squealing Gucci little piggy
+        </div>
+
+        <div class="scroll-reveal review-section">
+            <h3>Production and Atmosphere</h3>
+            <p>
+                Produced by Nigel Godrich alongside the band, <em>OK Computer</em> sounds unlike anything before or since. The production is simultaneously expansive and intimate—cavernous reverbs create space while close-mic'd details pull you in. Listen to "Let Down" through headphones and you'll hear a dozen layers of interlocking guitar parts, each one essential, creating a shimmering tapestry of sound.
+            </p>
+            <p>
+                "Fitter Happier," the album's interlude, uses a Macintosh SimpleText voice to recite a list of modern aspirations over unsettling piano. It's uncomfortable, nearly unbearable, and absolutely necessary—a palate cleanser that forces you to confront the album's themes head-on.
+            </p>
+        </div>
+
+        <div class="waveform-divider scroll-reveal"></div>
+
+        <div class="scroll-reveal review-section">
+            <h2>Themes and Legacy</h2>
+            <p>
+                <em>OK Computer</em> is fundamentally about disconnection—from others, from oneself, from meaning. Yet it achieves this through creating deep connection with its listeners. Songs like "No Surprises," with its glockenspiel and nursery-rhyme melody masking lyrics about quiet desperation, or "Climbing Up the Walls," with its orchestral string freakout, speak to universal feelings of anxiety and alienation.
+            </p>
+            <p>
+                The album's prescience is perhaps its most remarkable quality. Released before smartphones, before social media, before our current technological saturation, it nonetheless captured the emotional landscape we now inhabit. The "fitter, happier, more productive" mantra of self-optimization, the paranoia of constant surveillance, the crushing weight of information overload—Radiohead saw it all coming.
+            </p>
+        </div>
+
+        <div class="standout-track scroll-reveal">
+            <h4>🎵 Closing Thoughts: "The Tourist"</h4>
+            <p>
+                The album ends with "The Tourist," a song about slowing down in a world that demands constant acceleration. The final drum beat—three deliberate hits—serves as both punctuation and instruction: Stop. Pay attention. Be present. It's the perfect ending to an album about our inability to do just that.
+            </p>
+        </div>
+
+        <div class="rating-box scroll-reveal">
+            <div class="rating-label">Overall Rating</div>
+            <div class="rating-stars">★★★★★</div>
+            <div class="rating-text">Masterpiece</div>
+        </div>
+
+        <div class="scroll-reveal review-section">
+            <h2>Verdict</h2>
+            <p>
+                <em>OK Computer</em> isn't just one of the best albums of the 1990s—it's one of the essential artistic statements of the modern era. It redefined what rock music could be, what albums could accomplish, and how we think about the relationship between technology and humanity. Nearly three decades later, it hasn't aged; we've simply caught up to it.
+            </p>
+            <p>
+                For anyone who hasn't experienced this album, do yourself a favor: find a quiet space, put on good headphones, and listen from start to finish. Let it wash over you. It's not always comfortable, but the best art rarely is.
+            </p>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    
+    <!-- Components Loader -->
+    <script src="../../components.js"></script>
+    
+    <script>
+        // Scroll reveal functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const scrollElements = document.querySelectorAll('.scroll-reveal');
+            
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('revealed');
+                        }
+                    });
+                }, {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                });
+                
+                scrollElements.forEach(el => observer.observe(el));
+            } else {
+                scrollElements.forEach(el => el.classList.add('revealed'));
+            }
+        });
+    </script>
+    
+    <div id="footer-container"></div>
+    
+    <script src="/components.js"></script>
+    <script src="/router.js"></script>
+    <script src="/main.js"></script>
+</body>
+</html>
+```

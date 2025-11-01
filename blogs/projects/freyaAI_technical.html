@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreyaAI - Richard Jiang</title>
+    <meta name="description" content="Modern project showcase template with techy style.">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="../../resources/favicon_io/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../../resources/favicon_io/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="../../resources/favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="../../resources/favicon_io/apple-touch-icon.png">
+    <link rel="icon" href="../../resources/favicon_io/android-chrome-192x192.png" sizes="192x192" type="image/png">
+    <link rel="icon" href="../../resources/favicon_io/android-chrome-512x512.png" sizes="512x512" type="image/png">
+    <link rel="manifest" href="../../resources/favicon_io/site.webmanifest">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Common CSS -->
+    <link rel="stylesheet" href="../../styles/common.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        :root {
+            --color-accent: #00b4d8;
+            --color-gray-light: #f8f9fa;
+            --color-gray-medium: #6c757d;
+            --color-gray-dark: #343a40;
+        }
+        body {
+            background: var(--color-gray-light);
+        }
+        .project-header {
+            background: linear-gradient(120deg, #fff 60%, #00b4d8 100%);
+            border-bottom: 2px solid var(--color-black);
+            position: relative;
+        }
+        .project-title {
+            font-size: 2.5rem;
+            font-family: var(--font-primary);
+            font-weight: 700;
+        }
+        .project-metadata {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        .metadata-item {
+            text-align: center;
+        }
+        .metadata-label {
+            font-size: 0.8rem;
+            color: var(--color-gray-medium);
+            text-transform: uppercase;
+        }
+        .metadata-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .project-sidebar {
+            background: var(--color-white);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .project-section h2 {
+            font-family: var(--font-primary);
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--color-accent);
+            margin-bottom: 1rem;
+        }
+        .project-logo {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 16px;
+            margin: 2rem auto 1rem auto;
+            display: block;
+            box-shadow: 0 8px 32px rgba(0,180,216,0.10);
+        }
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .project-tag {
+            background: var(--color-accent);
+            color: var(--color-white);
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+        .code-block {
+            background: #22223b;
+            color: #f8f8f2;
+            font-family: 'Fira Mono', monospace;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+            overflow-x: auto;
+        }
+        @media (max-width: 900px) {
+            .project-content {
+                flex-direction: column;
+            }
+            .project-sidebar {
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="ripple-canvas"></canvas>
+    
+    <div id="navigation-container"></div>
+    <header class="project-header pt-24 pb-8 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <img src="../../resources/avatar.jpg" alt="Project Logo" class="project-logo">
+            <h1 class="project-title">Project Name</h1>
+            <p class="text-lg text-gray-600 mb-4">Role: Developer</p>
+            <div class="project-metadata">
+                <div class="metadata-item">
+                    <div class="metadata-label">Tech Stack</div>
+                    <div class="metadata-value">React, Node.js</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Duration</div>
+                    <div class="metadata-value">Jan 2025 - Apr 2025</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Status</div>
+                    <div class="metadata-value">Completed</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Repository</div>
+                    <div class="metadata-value"><a href="#" class="text-accent underline">GitHub</a></div>
+                </div>
+            </div>
+            <div class="project-tags justify-center">
+                <span class="project-tag">Web</span>
+                <span class="project-tag">Open Source</span>
+            </div>
+        </div>
+    </header>
+    <main class="max-w-6xl mx-auto px-6 py-12 flex gap-8 project-content">
+        <div class="flex-1">
+            <section class="project-section">
+                <h2>Overview</h2>
+                <p>Briefly describe the project, its goals, and context.</p>
+            </section>
+            <section class="project-section">
+                <h2>Features</h2>
+                <ul class="list-disc ml-6">
+                    <li>Feature 1</li>
+                    <li>Feature 2</li>
+                </ul>
+            </section>
+            <section class="project-section">
+                <h2>Challenges</h2>
+                <p>Discuss technical or design challenges faced.</p>
+            </section>
+            <section class="project-section">
+                <h2>Solutions</h2>
+                <p>Explain how you solved the main challenges.</p>
+            </section>
+            <section class="project-section">
+                <h2>Learnings</h2>
+                <p>Share what you learned from the project.</p>
+            </section>
+            <section class="project-section">
+                <h2>Future Work</h2>
+                <p>Describe possible improvements or next steps.</p>
+            </section>
+            <section class="project-section">
+                <h2>Sample Code</h2>
+                <div class="code-block">
+// Example code snippet
+function helloWorld() {
+    console.log('Hello, world!');
+}
+                </div>
+            </section>
+        </div>
+        <aside class="project-sidebar w-full md:w-80">
+            <h3 class="font-primary text-lg font-semibold mb-4">Screenshots</h3>
+            <img src="../../resources/hero-ink.jpg" alt="Screenshot" class="rounded mb-4">
+            <h3 class="font-primary text-lg font-semibold mb-4 mt-8">Live Demo</h3>
+                        <a href="#" class="text-accent underline">View Project</a>
+        </aside>
+    </main>
+    
+    <div id="footer-container"></div>
+    
+    <script src="/components.js"></script>
+    <script src="/router.js"></script>
+    <script src="/main.js"></script>
+</body>
+</html>
+```
+        </aside>
+    </main>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    
+    <!-- Components Loader -->
+    <script src="../../components.js"></script>
+</body>
+</html>

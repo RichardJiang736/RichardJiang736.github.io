@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music - Richard Jiang</title>
+    <meta name="description" content="Music analysis and reviews by Richard Jiang, exploring the mathematical beauty and emotional depth of musical expression across genres.">
+    
+    <link rel="icon" href="resources/favicon_io/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="resources/favicon_io/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="resources/favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="resources/favicon_io/apple-touch-icon.png">
+    <link rel="icon" href="resources/favicon_io/android-chrome-192x192.png" sizes="192x192" type="image/png">
+    <link rel="icon" href="resources/favicon_io/android-chrome-512x512.png" sizes="512x512" type="image/png">
+    <link rel="manifest" href="resources/favicon_io/site.webmanifest">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/common.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <style>
+        .music-card {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .music-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .music-card img {
+            transition: transform 0.3s ease;
+        }
+        .music-card:hover img {
+            transform: scale(1.05);
+        }
+        .waveform {
+            height: 60px;
+            background: linear-gradient(90deg, #000 0%, #333 50%, #000 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .waveform::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+            animation: wave 3s infinite;
+        }
+        @keyframes wave {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        .audio-player {
+            background: rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .play-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #000000;
+            color: #ffffff;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .play-button:hover {
+            background: #333;
+            transform: scale(1.1);
+        }
+        .progress-bar {
+            height: 4px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 0 1rem;
+            flex: 1;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #000000;
+            width: 30%;
+            transition: width 0.3s ease;
+        }
+        .rating-stars {
+            display: flex;
+            gap: 2px;
+        }
+        
+        .hero-music {
+            background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-music::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,50 Q30,30 50,50 T90,50" stroke="%23000" stroke-width="0.5" fill="none" opacity="0.1"/><path d="M10,60 Q30,40 50,60 T90,60" stroke="%23000" stroke-width="0.5" fill="none" opacity="0.1"/><path d="M10,70 Q30,50 50,70 T90,70" stroke="%23000" stroke-width="0.5" fill="none" opacity="0.1"/></svg>');
+            animation: musicFloat 15s infinite linear;
+        }
+        
+        @keyframes musicFloat {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100px); }
+        }
+        
+        .featured-image-wrapper {
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .featured-image-wrapper img {
+            transition: transform 0.3s ease;
+        }
+        
+        .featured-image-wrapper:hover img {
+            transform: scale(1.08);
+        }
+    </style>
+</head>
+<body class="bg-ink-texture">
+    <!-- Ripple Effect Canvas -->
+    <canvas id="ripple-canvas"></canvas>
+    
+    <!-- Navigation Container (loaded dynamically) -->
+    <div id="navigation-container"></div>
+    
+    <main>
+    <!-- Hero Section -->
+    <section class="hero-music pt-16 pb-16 px-6">
+        <div class="max-w-6xl mx-auto text-center relative z-10">
+            <h1 class="font-primary text-5xl md:text-7xl font-bold mb-6">Music</h1>
+            <div class="w-24 h-1 bg-black mx-auto mb-8"></div>
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto">
+                "No Music. No Life. Know Music. Know Life"
+            </p>
+        </div>
+    </section>
+    
+    <!-- Featured Analysis -->
+    <section class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="scroll-reveal mb-12">
+                <h2 class="font-primary text-3xl md:text-4xl font-bold mb-4">Featured Analysis</h2>
+                <div class="w-16 h-1 bg-black mb-8"></div>
+            </div>
+            
+            <div class="scroll-reveal grid lg:grid-cols-2 gap-12 items-center">
+                <div class="featured-image-wrapper overflow-hidden rounded-lg shadow-lg">
+                    <img src="resources/music/ok_computer.jpeg" 
+                         alt="OK Computer" 
+                         class="w-full object-cover">
+                </div>
+                <div>
+                    <div class="flex items-center mb-4">
+                        <span class="genre-tag">Alternative</span>
+                        <span class="ml-auto text-sm text-gray-500">1997</span>
+                    </div>
+                    <h3 class="font-primary text-3xl font-bold mb-4">OK Computer</h3>
+                    <p class="text-lg mb-6 leading-relaxed">
+                        Radiohead's third studio album stands as a prophetic masterpiece that anticipated our digital age with startling accuracy. This comprehensive analysis explores how the band crafted a sonic landscape that captures the alienation and technological anxiety of modern life through innovative production techniques and haunting melodies.
+                    </p>
+                    <div class="space-y-4 mb-8">
+                        <div>
+                            <h4 class="font-semibold mb-2">Key Themes:</h4>
+                            <p class="text-gray-600">Technology and alienation, political disillusionment, corporate dystopia, human connection in digital age</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">Musical Innovation:</h4>
+                            <p class="text-gray-600">Unconventional song structures, electronic manipulation, complex time signatures, atmospheric production</p>
+                        </div>
+                    </div>
+                    <a href="blogs/music/ok_computer_review" class="inline-block bg-black text-white px-6 py-3 font-medium hover:bg-gray-800 transition-all mt-6" style="margin-top: 0px">
+                        Read Full Analysis
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Recent Reviews -->
+    <section class="py-16 px-6 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+            <div class="scroll-reveal mb-12">
+                <h2 class="font-primary text-3xl md:text-4xl font-bold mb-4">Recent Reviews</h2>
+                <div class="w-16 h-1 bg-black mb-8"></div>
+            </div>
+            
+            <div id="music-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Music Card 1 -->                
+                <article class="music-card bg-white shadow-lg cursor-pointer">
+                    <div class="aspect-square overflow-hidden">
+                        <img src="resources/music/distant_light.jpeg" 
+                        alt="Distant Light" 
+                        class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="genre-tag">British Rock</span>
+                            <span class="ml-auto text-sm text-gray-500">1971</span>
+                        </div>
+                        <h3 class="font-primary text-xl font-semibold mb-3">Distant Light</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="rating-stars mr-3">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star"></span>
+                            </div>
+                            <span class="text-sm text-gray-600">4/5</span>
+                        </div>
+                        <p class="text-gray-600 mb-4 line-clamp-3">
+                            A luminous exploration of atmospheric rock that blends ethereal vocals with intricate guitar work. The album creates expansive soundscapes that evoke both intimacy and cosmic wonder.
+                        </p>
+                        <div class="text-sm font-medium">Read Review →</div>
+                    </div>
+                </article>
+                
+                <!-- Music Card 2 -->
+                <article class="music-card bg-white shadow-lg cursor-pointer">
+                    <div class="aspect-square overflow-hidden">
+                        <img src="resources/music/in_rainbow.jpeg" 
+                             alt="In Rainbow" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="genre-tag">Alternative</span>
+                            <span class="ml-auto text-sm text-gray-500">2007</span>
+                        </div>
+                        <h3 class="font-primary text-xl font-semibold mb-3">In Rainbow</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="rating-stars mr-3">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star half"></span>
+                            </div>
+                            <span class="text-sm text-gray-600">4.5/5</span>
+                        </div>
+                        <p class="text-gray-600 mb-4 line-clamp-3">
+                            Radiohead's seventh album represents a perfect synthesis of emotional vulnerability and technical mastery. A stunning return to form that balances experimental ambition with accessible melodies and profound lyricism.
+                        </p>
+                        <div class="text-sm font-medium">Read Review →</div>
+                    </div>
+                </article>
+
+                <!-- Music Card 3 -->
+                <article class="music-card bg-white shadow-lg cursor-pointer">
+                    <div class="aspect-square overflow-hidden">
+                        <img src="resources/music/velvet_underground.jpeg" 
+                             alt="The Velvet Underground" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="genre-tag">Alternative</span>
+                            <span class="genre-tag">Experimental</span>
+                            <span class="ml-auto text-sm text-gray-500">1967</span>
+                        </div>
+                        <h3 class="font-primary text-xl font-semibold mb-3">The Velvet Underground</h3>
+                        <div class="flex items-center mb-4">
+                            <div class="rating-stars mr-3">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                            </div>
+                            <span class="text-sm text-gray-600">5/5</span>
+                        </div>
+                        <p class="text-gray-600 mb-4 line-clamp-3">
+                            The groundbreaking debut that revolutionized rock music with its raw sound, avant-garde sensibilities, and unflinching exploration of urban life's darker corners. A seminal work that continues to influence generations of artists.
+                        </p>
+                        <div class="text-sm font-medium">Read Review →</div>
+                    </div>
+                </article>
+
+                <!-- Music Card 4-->
+        </div>
+        
+        <!-- Load More Button -->
+        <div class="text-center mt-12">
+            <button id="load-more" class="px-8 py-3 border-2 border-black font-medium hover:bg-black hover:text-white transition-all">
+                Load More Posts
+            </button>
+        </div>
+    </section>
+    
+    <!-- Analysis Section -->
+    <section class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="scroll-reveal mb-12">
+                <h2 class="font-primary text-3xl md:text-4xl font-bold mb-4">Musical Analysis</h2>
+                <div class="w-16 h-1 bg-black mb-8"></div>
+                <p class="text-lg max-w-3xl">
+                    Beyond individual reviews, I explore the theoretical frameworks and mathematical principles that underlie musical expression, examining how structure and emotion intersect in sound.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="scroll-reveal">
+                    <h3 class="font-primary text-2xl font-semibold mb-6">Theoretical Frameworks</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-semibold mb-2">Harmonic Analysis</h4>
+                            <p class="text-gray-600">
+                                Deconstructing chord progressions and harmonic relationships to understand how composers create tension, resolution, and emotional impact through harmonic language.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">Rhythmic Patterns</h4>
+                            <p class="text-gray-600">
+                                Exploring the mathematical relationships in rhythm and meter, from simple time signatures to complex polyrhythmic structures found in world music traditions.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">Melodic Construction</h4>
+                            <p class="text-gray-600">
+                                Analyzing how melodies are built using scales, intervals, and motivic development, creating memorable musical lines that resonate with listeners.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="scroll-reveal">
+                    <h3 class="font-primary text-2xl font-semibold mb-6">Cross-Cultural Perspectives</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-semibold mb-2">Eastern Musical Philosophy</h4>
+                            <p class="text-gray-600">
+                                Examining how Eastern musical traditions approach composition and performance, focusing on concepts like ma (negative space) and the importance of silence in music.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">African Rhythmic Complexity</h4>
+                            <p class="text-gray-600">
+                                Investigating the sophisticated rhythmic systems found in African music and their influence on contemporary genres from jazz to electronic dance music.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">Global Fusion</h4>
+                            <p class="text-gray-600">
+                                Analyzing how modern musicians blend elements from different cultural traditions to create new forms of musical expression that transcend geographical boundaries.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </main>
+    
+    <!-- Footer Container (loaded dynamically) -->
+    <div id="footer-container"></div>
+    
+    <!-- Shared Scripts -->
+    <script src="components.js"></script>
+    <script src="posts.js"></script>
+    <script>
+        // Music card interactions
+        document.addEventListener('DOMContentLoaded', () => {
+            // Render dynamic Music posts from shared data at the top of the grid
+            const musicGrid = document.getElementById('music-grid');
+            if (window.BLOG_POSTS && window.renderBlogCards && musicGrid) {
+                const dynamic = document.createElement('div');
+                dynamic.className = 'contents';
+                const musicPosts = window.BLOG_POSTS.filter(p => p.category === 'music');
+                window.renderBlogCards(dynamic, musicPosts, { cardType: 'music' });
+                const staticCards = Array.from(musicGrid.children);
+                musicGrid.innerHTML = '';
+                musicGrid.append(...dynamic.children);
+                musicGrid.append(...staticCards);
+                // Cards already rendered with music-card style
+            }
+            const musicCards = document.querySelectorAll('.music-card, #music-grid .blog-card');
+            
+            musicCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const title = card.querySelector('h3').textContent;
+                    console.log('Music review clicked:', title);
+                    // In a real implementation, this would navigate to the full review
+                });
+            });
+
+            // Pagination: show only first 6 initially, reveal more on click
+            const pageSize = 6;
+            const loadMoreBtn = document.getElementById('load-more');
+            const allCards = Array.from(document.querySelectorAll('#music-grid .music-card, #music-grid .blog-card'));
+            let shown = 0;
+
+            function applyInitialLimit() {
+                shown = 0;
+                allCards.forEach((card, idx) => {
+                    if (idx < pageSize) {
+                        card.style.display = '';
+                        shown++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                if (loadMoreBtn) {
+                    loadMoreBtn.style.display = allCards.length > shown ? '' : 'none';
+                }
+            }
+
+            function revealNext() {
+                const nextUpper = Math.min(shown + pageSize, allCards.length);
+                for (let i = shown; i < nextUpper; i++) {
+                    allCards[i].style.display = '';
+                }
+                shown = nextUpper;
+                if (loadMoreBtn && shown >= allCards.length) {
+                    loadMoreBtn.style.display = 'none';
+                }
+            }
+
+            applyInitialLimit();
+
+            if (loadMoreBtn) {
+                loadMoreBtn.addEventListener('click', () => {
+                    loadMoreBtn.textContent = 'Loading...';
+                    loadMoreBtn.disabled = true;
+                    setTimeout(() => {
+                        loadMoreBtn.textContent = 'Load More Posts';
+                        loadMoreBtn.disabled = false;
+                        revealNext();
+                    }, 500);
+                });
+            }
+            
+            // Scroll reveal functionality
+            const scrollElements = document.querySelectorAll('.scroll-reveal');
+            
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('revealed');
+                        }
+                    });
+                }, {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                });
+                
+                scrollElements.forEach(el => observer.observe(el));
+            } else {
+                scrollElements.forEach(el => el.classList.add('revealed'));
+            }
+        });
+        
+        // Audio player functionality
+        function togglePlayback(button) {
+            const progressFill = button.parentElement.querySelector('.progress-fill');
+            const timeDisplay = button.parentElement.querySelector('.text-sm');
+            
+            if (button.dataset.playing === 'true') {
+                // Pause
+                button.dataset.playing = 'false';
+                button.innerHTML = '<svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+            } else {
+                // Play
+                button.dataset.playing = 'true';
+                button.innerHTML = '<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+                
+                // Simulate progress
+                let progress = 0;
+                const interval = setInterval(() => {
+                    if (button.dataset.playing !== 'true') {
+                        clearInterval(interval);
+                        return;
+                    }
+                    
+                    progress += 1;
+                    progressFill.style.width = progress + '%';
+                    
+                    const currentSeconds = Math.floor((progress / 100) * 562); // 9:22 = 562 seconds
+                    const minutes = Math.floor(currentSeconds / 60);
+                    const seconds = currentSeconds % 60;
+                    timeDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')} / 9:22`;
+                    
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        button.dataset.playing = 'false';
+                        button.innerHTML = '<svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+                        progressFill.style.width = '0%';
+                        timeDisplay.textContent = '0:00 / 9:22';
+                    }
+                }, 100);
+            }
+        }
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>

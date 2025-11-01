@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2001: A Space Odyssey - Richard Jiang</title>
+    <meta name="description" content="Elegant blog template with film-documentation style inspired by Chartogne-Taillet">
+    
+    <link rel="icon" href="../../resources/favicon_io/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../../resources/favicon_io/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="../../resources/favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="../../resources/favicon_io/apple-touch-icon.png">
+    <link rel="icon" href="../../resources/favicon_io/android-chrome-192x192.png" sizes="192x192" type="image/png">
+    <link rel="icon" href="../../resources/favicon_io/android-chrome-512x512.png" sizes="512x512" type="image/png">
+    <link rel="manifest" href="../../resources/favicon_io/site.webmanifest">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles/common.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <style>
+        :root {
+            --color-gray-light: #f8f9fa;
+            --color-gray-medium: #6c757d;
+            --color-gray-dark: #343a40;
+        }
+        /* film Documentation Style */
+        .film-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 2px solid var(--color-black);
+            position: relative;
+            overflow: hidden;
+        }
+        .film-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('resources/hero-ink.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: 1;
+        }
+        .film-header-content {
+            position: relative;
+            z-index: 2;
+        }
+        .film-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .film-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-gray-medium);
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+        .film-metadata {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            margin: 2rem 0;
+        }
+        .metadata-item {
+            text-align: center;
+        }
+        .metadata-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-gray-medium);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        .metadata-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-black);
+        }
+        .film-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            margin: 3rem 0;
+        }
+        .film-main {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        .film-sidebar {
+            background: var(--color-gray-light);
+            padding: 2rem;
+            border-radius: 8px;
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+        .film-section {
+            margin-bottom: 3rem;
+        }
+        .film-section h2 {
+            font-family: var(--font-primary);
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--color-black);
+        }
+        .film-section h3 {
+            font-family: var(--font-primary);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem 0;
+        }
+        .film-section p {
+            margin-bottom: 1.5rem;
+        }
+        .film-blockquote {
+            border-left: 4px solid var(--color-black);
+            padding-left: 2rem;
+            margin: 2rem 0;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--color-gray-dark);
+            background: rgba(0,0,0,0.02);
+            padding: 2rem;
+            border-radius: 0 8px 8px 0;
+        }
+        .film-details {
+            margin-bottom: 2rem;
+        }
+        .film-details h4 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-gray-medium);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        .film-details p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .film-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .film-tag {
+            background: var(--color-black);
+            color: var(--color-white);
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+        .film-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+            margin: 3rem 0;
+        }
+        .film-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .film-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .film-gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            transition: transform 0.3s ease;
+        }
+        .film-gallery img:hover {
+            transform: scale(1.05);
+        }
+        .film-gallery img.full-image {
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+        }
+        @media (max-width: 768px) {
+            .film-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .film-title {
+                font-size: 2.5rem;
+            }
+            .film-metadata {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            .film-sidebar {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body class="bg-ink-texture">
+    <canvas id="ripple-canvas"></canvas>
+
+    <div id="navigation-container"></div>
+    
+    <header class="film-header pt-16 pb-16 px-6">
+        <div class="film-header-content max-w-6xl mx-auto">
+            <div class="text-center mb-8">
+                <h1 class="film-title font-primary">2001: A Space Odyssey</h1>
+                <p class="film-subtitle">A Reminiscent Review</p>
+            </div>
+            
+            <div class="film-metadata">
+                <div class="metadata-item">
+                    <div class="metadata-label">Publication Date</div>
+                    <div class="metadata-value">October 15, 2025</div>
+                </div>
+                <!-- <div class="metadata-item">
+                    <div class="metadata-label">Reading Time</div>
+                    <div class="metadata-value">8 minutes</div>
+                </div> -->
+                <div class="metadata-item">
+                    <div class="metadata-label">Category</div>
+                    <div class="metadata-value">Film Analysis</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Director</div>
+                    <div class="metadata-value">Stanley Kubrick</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Year</div>
+                    <div class="metadata-value">1968</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Rating</div>
+                    <div class="metadata-value">★★★★★</div>
+                </div>
+            </div>
+            
+            <div class="film-tags text-center">
+                <span class="film-tag">Sci-Fi</span>
+                <span class="film-tag">Horror</span>
+            </div>
+        </div>
+    </header>
+    
+    <main class="max-w-6xl mx-auto px-6 py-12">
+        <div class="scroll-reveal mb-12">
+            <img src="imgs/star_child.jpg" 
+                 alt="Star Child">
+        </div>
+        
+        <div class="film-content">
+            <div class="film-main">
+                <div class="scroll-reveal film-section">
+                    <h2>A Prologue</h2>
+                    <p>
+                        “Standing on the shoulders of giants.” No other sci-fi film has ever been as respected and revered as <em>2001: A Space Odyssey</em>. Yet as we immerse ourselves in its imaginative and realistic world, I can’t help but notice that certain aspects are often neglected when analyzing this film.  
+                    </p>
+                </div>
+                
+                <!-- <div class="film-divider"></div> -->
+                <div class="scroll-reveal film-section">
+                    <h2>Vision and Patience...</h2>
+                    <p>
+                        The common focus tends to be on its cinematography and its wildly psychedelic, abstract imagery. But I am, as usual, more of a storytelling-centric reviewer. This film holds a special place in my heart because of how its story is told—and more specifically, because of its pacing.  
+                    </p>
+                    <div class="film-gallery">
+                        <img src="imgs/stargate.webp" alt="Stargate sequence" class="full-image">
+                    </div>
+                    <p>
+                        It’s no wonder <em>2001</em> is often ranked among the most “boring” films of all time. I’ll admit, somewhat sheepishly, that I’ve dozed off during parts of it on more than one viewing. This feels strange and contradictory, given everything I know about the film. On one hand, it paints a brilliant vision of the future and a chilling warning about unrestrained technological advancement. On the other hand, its hypnotic pacing seems to push the audience away from fully engaging with those ideas. It’s like a car with a beautifully designed exterior, explosive imaginative flourishes, and top-notch build quality—only to discover that it was never meant to be driven, but merely admired as a conceptual inspiration of what cars *could* be. 
+                    </p>
+                    <p>
+                        When I’ve discussed this with friends, I’ve been surprised to hear the opposite reaction. The pacing didn’t bother them at all; in fact, they accepted it as part of the art. For them, the imagery and the pacing worked together, each enhancing the other. I had considered that perspective before voicing my complaint, but I still believe there are better ways to expand upon this story than by forcing the audience to simply accept the pacing as it is. After all, isn’t the point of a great work of art that it should be both enjoyable and thought-provoking? If people can’t enjoy it in the first place, then no matter how far the imagination stretches, can it really be called great?
+                    </p>
+                    <div class="film-gallery">
+                        <img src="imgs/2001_dawn_of_man.jpg" alt="Lincoln Stature 1">
+                        <img src="imgs/2001_space_station.jpg" alt="Lincoln Stature 2">
+                    </div>
+                </div>
+                
+                <!-- <div class="film-divider"></div> -->
+                <!-- <div class="scroll-reveal film-section">
+                </div> -->
+            </div>
+            
+            <aside class="film-sidebar">
+                <div class="scroll-reveal">
+                    <h3 class="font-primary text-xl font-semibold mb-4">Technical Specifications</h3>
+                    <div class="film-details">
+                        <h4>Director</h4>
+                        <p>Steven Spielberg</p>
+                    </div>
+                    <div class="film-details">
+                        <h4>Cinematographer</h4>
+                        <p>Janusz Kamiński</p>
+                    </div>
+                    <div class="film-details">
+                        <h4>Screenplay</h4>
+                        <p>Tony Kushner</p>
+                    </div>
+                    <div class="film-details">
+                        <h4>Runtime</h4>
+                        <p>150 minutes</p>
+                    </div>
+                    <div class="film-details">
+                        <h4>Aspect Ratio</h4>
+                        <p>2.39:1</p>
+                    </div>
+                    <div class="film-details">
+                        <h4>Key Techniques</h4>
+                        <p>Deep focus cinematography<br>Masterful screenplay<br>Exquisite acting<br>Innovative production design</p>
+                    </div>
+                    <div class="film-details">
+                        <h4>Notable Awards</h4>
+                        <p>Academy Award for Best Production Design and Best Actor for <b>Daniel Day-Lewis</b><br>Nominated for 12 Academy Awards</p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+    
+    <div id="footer-container"></div>
+    <script src="../../components.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const scrollElements = document.querySelectorAll('.scroll-reveal');
+            
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('revealed');
+                        }
+                    });
+                }, {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                });
+                
+                scrollElements.forEach(el => observer.observe(el));
+            } else {
+                scrollElements.forEach(el => el.classList.add('revealed'));
+            }
+        });
+    </script>
+    
+    <div id="footer-container"></div>
+    
+    <script src="/components.js"></script>
+    <script src="/router.js"></script>
+    <script src="/main.js"></script>
+</body>
+</html>
+```

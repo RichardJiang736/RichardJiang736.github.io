@@ -413,17 +413,19 @@
         
         // Simple markdown to HTML converter
         function markdownToHtml(md) {
+            console.log('Input md:', md);
             let html = md
                 .replace(/^### (.*?)$/gm, '<h3>$1</h3>')
                 .replace(/^## (.*?)$/gm, '<h2>$1</h2>')
                 .replace(/^# (.*?)$/gm, '<h1>$1</h1>')
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width: 100%; height: auto;">')
                 .replace(/\n\n/g, '</p><p>')
                 .replace(/^/gm, '<p>')
                 .replace(/$/gm, '</p>')
                 .replace(/<p><\/p>/g, '');
-            
+            console.log('Output html:', html);
             return html;
         }
         

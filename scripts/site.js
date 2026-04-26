@@ -18,13 +18,13 @@
        ============================================================ */
 
     const PROJECTS = [
-        // {
-        //     title: "Title of the Report",
-        //     date: "2026-04-01",
-        //     summary: "One or two-line abstract that previews what the report covers.",
-        //     url: "blogs/projects/your-report.html",
-        //     tag: "machine learning"
-        // }
+        {
+            title: "Musical Bridges (A Retrospective Documentary)",
+            date: "2026-04-26",
+            summary: "My journey into the making of my first project, bridging music and AI",
+            url: "blogs/projects/musical-bridges.html",
+            tag: "template"
+        }
     ];
 
     const ART = [
@@ -33,14 +33,14 @@
             date: "2026-02-01",
             category: "film",
             // summary: "Spielberg, Day-Lewis, and the architecture of moral perseverance — a close reading of the 13th Amendment film.",
-            url: "blogs/films/lincoln.html"
+            url: "blogs/art/lincoln.html"
         },
         {
             title: "My Favourite Lyrics",
             date: "2026-01-15",
             category: "music",
             // summary: "A running playlist of the lines that have refused to leave my head.",
-            url: "blogs/playlist.html"
+            url: "blogs/art/playlist.html"
         }
     ];
 

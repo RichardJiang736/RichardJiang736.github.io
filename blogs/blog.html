@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music and AI</title>
+    <meta name="description" content="Template page for project writeups.">
+
+    <link rel="icon" href="../../resources/favicon_io/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../../resources/favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="../../resources/favicon_io/apple-touch-icon.png">
+    <link rel="manifest" href="../../resources/favicon_io/site.webmanifest">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-black: #000000;
+            --color-white: #ffffff;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: var(--color-white);
+            color: var(--color-black);
+            line-height: 1.6;
+            letter-spacing: 0.02em;
+            transition: opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        body.is-page-entering { opacity: 0.02; }
+        body.is-page-entering.is-page-entered { opacity: 1; }
+        html.is-page-leaving { opacity: 0.02; transition: opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1); }
+        body.is-page-leaving { opacity: 0.02; }
+        .header,
+        main {
+            transition: opacity 0.24s cubic-bezier(0.22, 1, 0.36, 1), transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), filter 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform, filter;
+        }
+        body.is-page-entering .header,
+        body.is-page-entering main {
+            opacity: 0.04;
+            transform: translateY(10px);
+            filter: blur(1px);
+        }
+        body.is-page-entering.is-page-entered .header,
+        body.is-page-entering.is-page-entered main {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+        body.is-page-leaving .header,
+        body.is-page-leaving main {
+            opacity: 0.03;
+            transform: translateY(-10px);
+            filter: blur(1px);
+            pointer-events: none;
+        }
+
+        .header {
+            padding: 3rem 2rem;
+            background: var(--color-white);
+            border-bottom: 1px solid #ddd;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            font-size: 0.85rem;
+            opacity: 0.6;
+            text-decoration: none;
+            color: var(--color-black);
+            margin-bottom: 1rem;
+            display: inline-block;
+            letter-spacing: 0.05em;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .header p {
+            font-size: 0.85rem;
+            opacity: 0.6;
+            letter-spacing: 0.05em;
+            font-weight: 300;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin: 2.5rem 0 1.5rem 0;
+            letter-spacing: 0.02em;
+        }
+
+        main > h2:first-of-type {
+            margin-top: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin: 2rem 0 1rem 0;
+            opacity: 0.8;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        strong {
+            font-weight: 400;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 2rem 1.5rem;
+            }
+
+            main {
+                padding: 2rem 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <a href="/" class="back-link">← back</a>
+            <h1>Music and AI</h1>
+            <p>Richard Jiang. April 2025.</p>
+        </div>
+    </div>
+
+    <main>
+        <h2>overview</h2>
+        <p>Write a short introduction to your project. Explain what problem you are solving and why it matters.</p>
+
+        <h2>problem statement</h2>
+        <p>Define the scope, constraints, and assumptions clearly.</p>
+
+        <h2>approach</h2>
+        <h3>method</h3>
+        <p>Describe your process, tools, architecture, or experiment design.</p>
+        <h3>implementation notes</h3>
+        <p>Add technical details, tradeoffs, and key decisions.</p>
+
+        <h2>results</h2>
+        <p>Summarize your outcomes, metrics, observations, or final deliverables.</p>
+
+        <h2>next steps</h2>
+        <p>List what you would improve next or how you would extend the project.</p>
+    </main>
+
+    <script>
+        (function () {
+            var KEY = "rj-page-enter";
+            var RETURN_SECTION_KEY = "rj-return-section";
+
+            function runEnter() {
+                document.body.classList.add("is-page-entering");
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () {
+                        document.body.classList.add("is-page-entered");
+                    });
+                });
+            }
+
+            function animateAndGo(url, delay) {
+                document.body.classList.add("is-page-leaving");
+                document.documentElement.classList.add("is-page-leaving");
+                setTimeout(function () {
+                    window.location.href = url;
+                }, delay);
+            }
+
+            try {
+                if (sessionStorage.getItem(KEY) === "1") {
+                    sessionStorage.removeItem(KEY);
+                    runEnter();
+                }
+            } catch (_) {
+                runEnter();
+            }
+
+            window.addEventListener("pageshow", function () {
+                runEnter();
+            });
+
+            var backLink = document.querySelector(".back-link");
+            if (backLink) {
+                backLink.addEventListener("click", function (e) {
+                    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                    e.preventDefault();
+                    try { sessionStorage.setItem(KEY, "1"); } catch (_) {}
+                    var returnHash = "";
+                    try { returnHash = sessionStorage.getItem(RETURN_SECTION_KEY) || ""; } catch (_) {}
+                    var backHref = backLink.href + returnHash;
+                    animateAndGo(backHref, 220);
+                });
+            }
+
+            document.addEventListener("click", function (e) {
+                var link = e.target.closest("a[href]");
+                if (!link || link.classList.contains("back-link")) return;
+                if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                if (link.target === "_blank" || link.hasAttribute("download")) return;
+                var next = new URL(link.href, window.location.href);
+                if (next.origin !== window.location.origin) return;
+                e.preventDefault();
+                try { sessionStorage.setItem(KEY, "1"); } catch (_) {}
+                animateAndGo(next.href, 240);
+            });
+        })();
+    </script>
+</body>
+</html>

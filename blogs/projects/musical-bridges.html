@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musical Bridges (A Retrospective Documentary)</title>
+    <meta name="description" content="Template page for project writeups.">
+
+    <link rel="icon" href="../../resources/favicon_io/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../../resources/favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="../../resources/favicon_io/apple-touch-icon.png">
+    <link rel="manifest" href="../../resources/favicon_io/site.webmanifest">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-black: #000000;
+            --color-white: #ffffff;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: var(--color-white);
+            color: var(--color-black);
+            line-height: 1.6;
+            letter-spacing: 0.02em;
+            transition: opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        body.is-page-entering { opacity: 0.02; }
+        body.is-page-entering.is-page-entered { opacity: 1; }
+        html.is-page-leaving { opacity: 0.02; transition: opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1); }
+        body.is-page-leaving { opacity: 0.02; }
+        .header,
+        main {
+            transition: opacity 0.24s cubic-bezier(0.22, 1, 0.36, 1), transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), filter 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform, filter;
+        }
+        body.is-page-entering .header,
+        body.is-page-entering main {
+            opacity: 0.04;
+            transform: translateY(10px);
+            filter: blur(1px);
+        }
+        body.is-page-entering.is-page-entered .header,
+        body.is-page-entering.is-page-entered main {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+        body.is-page-leaving .header,
+        body.is-page-leaving main {
+            opacity: 0.03;
+            transform: translateY(-10px);
+            filter: blur(1px);
+            pointer-events: none;
+        }
+
+        .header {
+            padding: 3rem 2rem;
+            background: var(--color-white);
+            border-bottom: 1px solid #ddd;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            font-size: 0.85rem;
+            opacity: 0.6;
+            text-decoration: none;
+            color: var(--color-black);
+            margin-bottom: 1rem;
+            display: inline-block;
+            letter-spacing: 0.05em;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .header p {
+            font-size: 0.85rem;
+            opacity: 0.6;
+            letter-spacing: 0.05em;
+            font-weight: 300;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin: 2.5rem 0 1.5rem 0;
+            letter-spacing: 0.02em;
+        }
+
+        main > h2:first-of-type {
+            margin-top: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin: 2rem 0 1rem 0;
+            opacity: 0.8;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        strong {
+            font-weight: 400;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 2rem 1.5rem;
+            }
+
+            main {
+                padding: 2rem 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <a href="/" class="back-link">← back</a>
+            <h1>Musical Bridges (A Retrospective Documentary)</h1>
+            <p>https://github.com/RichardJiang736/Freya-AI</p>
+        </div>
+    </div>
+
+    <main>
+        <h2>how it all started</h2>
+        <p>I had this idea in 2023, when I was still in 9th grade: use AI for something to do with music. I was very into coding then, and I had just started listening to the Beatles, my first ever rock and roll band (I am sure that is true for a lot of people). By pure coincidence, the Beatles released their final track, "Now and Then," right when I was first getting into them, and they were using state-of-the-art AI to help produce it. That honestly blew my mind open. I suddenly saw so many possibilities, and I decided to start small: an AI emotion-based music recommendation system.</p>
+
+        <h2>the personal reason behind it</h2>
+        <p>I quickly found out the idea was not new after all. But I still wanted to do it in my own way. At that time I was coming out of a rough phase: academic depression and my first existential crisis. The core idea was personal. I wanted to use music to guide emotion toward wherever I needed it to go. If I felt depressed, maybe I wanted to turn that into anger or momentum. The system should then recommend higher-tempo, brighter tracks. And I did not want the recommendations to be cliche either. I did not want it to always throw Black Sabbath or Deep Purple at me when sometimes George Harrison's "What Is Life" or the Beatles' "Helter Skelter" actually works better. So from early on, the project was about tuning both emotion and personal taste.</p>
+
+        <h2>building the system</h2>
+        <p>Once I had a basic mental architecture of what I wanted, I started taking an online web design course. I quickly discovered that building a robust frontend takes time to nurture. Back then (three years ago, which still sounds crazy to say), AI tools were nowhere near as good at building frontend as they are now. So I did backend first.</p>
+        <p>I originally tried simple ML methods like clustering to tune user taste, but when it came to pinpointing exact emotional needs, I realized I had to build my own algorithm. I set up Spotify OAuth so users could connect their accounts and get personalized recommendations. I first deployed on Heroku (never again, lol), then moved domain registration to GoDaddy and deployed the project on GitHub.</p>
+        <p>For emotion detection, I used OpenAI NLP for text input (users could write anything) and YOLO for face-based detection. That identified emotion was mapped into an index with target ranges for tempo, key, genre, valence, energy, danceability, and other audio attributes, with standard deviation. I based my emotional taxonomy on 30+ emotions from Darwin's <em>The Expression of the Emotions in Man and Animals</em> (1872). Some attributes like key are obviously subjective, so I tuned the formula through repeated testing with myself, friends, and family.</p>
+        <p>I ended up emphasizing emotional features more than ancillary acoustic traits:</p>
+        <p><strong>Valence (0.35)</strong> - Highest weight, captures positive vs. negative emotional direction.</p>
+        <p><strong>Energy (0.20)</strong> - Second highest, captures emotional intensity/arousal.</p>
+        <p><strong>Danceability (0.15)</strong> - Rhythmic suitability to the target emotion.</p>
+        <p><strong>Tempo (0.10)</strong> - Track speed.</p>
+        <p><strong>Loudness (0.08)</strong> - Perceived volume intensity.</p>
+        <p><strong>Liveness (0.08)</strong> - Live-performance feel.</p>
+        <p><strong>Instrumentalness (0.02)</strong> - Relative presence of vocals.</p>
+        <p><strong>Speechiness (0.02)</strong> - Relative presence of spoken words.</p>
+
+        <h2>frontend and first prototype</h2>
+        <p>Once I got the feature ranges and search logic working, it was frontend time. Honestly, frontend is both my least favorite and favorite part of this project. Because I learned it from scratch here, I struggled a lot with translating the exact design in my head into real implementation. In the end, I got something that felt right for me: a green and purple aesthetic balanced by white. Green represents our attachment to nature and feeling, purple represents emotional nuance, and white represents the white noise in our lives.</p>
+        <p>The goal of the site was always simple: easy to use, and fast enough that you are not waiting forever while feeling cooked. And then the first working prototype finally came to life. Emotion in, recommendation out: a curated Spotify playlist plus top 5 recommended tracks ranked by the formula above.</p>
+
+        <h2>the api crisis and recovery</h2>
+        <p>I wrapped this version around September 2024 (I started in December 2023). Then in November, Spotify shut down audio features and recommendations APIs, along with other important ones. In other words, they basically cut off the veins of my execution pipeline, and that was a mini existential crisis for this project.</p>
+        <p>My first thought was: should I just switch to Apple Music or Netease Music? Maybe not too hard, right? I tried Apple Music first, and only after almost replacing everything I realized there was a 799 RMB developer fee, which was just not possible for me as a high school student. I then tried Netease, but it lacked key APIs and had limited international exposure.</p>
+        <p>At that point I really wanted to submit to COSCon. As a first-year OpenTeens community leader, I wanted to represent open-source spirit with one of my own projects. I went through Reddit and forums for alternatives, but most services either lacked API depth or infrastructure. Finally I asked AI for ideas (it was finally good enough), and it suggested ReccoBeats. ReccoBeats still had access to Spotify-related audio feature data. It did not have recommendations API, but I worked around that by combining search endpoints and my own curation logic. Calls became more complicated and response time got a bit slower, but recommendation quality was still solid, which is as good as it gets for an indie developer.</p>
+
+        <h2>culture, inclusion, and the final version</h2>
+        <p>After that submission, I did not touch this project for a while because of other commitments. In the later half of 2025, I went to Sichuan to better understand local music and language culture (more in this post: <a href="http://bit.ly/3P30sQz" target="_blank" rel="noopener noreferrer">http://bit.ly/3P30sQz</a>).</p>
+        <p>That experience had a deep impact on me as a developer. It influenced later projects too (including this one: <a href="https://bit.ly/4mOogEd" target="_blank" rel="noopener noreferrer">https://bit.ly/4mOogEd</a>) and made me come back to this recommender for one final improvement: cultural nuance.</p>
+        <p>Recommendations can become a manmade bottleneck where only the "strongest" or "luckiest" survive. So I added a controlled random function that introduces 3-4 extra genres beyond usual mainstream buckets like pop and rock (still constrained by the emotion function), to create space for discovery. Think old BBC radio style where both popular and avant-garde or experimental tracks get exposure. I also added a rating loop so users can tell the system which genres they actually like.</p>
+
+        <h2>closing reflection</h2>
+        <p>Now the project finally feels complete to me: an inclusive, emotion-conscious, AI-based music recommendation system. Looking back, without "Now and Then," this project might never have been born in the first place. This became the first real project in my portfolio, and a lot of what I am building now started from here. It is kind of poetic that something inspired by the Beatles' "final" track became the "first" in my own journey. Anyway this is my way of saying Peace and love to the Beatles and to the future.</p>
+    </main>
+
+    <script>
+        (function () {
+            var KEY = "rj-page-enter";
+            var RETURN_SECTION_KEY = "rj-return-section";
+
+            function runEnter() {
+                document.body.classList.add("is-page-entering");
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () {
+                        document.body.classList.add("is-page-entered");
+                    });
+                });
+            }
+
+            function animateAndGo(url, delay) {
+                document.body.classList.add("is-page-leaving");
+                document.documentElement.classList.add("is-page-leaving");
+                setTimeout(function () {
+                    window.location.href = url;
+                }, delay);
+            }
+
+            try {
+                if (sessionStorage.getItem(KEY) === "1") {
+                    sessionStorage.removeItem(KEY);
+                    runEnter();
+                }
+            } catch (_) {
+                runEnter();
+            }
+
+            window.addEventListener("pageshow", function () {
+                runEnter();
+            });
+
+            var backLink = document.querySelector(".back-link");
+            if (backLink) {
+                backLink.addEventListener("click", function (e) {
+                    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                    e.preventDefault();
+                    try { sessionStorage.setItem(KEY, "1"); } catch (_) {}
+                    var returnHash = "";
+                    try { returnHash = sessionStorage.getItem(RETURN_SECTION_KEY) || ""; } catch (_) {}
+                    var backHref = backLink.href + returnHash;
+                    animateAndGo(backHref, 220);
+                });
+            }
+
+            document.addEventListener("click", function (e) {
+                var link = e.target.closest("a[href]");
+                if (!link || link.classList.contains("back-link")) return;
+                if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                if (link.target === "_blank" || link.hasAttribute("download")) return;
+                var next = new URL(link.href, window.location.href);
+                if (next.origin !== window.location.origin) return;
+                e.preventDefault();
+                try { sessionStorage.setItem(KEY, "1"); } catch (_) {}
+                animateAndGo(next.href, 240);
+            });
+        })();
+    </script>
+</body>
+</html>

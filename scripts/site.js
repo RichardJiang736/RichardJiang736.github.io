@@ -1,0 +1,248 @@
+/* ====================================================================
+   site.js — Richard Jiang's site
+   Projects + Art + Diary ("Usual Bullshit") loader
+   ==================================================================== */
+
+(function () {
+    "use strict";
+
+    /* ============================================================
+       1. CONTENT REGISTRIES
+       Edit these lists to add new projects / art pieces.
+       ============================================================ */
+
+    const PROJECTS = [
+        // {
+        //     title: "Title of the Report",
+        //     date: "2026-04-01",
+        //     summary: "One or two-line abstract that previews what the report covers.",
+        //     url: "blogs/projects/your-report.html",
+        //     tag: "machine learning"
+        // }
+    ];
+
+    const ART = [
+        {
+            title: "Lincoln",
+            date: "2026-02-01",
+            category: "film",
+            summary: "Spielberg, Day-Lewis, and the architecture of moral perseverance — a close reading of the 13th Amendment film.",
+            url: "blogs/films/lincoln.html"
+        },
+        {
+            title: "My Favourite Lyrics",
+            date: "2026-01-15",
+            category: "music",
+            summary: "A running playlist of the lines that have refused to leave my head.",
+            url: "blogs/playlist.html"
+        }
+    ];
+
+    /* ============================================================
+       2. PROJECTS RENDERER
+       ============================================================ */
+
+    function renderProjects() {
+        const c = document.getElementById("projects-container");
+        if (!c) return;
+
+        if (!PROJECTS.length) {
+            c.innerHTML = '<div class="empty">no projects published yet &mdash; drafting in silence.</div>';
+            return;
+        }
+
+        c.innerHTML = PROJECTS.map(function (p) {
+            return (
+                '<a class="card" href="' + p.url + '">' +
+                    '<div class="card-main">' +
+                        '<div class="card-kicker">' + (p.tag || "report") + '</div>' +
+                        '<div class="card-title">' + p.title + '</div>' +
+                        (p.summary ? '<div class="card-excerpt">' + p.summary + '</div>' : '') +
+                    '</div>' +
+                    '<div class="card-meta">' + formatDate(p.date) + '</div>' +
+                '</a>'
+            );
+        }).join("");
+    }
+
+    /* ============================================================
+       3. ART RENDERER + TABS
+       ============================================================ */
+
+    function renderArt(filter) {
+        const c = document.getElementById("art-container");
+        if (!c) return;
+
+        const items = (filter && filter !== "all")
+            ? ART.filter(function (a) { return a.category === filter; })
+            : ART;
+
+        if (!items.length) {
+            c.innerHTML = '<div class="empty">nothing here yet in this category.</div>';
+            return;
+        }
+
+        c.innerHTML = items.map(function (a) {
+            return (
+                '<a class="card" href="' + a.url + '">' +
+                    '<div class="card-main">' +
+                        '<div class="card-kicker">' + a.category + '</div>' +
+                        '<div class="card-title">' + a.title + '</div>' +
+                        (a.summary ? '<div class="card-excerpt">' + a.summary + '</div>' : '') +
+                    '</div>' +
+                    '<div class="card-meta">' + formatDate(a.date) + '</div>' +
+                '</a>'
+            );
+        }).join("");
+    }
+
+    function bindArtTabs() {
+        const tabs = document.querySelectorAll(".art-tab");
+        tabs.forEach(function (t) {
+            t.addEventListener("click", function () {
+                tabs.forEach(function (x) { x.classList.remove("is-active"); });
+                t.classList.add("is-active");
+                renderArt(t.getAttribute("data-tab"));
+            });
+        });
+    }
+
+    /* ============================================================
+       4. DIARY ("USUAL BULLSHIT") LOADER
+       ============================================================ */
+
+    let DIARY_CACHE = [];
+
+    async function loadDiary() {
+        const c = document.getElementById("diary-container");
+        if (!c) return;
+        try {
+            const res = await fetch("diary/index.json", { cache: "no-cache" });
+            if (!res.ok) throw new Error("fetch failed: " + res.status);
+            const entries = await res.json();
+            DIARY_CACHE = entries.slice().sort(function (a, b) {
+                return (b.date || "").localeCompare(a.date || "");
+            });
+            renderDiary();
+        } catch (err) {
+            console.warn("Diary not available:", err);
+            c.innerHTML = '<div class="empty">no entries yet.</div>';
+        }
+    }
+
+    function renderDiary() {
+        const c = document.getElementById("diary-container");
+        if (!DIARY_CACHE.length) {
+            c.innerHTML = '<div class="empty">no entries yet.</div>';
+            return;
+        }
+        c.innerHTML = DIARY_CACHE.map(function (e, i) {
+            return (
+                '<div class="diary-entry" data-idx="' + i + '">' +
+                    '<div class="diary-date">' + formatDate(e.date) + '</div>' +
+                    (e.title ? '<div class="diary-title">' + escapeHtml(e.title) + '</div>' : '') +
+                    '<div class="diary-preview">' + escapeHtml(e.preview || (e.content || '').slice(0, 220)) + '</div>' +
+                '</div>'
+            );
+        }).join("");
+
+        c.querySelectorAll(".diary-entry").forEach(function (el) {
+            el.addEventListener("click", function () {
+                openDiaryEntry(parseInt(el.getAttribute("data-idx"), 10));
+            });
+        });
+    }
+
+    function openDiaryEntry(idx) {
+        const entry = DIARY_CACHE[idx];
+        if (!entry) return;
+        const html = markdownToHtml(entry.content || "");
+        const body = document.getElementById("modal-body");
+        body.innerHTML =
+            '<h2 class="entry-title">' + escapeHtml(entry.title || "Diary Entry") + '</h2>' +
+            '<p class="entry-date">' + formatDate(entry.date) + '</p>' +
+            '<div class="entry-body">' + html + '</div>';
+        const modal = document.getElementById("entry-modal");
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+    }
+
+    window.closeModal = function () {
+        const modal = document.getElementById("entry-modal");
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+    };
+
+    /* ============================================================
+       5. UTILITIES
+       ============================================================ */
+
+    function formatDate(s) {
+        if (!s) return "";
+        const d = new Date(s);
+        if (isNaN(d.getTime())) return s;
+        return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+    }
+
+    function escapeHtml(s) {
+        return String(s)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+    }
+
+    function markdownToHtml(md) {
+        // Lightweight: paragraphs, headings, emphasis, images. Inputs are trusted (your own diary).
+        let html = String(md);
+        // protect images first
+        html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%; height:auto; margin:1rem 0;">');
+        html = html.replace(/^### (.*?)$/gm, "<h3>$1</h3>");
+        html = html.replace(/^## (.*?)$/gm, "<h2>$1</h2>");
+        html = html.replace(/^# (.*?)$/gm, "<h2>$1</h2>");
+        html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+        html = html.replace(/(^|[\s(])\*([^*\n]+)\*/g, "$1<em>$2</em>");
+        html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+        // paragraphs: split on blank lines
+        const blocks = html.split(/\n\s*\n/);
+        return blocks.map(function (b) {
+            const trimmed = b.trim();
+            if (!trimmed) return "";
+            if (/^<(h\d|img|p|ul|ol|blockquote)/.test(trimmed)) return trimmed;
+            return "<p>" + trimmed.replace(/\n/g, "<br>") + "</p>";
+        }).join("\n");
+    }
+
+    /* ============================================================
+       6. INIT
+       ============================================================ */
+
+    function init() {
+        renderProjects();
+        renderArt("all");
+        bindArtTabs();
+        loadDiary();
+
+        // close modal on overlay click
+        const modal = document.getElementById("entry-modal");
+        if (modal) {
+            modal.addEventListener("click", function (e) {
+                if (e.target === modal) window.closeModal();
+            });
+        }
+        // close on Esc
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") window.closeModal();
+        });
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+    } else {
+        init();
+    }
+})();

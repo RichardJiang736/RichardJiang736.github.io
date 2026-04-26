@@ -4,478 +4,114 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Richard Jiang</title>
-    <meta name="description" content="Personal diary and blog of Richard Jiang — stream-of-consciousness thoughts and explorations.">
-    
+    <meta name="description" content="Richard Jiang — projects, art, and the usual subconscious bullshit.">
+
     <link rel="icon" href="resources/favicon_io/favicon.ico" type="image/x-icon">
     <link rel="icon" href="resources/favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
     <link rel="apple-touch-icon" href="resources/favicon_io/apple-touch-icon.png">
     <link rel="manifest" href="resources/favicon_io/site.webmanifest">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        :root {
-            --color-black: #000000;
-            --color-white: #ffffff;
-            --color-light: #f5f5f5;
-            --font-primary: 'Noto Serif SC', serif;
-            --font-secondary: 'Inter', sans-serif;
-        }
-        
-        body {
-            font-family: var(--font-secondary);
-            background: var(--color-white);
-            color: var(--color-black);
-            line-height: 1.4;
-            letter-spacing: 0.02em;
-        }
-        
-        .header {
-            padding: 2rem 2rem;
-            background: var(--color-white);
-            border-bottom: 1px solid #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: auto;
-            position: relative;
-            overflow: hidden;
-        }
-        
 
-        
-        .header-content {
-            text-align: center;
-            position: relative;
-            z-index: 1;
-            padding: 0.5rem 0;
-        }
-        
-        .header h1 {
-            font-family: var(--font-secondary);
-            font-size: 1.8rem;
-            font-weight: 400;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.3rem;
-            text-transform: lowercase;
-        }
-        
-        .header p {
-            font-size: 0.85rem;
-            opacity: 0.6;
-            letter-spacing: 0.08em;
-            font-weight: 300;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem 2rem;
-        }
-        
-        .section-title {
-            font-family: var(--font-secondary);
-            font-size: 1.2rem;
-            font-weight: 400;
-            margin: 2rem 0 2rem 0;
-            opacity: 0.7;
-            letter-spacing: 0.08em;
-            text-transform: lowercase;
-        }
-        
-        .section-subtitle {
-            font-family: var(--font-secondary);
-            font-size: 0.85rem;
-            font-weight: 300;
-            margin: -1.5rem 0 2rem 0;
-            opacity: 0.45;
-            letter-spacing: 0.05em;
-            text-transform: lowercase;
-        }
-        
-        .diary-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0;
-            margin-bottom: 4rem;
-            border-top: 1px solid #ddd;
-            padding-top: 1.5rem;
-        }
-        
-        .diary-entry {
-            background: transparent;
-            border: none;
-            padding: 0.75rem 0;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-        
-        .diary-entry:hover {
-            padding-left: 1rem;
-        }
-        
-        .diary-date {
-            font-size: 0.8rem;
-            opacity: 0.5;
-            margin-bottom: 1rem;
-            font-family: var(--font-secondary);
-            font-weight: 300;
-            letter-spacing: 0.05em;
-        }
-        
-        .diary-content {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #333;
-            flex-grow: 1;
-            margin-bottom: 1.5rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            font-weight: 300;
-        }
-        
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
 
-        
-        .blogs-list {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0;
-            margin-bottom: 4rem;
-            border-top: 1px solid #ddd;
-            padding-top: 1.5rem;
-        }
-        
-        .blog-item {
-            display: flex;
-            flex-direction: column;
-            padding: 0.75rem 0;
-            border: none;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-            background: transparent;
-            cursor: pointer;
-            position: relative;
-        }
-        
-        .blog-item:hover {
-            padding-left: 1rem;
-        }
-        
-        .blog-content h3 {
-            font-family: var(--font-secondary);
-            font-size: 0.95rem;
-            font-weight: 300;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-            color: #333;
-        }
-        
-        .blog-category {
-            font-size: 0.8rem;
-            opacity: 0.5;
-            margin-bottom: 1rem;
-            font-weight: 300;
-            text-transform: lowercase;
-            letter-spacing: 0.05em;
-        }
-        
-        /* .blog-excerpt {
-            font-size: 0.95rem;
-            opacity: 0.6;
-            line-height: 1.6;
-            font-weight: 300;
-            margin-bottom: 1.5rem;
-        } */
-        
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255,255,255,0.98);
-            overflow-y: auto;
-            backdrop-filter: blur(2px);
-        }
-        
-        .modal.open {
-            display: block;
-        }
-        
-        .modal-content {
-            background: transparent;
-            max-width: 700px;
-            margin: 4rem auto;
-            padding: 0 2rem;
-            border-radius: 0;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        
-        .modal-close {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            opacity: 0.5;
-            transition: opacity 0.2s ease;
-            font-weight: 300;
-            letter-spacing: 0.1em;
-        }
-        
-        .modal-close:hover {
-            opacity: 0.8;
-        }
-        
-        .entry-title {
-            font-family: var(--font-secondary);
-            font-size: 1.5rem;
-            font-weight: 400;
-            margin-bottom: 0.75rem;
-            letter-spacing: 0.02em;
-        }
-        
-        .entry-date {
-            font-size: 0.8rem;
-            opacity: 0.5;
-            margin-bottom: 2rem;
-            letter-spacing: 0.05em;
-            font-weight: 300;
-        }
-        
-        .entry-body {
-            font-size: 0.95rem;
-            line-height: 1.8;
-            color: #333;
-            font-weight: 300;
-        }
-        
-        .entry-body p {
-            margin-bottom: 1.5rem;
-        }
-        
-        .entry-body h2 {
-            font-family: var(--font-secondary);
-            font-size: 1.2rem;
-            font-weight: 400;
-            margin: 2rem 0 1rem 0;
-            opacity: 0.8;
-        }
-        
-        .entry-body h3 {
-            font-family: var(--font-secondary);
-            font-size: 1.05rem;
-            font-weight: 400;
-            margin: 1.5rem 0 0.75rem 0;
-            opacity: 0.7;
-        }
-        
-        .entry-body strong {
-            font-weight: 400;
-        }
-        
-        .entry-body em {
-            font-style: italic;
-            opacity: 0.8;
-        }
-        
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.5rem;
-            }
-            
-            .blog-item {
-                grid-template-columns: 1fr;
-            }
-            
-            .blog-cover {
-                height: 200px;
-                width: 100%;
-                max-width: none;
-            }
-            
-            .modal-content {
-                margin: 2rem 0;
-                padding: 2rem;
-            }
-            
-            .modal-close {
-                top: 1rem;
-                right: 1rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles/richter.css">
 </head>
 <body>
-    <div class="header">
-        <div class="header-content">
-            <h1>richard jiang</h1>
-            <p>a high school student</p>
-            <p>i hope i pass the audition all right</p>
-        </div>
+
+    <!-- The Richter gradient — fixed, full-viewport, blurred color field -->
+    <div class="richter-bg" aria-hidden="true">
+        <div class="richter-grain"></div>
     </div>
-    
-    <div class="container">
-        <h2 class="section-title">stream-of-subconscious</h2>
-        <h3 class="section-subtitle">don't be offended. it's just my mind floating lol</h3>
-        <div id="diary-container" class="diary-grid">
-            <div style="padding: 2rem 0; text-align: center; opacity: 0.4; grid-column: 1/-1;">loading...</div>
+
+    <!-- DG-style monogram, top right -->
+    <a href="#top" class="dg-mark" aria-label="Richard Jiang monogram">
+        <div class="dg-mark-inner">
+            <div class="dg-mark-ring">
+                <span class="dg-mark-letters">RJ</span>
+            </div>
+            <div class="dg-mark-caption">richard<br>jiang</div>
         </div>
-        
-        <h2 class="section-title">writing</h2>
-        <div id="blogs-container" class="blogs-list">
-            <div style="padding: 2rem 0; text-align: center; opacity: 0.4;">loading...</div>
+    </a>
+
+    <!-- Hero — echoes the album-cover title block in the lower left -->
+    <header id="top" class="hero">
+        <div class="hero-inner">
+            <h1 class="hero-title">Richard Jiang</h1>
+            <p class="hero-subtitle">Projects, Art, and the Subconscious</p>
+            <p class="hero-meta">Recomposed &middot; MMXXVI</p>
         </div>
-    </div>
-    
-    <div id="entry-modal" class="modal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">×</button>
+        <nav class="hero-nav">
+            <a href="#projects">projects</a>
+            <a href="#art">art</a>
+            <a href="#bullshit">usual bullshit</a>
+        </nav>
+    </header>
+
+    <main class="content">
+
+        <!-- ============== PROJECTS ============== -->
+        <section id="projects" class="section">
+            <div class="section-head">
+                <span class="section-roman">I.</span>
+                <h2 class="section-title">Projects</h2>
+                <p class="section-sub">technical reports &middot; experiments &middot; artefacts</p>
+            </div>
+
+            <div id="projects-container" class="card-list">
+                <div class="empty">no projects published yet — drafting in silence.</div>
+            </div>
+        </section>
+
+        <!-- ============== ART ============== -->
+        <section id="art" class="section">
+            <div class="section-head">
+                <span class="section-roman">II.</span>
+                <h2 class="section-title">Art</h2>
+                <p class="section-sub">music, films, and paintings &mdash; through my eyes</p>
+            </div>
+
+            <div class="art-tabs">
+                <button class="art-tab is-active" data-tab="all">all</button>
+                <button class="art-tab" data-tab="music">music</button>
+                <button class="art-tab" data-tab="film">film</button>
+                <button class="art-tab" data-tab="painting">painting</button>
+            </div>
+
+            <div id="art-container" class="card-list">
+                <div class="empty">loading&hellip;</div>
+            </div>
+        </section>
+
+        <!-- ============== USUAL BULLSHIT ============== -->
+        <section id="bullshit" class="section">
+            <div class="section-head">
+                <span class="section-roman">III.</span>
+                <h2 class="section-title">My Usual Bullshit</h2>
+                <p class="section-sub">stream-of-subconscious &middot; don't be offended &mdash; it's just my mind floating</p>
+            </div>
+
+            <div id="diary-container" class="diary-grid">
+                <div class="empty">loading&hellip;</div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-rule"></div>
+        <p class="footer-line">richard jiang &mdash; recomposed, after richter, after vivaldi.</p>
+        <p class="footer-line dim">a high school student. i hope i pass the audition all right.</p>
+    </footer>
+
+    <!-- Diary entry modal -->
+    <div id="entry-modal" class="modal" aria-hidden="true">
+        <div class="modal-pane">
+            <button class="modal-close" onclick="closeModal()" aria-label="close">close &times;</button>
             <div id="modal-body"></div>
         </div>
     </div>
-    
-    <script>
-        // Load and display diary entries
-        async function loadDiaryEntries() {
-            try {
-                const response = await fetch('diary/index.json');
-                if (!response.ok) throw new Error('Failed to load diary index');
-                
-                const entries = await response.json();
-                const container = document.getElementById('diary-container');
-                
-                if (entries.length === 0) {
-                    container.innerHTML = '<div style="grid-column: 1/-1; padding: 2rem 0; text-align: center; opacity: 0.4;">no entries yet.</div>';
-                    return;
-                }
-                
-                container.innerHTML = entries.map((entry, idx) => `
-                    <div class="diary-entry" onclick="openDiaryEntry(${idx})">
-                        <div class="diary-date">${formatDate(entry.date)}</div>
-                        <div class="diary-content">${entry.preview}</div>
-                    </div>
-                `).join('');
-            } catch (error) {
-                console.log('Diary not enabled yet. Add entries to /diary/index.json');
-                document.getElementById('diary-container').innerHTML = '<div style="grid-column: 1/-1; padding: 2rem 0; text-align: center; opacity: 0.4;">no entries yet.</div>';
-            }
-        }
-        
-        async function openDiaryEntry(idx) {
-            try {
-                const response = await fetch('diary/index.json');
-                const entries = await response.json();
-                const entry = entries[idx];
-                
-                // Parse markdown content
-                const contentHtml = markdownToHtml(entry.content);
-                
-                document.getElementById('modal-body').innerHTML = `
-                    <h2 class="entry-title">${entry.title || 'Diary Entry'}</h2>
-                    <p class="entry-date">${formatDate(entry.date)}</p>
-                    <div class="entry-body">${contentHtml}</div>
-                `;
-                document.getElementById('entry-modal').classList.add('open');
-            } catch (error) {
-                console.error('Failed to open entry:', error);
-            }
-        }
-        
-        function closeModal() {
-            document.getElementById('entry-modal').classList.remove('open');
-        }
-        
-        // Simple markdown to HTML converter
-        function markdownToHtml(md) {
-            console.log('Input md:', md);
-            let html = md
-                .replace(/^### (.*?)$/gm, '<h3>$1</h3>')
-                .replace(/^## (.*?)$/gm, '<h2>$1</h2>')
-                .replace(/^# (.*?)$/gm, '<h1>$1</h1>')
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width: 100%; height: auto;">')
-                .replace(/\n\n/g, '</p><p>')
-                .replace(/^/gm, '<p>')
-                .replace(/$/gm, '</p>')
-                .replace(/<p><\/p>/g, '');
-            console.log('Output html:', html);
-            return html;
-        }
-        
-        function formatDate(dateStr) {
-            const date = new Date(dateStr);
-            return date.toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'short', 
-                day: 'numeric' 
-            });
-        }
-        
-        // Load blog posts from /blogs directory
-        async function loadBlogs() {
-            const blogs = [
-                {
-                    title: 'Lincoln',
-                    category: 'film',
-                    url: 'blogs/films/lincoln.html',
-                    cover: 'resources/films/lincoln.jpg'
-                },
-                {
-                    title: 'My Favourite Lyrics Playlist',
-                    category: 'music',
-                    url: 'blogs/playlist.html',
-                    cover: ''
-                }
-            ];
-            
-            const container = document.getElementById('blogs-container');
-            container.innerHTML = blogs.map(blog => `
-                <a href="${blog.url}" class="blog-item">
-                    <div class="blog-category">${blog.category}</div>
-                    <div class="blog-content">
-                        <h3>${blog.title}</h3>
-                    </div>
-                </a>
-            `).join('');
-        }
-        
-        // Close modal when clicking outside
-        document.getElementById('entry-modal').addEventListener('click', (e) => {
-            if (e.target.id === 'entry-modal') {
-                closeModal();
-            }
-        });
-        
-        // Initialize
-        loadDiaryEntries();
-        loadBlogs();
-    </script>
+
+    <script src="scripts/site.js"></script>
 </body>
 </html>

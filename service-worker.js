@@ -1,21 +1,13 @@
-const CACHE_VERSION = 'v1.0.0';
+const CACHE_VERSION = 'v2.0.0-richter';
 const CACHE_NAME = `richard-jiang-site-${CACHE_VERSION}`;
 
 // Assets to cache immediately on install
 const CRITICAL_ASSETS = [
   '/',
   '/index.html',
-  '/blogs.html',
-  '/reflection.html',
-  '/film.html',
-  '/music.html',
-  '/travel.html',
-  '/styles/common.css',
-  '/components.js',
-  '/main.js',
-  '/router.js',
-  '/components/navigation.html',
-  '/components/footer.html'
+  '/styles/richter.css',
+  '/scripts/site.js',
+  '/diary/index.json'
 ];
 
 // Cache strategies

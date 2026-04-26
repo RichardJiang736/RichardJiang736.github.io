@@ -1,179 +1,45 @@
-const CACHE_VERSION = 'v2.0.0-richter';
-const CACHE_NAME = `richard-jiang-site-${CACHE_VERSION}`;
+/* ====================================================================
+   service-worker.js  —  KILL SWITCH (v3)
 
-// Assets to cache immediately on install
-const CRITICAL_ASSETS = [
-  '/',
-  '/index.html',
-  '/styles/richter.css',
-  '/scripts/site.js',
-  '/diary/index.json'
-];
+   Purpose: any browser that still has the OLD service worker registered
+   from the previous version of this site will receive THIS file, which:
+     1. Skips waiting and claims all clients immediately.
+     2. Deletes every cache stored under this origin.
+     3. Unregisters itself so future loads go straight to the network.
 
-// Cache strategies
-const CACHE_STRATEGIES = {
-  CACHE_FIRST: 'cache-first',
-  NETWORK_FIRST: 'network-first',
-  STALE_WHILE_REVALIDATE: 'stale-while-revalidate'
-};
+   After every visitor has hit the site once, this worker effectively
+   removes itself, restoring normal request flow.
+   ==================================================================== */
 
-// Determine strategy based on request
-function getStrategy(url) {
-  // Cache first for static assets
-  if (url.pathname.match(/\.(js|css|png|jpg|jpeg|gif|svg|webp|ico|woff2|woff|ttf)$/)) {
-    return CACHE_STRATEGIES.CACHE_FIRST;
-  }
-  
-  // Stale while revalidate for HTML pages and components
-  if (url.pathname.match(/\.(html)$/) || url.pathname === '/') {
-    return CACHE_STRATEGIES.STALE_WHILE_REVALIDATE;
-  }
-  
-  // Network first for everything else
-  return CACHE_STRATEGIES.NETWORK_FIRST;
-}
-
-// Install event - cache critical assets
 self.addEventListener('install', (event) => {
-  console.log('[Service Worker] Installing...');
-  
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('[Service Worker] Caching critical assets');
-        return cache.addAll(CRITICAL_ASSETS);
-      })
-      .then(() => {
-        console.log('[Service Worker] Installation complete');
-        return self.skipWaiting();
-      })
-      .catch((error) => {
-        console.error('[Service Worker] Installation failed:', error);
-      })
-  );
-});
-
-// Activate event - clean up old caches
-self.addEventListener('activate', (event) => {
-  console.log('[Service Worker] Activating...');
-  
-  event.waitUntil(
-    caches.keys()
-      .then((cacheNames) => {
-        return Promise.all(
-          cacheNames
-            .filter((cacheName) => cacheName !== CACHE_NAME)
-            .map((cacheName) => {
-              console.log('[Service Worker] Deleting old cache:', cacheName);
-              return caches.delete(cacheName);
-            })
-        );
-      })
-      .then(() => {
-        console.log('[Service Worker] Activation complete');
-        return self.clients.claim();
-      })
-  );
-});
-
-// Fetch event - handle requests with appropriate strategy
-self.addEventListener('fetch', (event) => {
-  const url = new URL(event.request.url);
-  
-  // Skip cross-origin requests
-  if (url.origin !== location.origin) {
-    // But cache CDN resources
-    if (url.hostname.includes('cdn') || url.hostname.includes('googleapis') || url.hostname.includes('gstatic')) {
-      event.respondWith(cacheFirst(event.request));
-    }
-    return;
-  }
-  
-  const strategy = getStrategy(url);
-  
-  switch (strategy) {
-    case CACHE_STRATEGIES.CACHE_FIRST:
-      event.respondWith(cacheFirst(event.request));
-      break;
-    case CACHE_STRATEGIES.NETWORK_FIRST:
-      event.respondWith(networkFirst(event.request));
-      break;
-    case CACHE_STRATEGIES.STALE_WHILE_REVALIDATE:
-      event.respondWith(staleWhileRevalidate(event.request));
-      break;
-  }
-});
-
-// Cache First Strategy - best for static assets
-async function cacheFirst(request) {
-  const cache = await caches.open(CACHE_NAME);
-  const cached = await cache.match(request);
-  
-  if (cached) {
-    return cached;
-  }
-  
-  try {
-    const response = await fetch(request);
-    if (response.ok) {
-      cache.put(request, response.clone());
-    }
-    return response;
-  } catch (error) {
-    console.error('[Service Worker] Fetch failed:', error);
-    throw error;
-  }
-}
-
-// Network First Strategy - best for dynamic content
-async function networkFirst(request) {
-  const cache = await caches.open(CACHE_NAME);
-  
-  try {
-    const response = await fetch(request);
-    if (response.ok) {
-      cache.put(request, response.clone());
-    }
-    return response;
-  } catch (error) {
-    const cached = await cache.match(request);
-    if (cached) {
-      return cached;
-    }
-    throw error;
-  }
-}
-
-// Stale While Revalidate - best for HTML pages
-async function staleWhileRevalidate(request) {
-  const cache = await caches.open(CACHE_NAME);
-  const cached = await cache.match(request);
-  
-  const fetchPromise = fetch(request)
-    .then((response) => {
-      if (response.ok) {
-        cache.put(request, response.clone());
-      }
-      return response;
-    })
-    .catch((error) => {
-      console.error('[Service Worker] Revalidation failed:', error);
-      return cached;
-    });
-  
-  return cached || fetchPromise;
-}
-
-// Handle messages from the client
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
-  }
-  
-  if (event.data && event.data.type === 'CACHE_URLS') {
-    event.waitUntil(
-      caches.open(CACHE_NAME)
-        .then((cache) => cache.addAll(event.data.urls))
-    );
-  }
+});
+
+self.addEventListener('activate', (event) => {
+    event.waitUntil((async () => {
+        // 1. Nuke every cache.
+        try {
+            const names = await caches.keys();
+            await Promise.all(names.map((n) => caches.delete(n)));
+        } catch (_) { /* ignore */ }
+
+        // 2. Take control of all open pages.
+        try { await self.clients.claim(); } catch (_) {}
+
+        // 3. Unregister this worker.
+        try { await self.registration.unregister(); } catch (_) {}
+
+        // 4. Reload any controlled clients so they fetch fresh from the network.
+        try {
+            const clients = await self.clients.matchAll({ type: 'window' });
+            clients.forEach((client) => {
+                try { client.navigate(client.url); } catch (_) {}
+            });
+        } catch (_) {}
+    })());
+});
+
+// Pass-through: never serve from cache.
+self.addEventListener('fetch', (event) => {
+    // do nothing — let the network handle it
 });

@@ -113,5 +113,37 @@
     </div>
 
     <script src="scripts/site.js"></script>
+
+    <!--
+      Service-worker kill switch.
+      The previous version of this site registered a service worker that
+      cached now-removed pages. This block forces every existing SW to
+      update to the new kill-switch SW (which unregisters itself and
+      clears all caches), and prevents new registrations going forward.
+    -->
+    <script>
+    (function () {
+        if (!('serviceWorker' in navigator)) return;
+        navigator.serviceWorker.getRegistrations().then(function (regs) {
+            if (!regs.length) return;
+            regs.forEach(function (reg) {
+                // Force the SW to fetch the latest service-worker.js (the kill switch).
+                reg.update().catch(function () {});
+            });
+        }).catch(function () {});
+        // Also explicitly unregister anything we can find, as a belt-and-braces measure.
+        navigator.serviceWorker.getRegistrations().then(function (regs) {
+            regs.forEach(function (reg) {
+                setTimeout(function () { reg.unregister().catch(function(){}); }, 4000);
+            });
+        }).catch(function () {});
+        // And clear caches owned by this origin.
+        if (window.caches && caches.keys) {
+            caches.keys().then(function (names) {
+                names.forEach(function (n) { caches.delete(n).catch(function(){}); });
+            }).catch(function () {});
+        }
+    })();
+    </script>
 </body>
 </html>

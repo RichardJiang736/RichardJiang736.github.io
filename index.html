@@ -16,6 +16,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="styles/richter.css">
+    <script>
+    (function () {
+        var key = "rj-landing-seen";
+        if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        try {
+            if (window.sessionStorage.getItem(key) === "1") return;
+        } catch (_) {
+            return;
+        }
+        document.documentElement.classList.add("is-first-landing");
+    })();
+    </script>
 </head>
 <body>
 
@@ -44,13 +56,13 @@
     <header id="top" class="hero">
         <div class="hero-inner">
             <h1 class="hero-title">Richard Jiang</h1>
-            <p class="hero-subtitle">Projects, Art, and the Subconscious</p>
-            <p class="hero-meta">Recomposed &middot; MMXXVI</p>
+            <p class="hero-subtitle">The Good, The Bad, and The Ugly</p>
+            <p class="hero-meta">a high school student. i hope i pass the audition all right.</p>
         </div>
         <nav class="hero-nav">
             <a href="#projects">projects</a>
             <a href="#art">art</a>
-            <a href="#bullshit">usual bullshit</a>
+            <a href="#bullshit">usual</a>
         </nav>
     </header>
 
@@ -65,7 +77,7 @@
             </div>
 
             <div id="projects-container" class="card-list">
-                <div class="empty">no projects published yet — drafting in silence.</div>
+                <div class="empty">sitting here in silence on my own.</div>
             </div>
         </section>
 
@@ -93,7 +105,7 @@
         <section id="bullshit" class="section">
             <div class="section-head">
                 <span class="section-roman">III.</span>
-                <h2 class="section-title">My Usual Bullshit</h2>
+                <h2 class="section-title">The Usual</h2>
                 <p class="section-sub">stream-of-subconscious &middot; don't be offended &mdash; it's just my mind floating</p>
             </div>
 
@@ -106,7 +118,7 @@
 
     <footer class="footer">
         <div class="footer-rule"></div>
-        <p class="footer-line">richard jiang &mdash; recomposed, after richter, after vivaldi.</p>
+        <p class="footer-line">richard jiang</p>
         <p class="footer-line dim">a high school student. i hope i pass the audition all right.</p>
     </footer>
 

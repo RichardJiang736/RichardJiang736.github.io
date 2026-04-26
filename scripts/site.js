@@ -5,6 +5,12 @@
 
 (function () {
     "use strict";
+    const PAGE_NAV_DELAY_MS = 300;
+    const MODAL_CLOSE_MS = 220;
+    const PAGE_ENTER_KEY = "rj-page-enter";
+    const RETURN_SECTION_KEY = "rj-return-section";
+    const LANDING_SEEN_KEY = "rj-landing-seen";
+    let isNavigating = false;
 
     /* ============================================================
        1. CONTENT REGISTRIES
@@ -26,14 +32,14 @@
             title: "Lincoln",
             date: "2026-02-01",
             category: "film",
-            summary: "Spielberg, Day-Lewis, and the architecture of moral perseverance — a close reading of the 13th Amendment film.",
+            // summary: "Spielberg, Day-Lewis, and the architecture of moral perseverance — a close reading of the 13th Amendment film.",
             url: "blogs/films/lincoln.html"
         },
         {
             title: "My Favourite Lyrics",
             date: "2026-01-15",
             category: "music",
-            summary: "A running playlist of the lines that have refused to leave my head.",
+            // summary: "A running playlist of the lines that have refused to leave my head.",
             url: "blogs/playlist.html"
         }
     ];
@@ -47,7 +53,7 @@
         if (!c) return;
 
         if (!PROJECTS.length) {
-            c.innerHTML = '<div class="empty">no projects published yet &mdash; drafting in silence.</div>';
+            c.innerHTML = '<div class="empty">sitting here in silence on my own.</div>';
             return;
         }
 
@@ -163,6 +169,7 @@
             '<p class="entry-date">' + formatDate(entry.date) + '</p>' +
             '<div class="entry-body">' + html + '</div>';
         const modal = document.getElementById("entry-modal");
+        modal.classList.remove("is-closing");
         modal.classList.add("is-open");
         modal.setAttribute("aria-hidden", "false");
         document.body.style.overflow = "hidden";
@@ -170,10 +177,92 @@
 
     window.closeModal = function () {
         const modal = document.getElementById("entry-modal");
-        modal.classList.remove("is-open");
-        modal.setAttribute("aria-hidden", "true");
-        document.body.style.overflow = "";
+        if (!modal || !modal.classList.contains("is-open")) return;
+        modal.classList.add("is-closing");
+        setTimeout(function () {
+            modal.classList.remove("is-open", "is-closing");
+            modal.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+        }, MODAL_CLOSE_MS);
     };
+
+    function bindCardNavigationTransitions() {
+        document.addEventListener("click", function (e) {
+            const cardLink = e.target.closest(".card[href]");
+            if (!cardLink) return;
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+            if (cardLink.target === "_blank" || cardLink.hasAttribute("download")) return;
+            if (isNavigating) return;
+
+            const next = new URL(cardLink.href, window.location.href);
+            if (next.origin !== window.location.origin) return;
+
+            e.preventDefault();
+            isNavigating = true;
+            try {
+                window.sessionStorage.setItem(PAGE_ENTER_KEY, "1");
+                const section = cardLink.closest(".section");
+                if (section && section.id) {
+                    window.sessionStorage.setItem(RETURN_SECTION_KEY, "#" + section.id);
+                }
+            } catch (_) {}
+            document.body.classList.add("is-page-leaving");
+            setTimeout(function () {
+                window.location.href = next.href;
+            }, PAGE_NAV_DELAY_MS);
+        });
+    }
+
+    function triggerPageEnterTransition() {
+        try {
+            if (window.sessionStorage.getItem(PAGE_ENTER_KEY) !== "1") return;
+            window.sessionStorage.removeItem(PAGE_ENTER_KEY);
+        } catch (_) {
+            return;
+        }
+
+        document.body.classList.add("is-page-entering");
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                document.body.classList.add("is-page-entered");
+            });
+        });
+    }
+
+    function restoreSectionOnReturn() {
+        if (window.location.hash) return;
+        let targetHash = "";
+        try {
+            targetHash = window.sessionStorage.getItem(RETURN_SECTION_KEY) || "";
+            if (targetHash) window.sessionStorage.removeItem(RETURN_SECTION_KEY);
+        } catch (_) {
+            return;
+        }
+        if (!targetHash) return;
+        const target = document.querySelector(targetHash);
+        if (!target) return;
+        requestAnimationFrame(function () {
+            target.scrollIntoView({ block: "start", behavior: "auto" });
+        });
+    }
+
+    function triggerFirstLandingTransition() {
+        if (!document.documentElement.classList.contains("is-first-landing")) return;
+        try {
+            window.sessionStorage.setItem(LANDING_SEEN_KEY, "1");
+        } catch (_) {}
+
+        document.body.classList.add("is-first-landing");
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                document.body.classList.add("is-first-landing-done");
+                setTimeout(function () {
+                    document.documentElement.classList.remove("is-first-landing");
+                    document.body.classList.remove("is-first-landing");
+                }, 920);
+            });
+        });
+    }
 
     /* ============================================================
        5. UTILITIES
@@ -222,10 +311,14 @@
        ============================================================ */
 
     function init() {
+        triggerFirstLandingTransition();
+        triggerPageEnterTransition();
+        restoreSectionOnReturn();
         renderProjects();
         renderArt("all");
         bindArtTabs();
         loadDiary();
+        bindCardNavigationTransitions();
 
         // close modal on overlay click
         const modal = document.getElementById("entry-modal");

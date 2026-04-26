@@ -18,9 +18,23 @@
     --rule:       rgba(255, 255, 255, 0.18);
     --rule-soft:  rgba(255, 255, 255, 0.10);
 
-    --pane:       rgba(255, 255, 255, 0.78);
-    --pane-soft:  rgba(255, 255, 255, 0.62);
-    --pane-edge:  rgba(255, 255, 255, 0.45);
+    /* Pond-light pane tints — a barely-there green/cream wash so the
+       transparent panes read as light hitting water rather than glass. */
+    --pane:       rgba(244, 246, 238, 0.80);
+    --pane-soft:  rgba(238, 242, 232, 0.62);
+    --pane-edge:  rgba(255, 255, 255, 0.50);
+    --pane-tint:  linear-gradient(
+                      155deg,
+                      rgba(232, 238, 220, 0.50) 0%,
+                      rgba(244, 246, 238, 0.20) 45%,
+                      rgba(220, 232, 218, 0.40) 100%
+                  );
+
+    /* Monet pigment accents */
+    --moss:       #4a6a3a;
+    --sage:       #8aa67a;
+    --lily-pink:  #c98a9a;
+    --lily-cream: #efe8c8;
 
     --serif: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --sans:  'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -51,23 +65,49 @@ a { color: inherit; text-decoration: none; }
    ============================================================ */
 
 body {
+    /*
+      The background is the full Richter color-field gradient. The Monet
+      "canopy" strip sits ONLY at the very top edge as a thin band of
+      foliage, so the page "opens" inside the painting but the rest of
+      the gradient remains intact. The full Water-Lilies pond texture is
+      applied as a separate fixed overlay (`.richter-pond` div) at very
+      low opacity — see below — not stacked here, so it can't darken or
+      desaturate the gradient bands.
+    */
     background:
         linear-gradient(
             to bottom,
-            #1f3a26 0%,
-            #4a5a2c 11%,
-            #8a6a23 22%,
-            #c4761b 33%,
-            #d8531c 44%,
-            #c1281f 55%,
-            #8a1f3a 66%,
-            #4a2761 77%,
-            #1c2a55 86%,
-            #0b1226 94%,
-            #050608 100%
+            #1f3a26 0%,     /* forest green (Richter) */
+            #3f5430 8%,     /* mossy olive — a Monet pull-through */
+            #4a5a2c 14%,    /* olive */
+            #8a6a23 22%,    /* dark amber */
+            #c4761b 33%,    /* burnt orange */
+            #d8531c 44%,    /* vermilion */
+            #c1281f 55%,    /* crimson */
+            #8a1f3a 66%,    /* wine */
+            #4a2761 77%,    /* indigo violet */
+            #1c2a55 86%,    /* deep blue */
+            #0b1226 94%,    /* near-black blue */
+            #050608 100%    /* black */
         ) fixed;
-    background-size: 100% 100vh;
     background-attachment: fixed;
+}
+
+/* The Monet canopy lives on its own fixed layer at the very top of
+   the viewport, so it crowns the gradient without bleeding into it. */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 18vh;
+    background: url('../resources/monet/canopy.jpg') top center / cover no-repeat;
+    opacity: 0.55;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: -1;
+    /* fade the bottom edge of the canopy into the gradient */
+    -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 30%, transparent 100%);
 }
 
 .richter-bg {
@@ -123,6 +163,53 @@ body {
         rgba(0,0,0,0.20)
     );
     pointer-events: none;
+}
+
+/* ---- Monet "pond" overlay ----------------------------------------
+   A second blurred Water-Lilies layer floats above the gradient at
+   *very* low opacity, in `overlay` blend mode so its lighter
+   brushstrokes (the lily pads catching sunlight) shimmer through the
+   gradient bands without darkening them. Anchored to the upper-third
+   only, where the green of the gradient meets the green of the pond. */
+.richter-pond {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: url('../resources/monet/pond-blur.jpg') center top / 100% auto no-repeat;
+    opacity: 0.22;
+    mix-blend-mode: overlay;
+    filter: saturate(1.25) blur(2px);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 28%, transparent 55%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 28%, transparent 55%);
+}
+
+/* ---- Drifting lily-pad motifs ------------------------------------
+   Soft, low-opacity painterly pads anchored at margins. They drift
+   imperceptibly with a long, gentle keyframe so the page breathes.    */
+.lily {
+    position: fixed;
+    z-index: 0;
+    pointer-events: none;
+    background: url('../resources/monet/lily-pad.png') center / contain no-repeat;
+    opacity: 0.22;
+    filter: blur(0.5px) saturate(0.95);
+    will-change: transform;
+}
+.lily.lily--tl { top: 6vh;  left: -3vw;  width: 28vw; max-width: 360px; transform: rotate(-6deg); animation: lilyDriftA 22s ease-in-out infinite alternate; }
+.lily.lily--br { bottom: 18vh; right: -4vw; width: 32vw; max-width: 420px; transform: rotate(8deg);  animation: lilyDriftB 28s ease-in-out infinite alternate; opacity: 0.18; }
+.lily.lily--ml { top: 55vh; left: -6vw;  width: 22vw; max-width: 300px; transform: rotate(2deg); animation: lilyDriftA 32s ease-in-out -8s infinite alternate; opacity: 0.14; }
+
+@keyframes lilyDriftA {
+    from { transform: translate(0, 0)       rotate(-6deg); }
+    to   { transform: translate(1.2vw, -0.8vh) rotate(-4deg); }
+}
+@keyframes lilyDriftB {
+    from { transform: translate(0, 0)        rotate(8deg); }
+    to   { transform: translate(-1.4vw, 1vh) rotate(6deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .lily { animation: none !important; }
 }
 
 /* SVG film-grain overlay — drawn here to avoid an extra asset */
@@ -303,34 +390,59 @@ body {
 }
 
 .section {
+    position: relative;
     margin-bottom: 5rem;
-    background: var(--pane);
-    backdrop-filter: blur(14px) saturate(1.05);
-    -webkit-backdrop-filter: blur(14px) saturate(1.05);
+    /* layered tint: pond-light gradient sits over the translucent pane */
+    background: var(--pane-tint), var(--pane);
+    backdrop-filter: blur(14px) saturate(1.10);
+    -webkit-backdrop-filter: blur(14px) saturate(1.10);
     border: 1px solid var(--pane-edge);
     border-radius: 2px;
     padding: 3rem clamp(1.4rem, 4vw, 3.2rem);
     box-shadow:
-        0 14px 60px rgba(0,0,0,0.18),
+        0 14px 60px rgba(0,0,0,0.22),
         inset 0 1px 0 rgba(255,255,255,0.55);
+    overflow: hidden;
 }
 
+/* a faint Monet brushstroke wash inside each pane, top-right corner,
+   like reflected light spilling over the page from the pond outside. */
+.section::after {
+    content: "";
+    position: absolute;
+    top: -20%; right: -15%;
+    width: 55%; height: 70%;
+    background: url('../resources/monet/pond-blur.jpg') center / cover no-repeat;
+    opacity: 0.05;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    border-radius: 50%;
+    filter: blur(10px);
+    z-index: 0;
+}
+
+/* Make sure the section's inner content sits above the wash. */
+.section > * { position: relative; z-index: 1; }
+
 .section-head {
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: auto 1fr;
     column-gap: 1.25rem;
     align-items: baseline;
     margin-bottom: 2.5rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(0,0,0,0.10);
+    /* divider becomes a soft moss line, like a stem at the water line */
+    border-bottom: 1px solid rgba(74, 106, 58, 0.30);
 }
 
 .section-roman {
     font-family: var(--serif);
-    font-weight: 300;
+    font-weight: 400;
     font-size: 0.85rem;
     letter-spacing: var(--tracking-wide);
-    color: rgba(0,0,0,0.45);
+    color: var(--moss);
     grid-row: 1 / span 2;
     align-self: center;
 }

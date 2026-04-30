@@ -94,7 +94,11 @@ body {
     transition: opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-body.is-page-leaving { opacity: 0.02; }
+/* Leaving must win over entered state (same specificity as two-class rule would lose). */
+body.is-page-leaving,
+body.is-page-entering.is-page-entered.is-page-leaving {
+    opacity: 0.02;
+}
 body.is-page-entering { opacity: 0.02; }
 body.is-page-entering.is-page-entered { opacity: 1; }
 

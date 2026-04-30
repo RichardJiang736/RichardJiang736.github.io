@@ -12,6 +12,20 @@
     const LANDING_SEEN_KEY = "rj-landing-seen";
     let isNavigating = false;
 
+    /* BFCache restores the previous JS heap; `isNavigating` can stay true and
+       block card transitions on subsequent clicks. Reset on every show. */
+    window.addEventListener("pageshow", function () {
+        isNavigating = false;
+        document.body.classList.remove("is-page-leaving");
+        document.documentElement.classList.remove("is-page-leaving");
+    });
+
+    function prepareBodyForPageLeave() {
+        document.body.classList.remove("is-page-entering", "is-page-entered");
+        /* Restart opacity transition so leave animation runs after return-from-detail. */
+        void document.body.offsetHeight;
+    }
+
     /* ============================================================
        1. CONTENT REGISTRIES
        Edit these lists to add new projects / art pieces.
@@ -206,6 +220,7 @@
                     window.sessionStorage.setItem(RETURN_SECTION_KEY, "#" + section.id);
                 }
             } catch (_) {}
+            prepareBodyForPageLeave();
             document.body.classList.add("is-page-leaving");
             setTimeout(function () {
                 window.location.href = next.href;

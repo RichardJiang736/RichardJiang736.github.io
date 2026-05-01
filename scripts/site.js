@@ -37,7 +37,7 @@
             date: "2026-04-26",
             summary: "My journey into the making of my first project, bridging music and AI",
             url: "blogs/projects/musical-bridges.html",
-            tag: "template"
+            tag: "GitHub Repo"
         }
     ];
 

@@ -33,6 +33,13 @@
 
     const PROJECTS = [
         {
+            title: "My Website - Documentation of Influences",
+            date: "2026-05-11",
+            summary: "Various inspirations influencing aesthetic of my website",
+            url: "blogs/projects/documentation.html",
+            tag: "Experiments"
+        },
+        {
             title: "Musical Bridges (A Retrospective Documentary)",
             date: "2026-04-26",
             summary: "My journey into the making of my first project, bridging music and AI",

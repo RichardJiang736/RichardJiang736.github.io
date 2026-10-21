@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% assign page_title = page.title | default: site.title %}
+  <title>{% if page.url == '/' %}{{ site.title }}{% else %}{{ page_title }} — {{ site.title }}{% endif %}</title>
+  <meta name="description" content="{{ page.description | default: site.description | escape }}">
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+
+  <meta property="og:site_name" content="{{ site.title | escape }}">
+  <meta property="og:title" content="{{ page_title | escape }}">
+  <meta property="og:description" content="{{ page.description | default: site.description | escape }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:type" content="{% if page.collection == 'posts' or page.collection == 'poetry' or page.collection == 'diary' %}article{% else %}website{% endif %}">
+  <meta name="theme-color" content="#fcfdfb">
+
+  <link rel="icon" href="/resources/favicon_io/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/resources/favicon_io/favicon-32x32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/resources/favicon_io/apple-touch-icon.png">
+  <link rel="manifest" href="/resources/favicon_io/site.webmanifest">
+  <link rel="stylesheet" href="/styles/site.css">
+</head>
+<body>
+  <header class="site-head">
+    <a class="wordmark" href="/">Richard Jiang</a>
+    <nav class="site-nav" aria-label="Sections">
+      <a href="/poetry/">Poetry</a>
+    </nav>
+  </header>
+
+  <main class="shell">
+    {{ content }}
+  </main>
+
+  <footer class="site-foot">
+    <span>{{ site.title }}</span>
+    <span>Writing, projects, and art.</span>
+  </footer>
+
+  <!--
+    Service-worker kill switch. The previous site registered a worker that
+    cached now-removed pages; this unregisters anything still alive and clears
+    the caches, so an old page cannot be served from them.
+  -->
+  <script>
+  (function () {
+    if (!('serviceWorker' in navigator)) return;
+    navigator.serviceWorker.getRegistrations().then(function (regs) {
+      regs.forEach(function (reg) {
+        reg.update().catch(function () {});
+        setTimeout(function () { reg.unregister().catch(function () {}); }, 1500);
+      });
+    }).catch(function () {});
+    if (window.caches && caches.keys) {
+      caches.keys().then(function (names) {
+        names.forEach(function (name) { caches.delete(name).catch(function () {}); });
+      }).catch(function () {});
+    }
+  })();
+  </script>
+
+  <script src="/js/lenis.min.js" defer></script>
+  <script src="/js/site.js" defer></script>
+</body>
+</html>

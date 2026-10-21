@@ -1,0 +1,28 @@
+---
+layout: default
+title: Richard Jiang
+---
+<section class="intro">
+  <h1>Richard Jiang</h1>
+  <p class="intro-line">The Good, The Bad, and The Ugly</p>
+  <p class="intro-copy">What I think. Writing, projects, and art.</p>
+</section>
+
+<section class="home-section" id="poetry">
+  <div class="section-head">
+    <h2 class="section-title">Poetry</h2>
+    <p class="section-sub">my thoughts and my mind · and of course i didn&rsquo;t use ai</p>
+    <a class="section-more" href="/poetry/">All poems</a>
+  </div>
+  <ul class="list">
+    {% assign poems = site.poetry | sort: 'date' | reverse %}
+    {% for poem in poems limit:3 %}
+    <li>
+      <a href="{{ poem.url }}">
+        <span class="row-title">{{ poem.title }}</span>
+        <span class="row-meta">{{ poem.date | date: "%B %-d, %Y" }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>

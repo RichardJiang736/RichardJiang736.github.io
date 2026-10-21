@@ -1,0 +1,27 @@
+PERFORMANCE_IMPROVEMENTS.md
+QUICKSTART.md
+.zip
+_site/
+.jekyll-cache/
+.jekyll-metadata
+Gemfile.lock
+.archive-site/
+.archive-src/
+
+# Private source. It is staged from PRIVATE_ROOT for the archive build and is
+# never part of the public repository. The old history is in the private
+# backup, not here.
+_diary/
+# Every post so far is private. A public post would need an explicit exception
+# here (or `git add -f`); privacy first.
+_posts/
+_data/art.yml
+_data/projects.yml
+art/index.html
+art/playlist.html
+projects/index.html
+diary/index.html
+diary/index.json
+resources/diary/
+all_my_writings.txt
+

@@ -1,0 +1,13 @@
+---
+layout: default
+---
+{% assign kind = page.collection %}
+<article class="entry entry--{{ kind }}">
+  <header class="entry-head">
+    <p class="entry-meta">{{ page.date | date: "%B %-d, %Y" }}</p>
+    <h1 class="entry-title">{{ page.title }}</h1>
+  </header>
+  <div class="prose prose--{{ kind }}">
+    {{ content }}
+  </div>
+</article>

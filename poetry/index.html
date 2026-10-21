@@ -1,0 +1,17 @@
+---
+layout: page
+title: Poetry
+description: my thoughts and my mind · and of course i didn’t use ai
+permalink: /poetry/
+---
+<ul class="list">
+  {% assign poems = site.poetry | sort: 'date' | reverse %}
+  {% for poem in poems %}
+  <li>
+    <a href="{{ poem.url }}">
+      <span class="row-title">{{ poem.title }}</span>
+      <span class="row-meta">{{ poem.date | date: "%B %-d, %Y" }}</span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>

@@ -316,7 +316,6 @@ function buildArchive({ writing, diary, projects, art, playlist }) {
     <span>Writing, projects, and art.</span>
   </footer>
 
-  <script src="/js/lenis.min.js" defer></script>
   <script src="/js/site.js" defer></script>
 </body>
 </html>

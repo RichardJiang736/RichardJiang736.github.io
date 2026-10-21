@@ -96,38 +96,6 @@ async function askPassword() {
   return first;
 }
 
-/** Decode the entities an article body can carry, without a DOM library. */
-function decodeEntities(text) {
-  return text
-    .replace(/&nbsp;/gi, ' ')
-    .replace(/&amp;/gi, '&')
-    .replace(/&lt;/gi, '<')
-    .replace(/&gt;/gi, '>')
-    .replace(/&quot;/gi, '"')
-    .replace(/&#0*39;|&#x0*27;|&apos;/gi, "'")
-    .replace(/&#8217;|&rsquo;/gi, '’')
-    .replace(/&#8216;|&lsquo;/gi, '‘')
-    .replace(/&#8220;|&ldquo;/gi, '“')
-    .replace(/&#8221;|&rdquo;/gi, '”')
-    .replace(/&#8212;|&mdash;/gi, '—')
-    .replace(/&#8211;|&ndash;/gi, '–')
-    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
-    .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(Number.parseInt(code, 16)));
-}
-
-/** The readable text of a rendered article, used for a card's one line. */
-function plainText(html) {
-  return decodeEntities(
-    html
-      .replace(/<(script|style)[\s\S]*?<\/\1>/gi, ' ')
-      .replace(/<[^>]+>/g, ' '),
-  ).replace(/\s+/g, ' ').trim();
-}
-
-function escapeHtml(text) {
-  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
 async function entries(directory) {
   const full = path.join(site, directory);
   let listing;
@@ -157,11 +125,7 @@ async function entries(directory) {
       .match(/<h1 class="entry-title">([\s\S]*?)<\/h1>/)?.[1]
       ?.trim() ?? entry.name;
 
-    // The body, without the entry header, is what the card teases.
-    const text = plainText(article.replace(/<header[\s\S]*?<\/header>/i, ''));
-    const excerpt = text.length > 180 ? `${text.slice(0, 180).trimEnd()}…` : text;
-
-    found.push({ article, date, title, excerpt, time: Date.parse(date) || 0 });
+    found.push({ article, date, title, time: Date.parse(date) || 0 });
   }
 
   return found
@@ -179,7 +143,6 @@ ${entries.map(entry => `    <li>
       <a href="#${entry.id}" data-archive-open="${entry.id}">
         <span class="row-title">${entry.title}</span>
         <span class="row-meta">${entry.date}</span>
-        ${entry.excerpt ? `<span class="row-dek">${escapeHtml(entry.excerpt)}</span>` : ''}
       </a>
     </li>`).join('\n')}
   </ul>`;

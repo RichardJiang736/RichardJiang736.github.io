@@ -427,7 +427,6 @@ img { max-width: 100%; height: auto; }
   cursor: pointer;
 }
 .archive-back:hover { color: var(--green); }
-.archive-list .row-dek { max-width: 62ch; }
 
 /* ------------------------------------------------------------------ pages */
 

@@ -407,6 +407,28 @@ img { max-width: 100%; height: auto; }
   color: var(--ink-3);
 }
 
+/* A card opens the full article here, without leaving the encrypted page. */
+.archive-reader {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding-top: .5rem;
+}
+.archive-back {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  margin: 0 0 2rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-3);
+  font-family: var(--ui);
+  font-size: 12px;
+  cursor: pointer;
+}
+.archive-back:hover { color: var(--green); }
+.archive-list .row-dek { max-width: 62ch; }
+
 /* ------------------------------------------------------------------ pages */
 
 .page {

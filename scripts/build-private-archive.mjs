@@ -96,6 +96,38 @@ async function askPassword() {
   return first;
 }
 
+/** Decode the entities an article body can carry, without a DOM library. */
+function decodeEntities(text) {
+  return text
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#0*39;|&#x0*27;|&apos;/gi, "'")
+    .replace(/&#8217;|&rsquo;/gi, '’')
+    .replace(/&#8216;|&lsquo;/gi, '‘')
+    .replace(/&#8220;|&ldquo;/gi, '“')
+    .replace(/&#8221;|&rdquo;/gi, '”')
+    .replace(/&#8212;|&mdash;/gi, '—')
+    .replace(/&#8211;|&ndash;/gi, '–')
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(Number.parseInt(code, 16)));
+}
+
+/** The readable text of a rendered article, used for a card's one line. */
+function plainText(html) {
+  return decodeEntities(
+    html
+      .replace(/<(script|style)[\s\S]*?<\/\1>/gi, ' ')
+      .replace(/<[^>]+>/g, ' '),
+  ).replace(/\s+/g, ' ').trim();
+}
+
+function escapeHtml(text) {
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 async function entries(directory) {
   const full = path.join(site, directory);
   let listing;
@@ -125,10 +157,39 @@ async function entries(directory) {
       .match(/<h1 class="entry-title">([\s\S]*?)<\/h1>/)?.[1]
       ?.trim() ?? entry.name;
 
-    found.push({ article, date, title, time: Date.parse(date) || 0 });
+    // The body, without the entry header, is what the card teases.
+    const text = plainText(article.replace(/<header[\s\S]*?<\/header>/i, ''));
+    const excerpt = text.length > 180 ? `${text.slice(0, 180).trimEnd()}…` : text;
+
+    found.push({ article, date, title, excerpt, time: Date.parse(date) || 0 });
   }
 
-  return found.sort((a, b) => b.time - a.time);
+  return found
+    .sort((a, b) => b.time - a.time)
+    .map((entry, index) => ({ ...entry, id: `archive-${directory}-${index}` }));
+}
+
+/**
+ * The card list. The full article is in a template; a click opens it in the
+ * reader, so the archive reads as an index first and an article second.
+ */
+function cards(entries) {
+  return `<ul class="list archive-list">
+${entries.map(entry => `    <li>
+      <a href="#${entry.id}" data-archive-open="${entry.id}">
+        <span class="row-title">${entry.title}</span>
+        <span class="row-meta">${entry.date}</span>
+        ${entry.excerpt ? `<span class="row-dek">${escapeHtml(entry.excerpt)}</span>` : ''}
+      </a>
+    </li>`).join('\n')}
+  </ul>`;
+}
+
+/** The full articles, inert until the reader clones one. */
+function articleTemplates(entries) {
+  return entries
+    .map(entry => `  <template id="${entry.id}" data-archive-entry>${entry.article}</template>`)
+    .join('\n');
 }
 
 async function listIn(page) {
@@ -287,28 +348,37 @@ function buildArchive({ writing, diary, projects, art, playlist }) {
   </header>
 
   <main class="shell">
-    <section class="intro">
-      <h1>Richard Jiang</h1>
-      <p class="intro-line">The Good, The Bad, and The Ugly</p>
-      <p class="intro-copy">What I think. Writing, projects, and art.</p>
-    </section>
+    <div id="archive-index">
+      <section class="intro">
+        <h1>Richard Jiang</h1>
+        <p class="intro-line">The Good, The Bad, and The Ugly</p>
+        <p class="intro-copy">What I think. Writing, projects, and art.</p>
+      </section>
 
-    ${section(
-      'writing',
-      'Writing',
-      'essays, project notes, and things I wanted to keep.',
-      writing.length,
-      writing.map(entry => entry.article).join('\n'),
-    )}
-    ${section(
-      'usual',
-      'The Usual',
-      'stream-of-subconscious · don’t be offended — it’s just my mind floating',
-      diary.length,
-      diary.map(entry => entry.article).join('\n'),
-    )}
-    ${section('projects', 'Projects', 'technical reports · experiments · github repos', projectCount, projects)}
-    ${section('art', 'Art', 'music, films, and paintings', artCount, art + playlist)}
+      ${section(
+        'writing',
+        'Writing',
+        'essays, project notes, and things I wanted to keep.',
+        writing.length,
+        cards(writing),
+      )}
+      ${section(
+        'usual',
+        'The Usual',
+        'stream-of-subconscious · don’t be offended — it’s just my mind floating',
+        diary.length,
+        cards(diary),
+      )}
+      ${section('projects', 'Projects', 'technical reports · experiments · github repos', projectCount, projects)}
+      ${section('art', 'Art', 'music, films, and paintings', artCount, art + playlist)}
+    </div>
+
+    <div id="archive-reader" class="archive-reader" hidden>
+      <button class="archive-back" type="button">← Archive</button>
+      <div id="archive-reader-body"></div>
+    </div>
+
+${articleTemplates([...writing, ...diary])}
   </main>
 
   <footer class="site-foot">
